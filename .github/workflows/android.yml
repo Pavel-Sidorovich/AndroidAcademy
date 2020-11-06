@@ -34,9 +34,9 @@ jobs:
         with:
           java-version: 1.8
       - name: "ktlint"
-        uses: fabiocapasso93/gha-kotlin-linter@v1.0
-      - name: lint
-        run: bash ./gradlew :app:debugLint
+        run: bash ./gradlew :app:ktlintDebugCheck
+      - name: "lint"
+        run: bash ./gradlew :app:lintDebug
         
   apk:
     name: Generate APK

@@ -4,7 +4,6 @@ on:
   pull_request:
     branches:
       - 'fundamentals'
-  push:
 
 jobs:
   test:
@@ -21,7 +20,6 @@ jobs:
         run: bash ./gradlew test --stacktrace
       - name: "checkout"
         uses: actions/checkout@v2.3.2
-
       - name: "ktlint"
         uses: fabiocapasso93/gha-kotlin-linter@v1.0
 

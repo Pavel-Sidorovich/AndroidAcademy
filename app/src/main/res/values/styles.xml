@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PG">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Name">
+        <item name="android:textSize">40sp</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textColor">#ECECEC</item>
+        <item name="android:shadowColor">#80000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">6</item>
+        <item name="android:shadowRadius">12</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextSize14">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextBold" parent="TextSize14">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Tag" parent="TextSize14">
+        <item name="android:textColor">@color/selected</item>
+    </style>
+
+    <style name="Reviews" parent="TextBold">
+        <item name="android:textColor">@color/no_selected</item>
+    </style>
+
+    <style name="StorylineTitle" parent="TextBold">
+        <item name="android:textColor">#ECECEC</item>
+        <item name="android:shadowColor">#80000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">6</item>
+        <item name="android:shadowRadius">12</item>
+    </style>
+
+    <style name="Storyline" parent="TextSize14">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="Heading" parent="TextBold">
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textColor">#ECECEC</item>
+        <item name="android:shadowColor">#80000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">6</item>
+        <item name="android:shadowRadius">12</item>
+    </style>
+
+    <style name="TextCast">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#D8D8D8</item>
+    </style>
+</resources>

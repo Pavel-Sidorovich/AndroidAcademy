@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#191926"
+    android:background="@color/background"
     tools:context=".ui.MovieDetailsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +26,8 @@
             <ImageView
                 android:id="@+id/orig"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:contentDescription="@string/original_image" />
         </FrameLayout>
 
         <!-- Rectangle -->
@@ -95,7 +96,8 @@
             android:src="@drawable/ic_star_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tag"
-            app:tint="@color/selected" />
+            app:tint="@color/selected"
+            android:contentDescription="@string/star_1" />
 
         <!-- Star Icon -->
         <ImageView
@@ -106,7 +108,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/star_icon_1"
             app:layout_constraintStart_toEndOf="@+id/star_icon_1"
             app:layout_constraintTop_toTopOf="@+id/star_icon_1"
-            app:tint="@color/selected" />
+            app:tint="@color/selected"
+            android:contentDescription="@string/star_2" />
 
         <!-- Star Icon -->
         <ImageView
@@ -117,7 +120,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/star_icon_2"
             app:layout_constraintStart_toEndOf="@+id/star_icon_2"
             app:layout_constraintTop_toTopOf="@+id/star_icon_2"
-            app:tint="@color/selected" />
+            app:tint="@color/selected"
+            android:contentDescription="@string/star_3" />
 
         <!-- Star Icon -->
         <ImageView
@@ -128,7 +132,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/star_icon_3"
             app:layout_constraintStart_toEndOf="@+id/star_icon_3"
             app:layout_constraintTop_toTopOf="@+id/star_icon_3"
-            app:tint="@color/selected" />
+            app:tint="@color/selected"
+            android:contentDescription="@string/star_4" />
 
         <!-- Star Icon -->
         <ImageView
@@ -139,7 +144,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/star_icon_4"
             app:layout_constraintStart_toEndOf="@+id/star_icon_4"
             app:layout_constraintTop_toTopOf="@+id/star_icon_4"
-            app:tint="@color/no_selected" />
+            app:tint="@color/no_selected"
+            android:contentDescription="@string/star_5" />
 
         <!-- Reviews -->
         <TextView
@@ -219,27 +225,17 @@
             app:layout_constraintTop_toBottomOf="@+id/heading"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <!-- Arrow -->
-        <ImageView
-            android:id="@+id/arrow"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="56dp"
-            android:src="@drawable/ic_arrow_left_24"
-            app:tint="@color/back_tint"
+            android:text="@string/back"
+            android:textColor="@color/back_tint"
+            android:gravity="center"
+            app:drawableStartCompat="@drawable/ic_arrow_left_24"
+            app:drawableTint="@color/back_tint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Back -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:textColor="@color/back_tint"
-            app:layout_constraintBottom_toBottomOf="@+id/arrow"
-            app:layout_constraintStart_toEndOf="@+id/arrow"
-            app:layout_constraintTop_toTopOf="@+id/arrow" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

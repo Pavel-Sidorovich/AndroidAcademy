@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.ui
+package com.pavesid.androidacademy.ui.activities
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -10,6 +10,7 @@ import coil.load
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.model.Cast
 import com.pavesid.androidacademy.ui.adapters.CastAdapter
+import com.pavesid.androidacademy.ui.decorations.MarginItemDecoration
 
 class MovieDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +24,12 @@ class MovieDetailsActivity : AppCompatActivity() {
         recycler.apply {
             layoutManager = LinearLayoutManager(this@MovieDetailsActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = castAdapter
+            addItemDecoration(
+                MarginItemDecoration(
+                    spaceSize = resources.getDimensionPixelSize(R.dimen.spacing_extra_small_4),
+                    bigSpaceSize = resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
+                )
+            )
         }
 
         castAdapter.casts = listOf(
@@ -39,8 +46,16 @@ class MovieDetailsActivity : AppCompatActivity() {
                 imageSrc = "https://producedbyconference.com/New-York/wp-content/uploads/2019/10/Mark-Ruffalo-600.png"
             ),
             Cast(
-                name = "Christopher \"Chris\" HemsworthVeryLong",
+                name = "Christopher \"Chris\" Hemsworth",
                 imageSrc = "https://i.insider.com/5d4c880edcc1e7141a789532"
+            ),
+            Cast(
+                name = "Benedict Timothy Carlton Cumberbatch",
+                imageSrc = "https://upload.wikimedia.org/wikipedia/commons/6/6e/BCumberbatch_Comic-Con_2019.jpg"
+            ),
+            Cast(
+                name = "Elizabeth Chase Olsen",
+                imageSrc = "https://upload.wikimedia.org/wikipedia/commons/2/27/Elizabeth_Olsen_by_Gage_Skidmore_2.jpg"
             )
         )
     }

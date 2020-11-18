@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spacing -->
+    <dimen name="spacing_extra_large_56">56dp</dimen>
+    <dimen name="spacing_large_24">24dp</dimen>
+    <dimen name="spacing_normal_16">16dp</dimen>
+    <dimen name="spacing_small_8">8dp</dimen>
+    <dimen name="spacing_extra_small_4">4dp</dimen>
+
+    <!-- Different other -->
+    <dimen name="amd_rectangle_width">24dp</dimen>
+    <dimen name="amd_rectangle_height">24dp</dimen>
+    <dimen name="amd_tag_height">20dp</dimen>
+    <dimen name="amd_star_width">13dp</dimen>
+    <dimen name="amd_star_height">12dp</dimen>
+    <dimen name="ci_image_80">80dp</dimen>
+</resources>

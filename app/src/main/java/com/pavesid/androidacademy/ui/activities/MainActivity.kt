@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.ui
+package com.pavesid.androidacademy.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

@@ -1,6 +1,6 @@
 package com.pavesid.androidacademy.model
 
-data class Cast(
+data class Actor(
     val name: String,
     val imageSrc: String
 )

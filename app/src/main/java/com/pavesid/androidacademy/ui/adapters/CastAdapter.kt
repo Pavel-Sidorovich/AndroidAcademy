@@ -11,21 +11,21 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
-import com.pavesid.androidacademy.model.Cast
+import com.pavesid.androidacademy.model.Actor
 
 class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Cast>() {
-        override fun areItemsTheSame(oldItem: Cast, newItem: Cast): Boolean =
+    private val diffCallback = object : DiffUtil.ItemCallback<Actor>() {
+        override fun areItemsTheSame(oldItem: Actor, newItem: Actor): Boolean =
             oldItem.name == newItem.name
 
-        override fun areContentsTheSame(oldItem: Cast, newItem: Cast): Boolean =
+        override fun areContentsTheSame(oldItem: Actor, newItem: Actor): Boolean =
             oldItem.hashCode() == newItem.hashCode()
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
-    var casts: List<Cast>
+    var actors: List<Actor>
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
@@ -38,19 +38,19 @@ class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
     )
 
     override fun onBindViewHolder(holder: CastViewHolder, position: Int) {
-        holder.bind(cast = casts[position])
+        holder.bind(actor = actors[position])
     }
 
-    override fun getItemCount(): Int = casts.size
+    override fun getItemCount(): Int = actors.size
 
     inner class CastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val name = itemView.findViewById<TextView>(R.id.name_cast)
         private val image = itemView.findViewById<ImageView>(R.id.image_cast)
 
-        fun bind(cast: Cast) {
-            name.text = cast.name
-            image.load(cast.imageSrc) {
+        fun bind(actor: Actor) {
+            name.text = actor.name
+            image.load(actor.imageSrc) {
                 transformations(RoundedCornersTransformation(8f))
             }
         }

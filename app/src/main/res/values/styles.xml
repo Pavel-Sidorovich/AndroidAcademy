@@ -60,4 +60,9 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">#D8D8D8</item>
     </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="android:progressTint">@color/selected</item>
+        <item name="android:progressBackgroundTint">@color/no_selected</item>
+    </style>
 </resources>

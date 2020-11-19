@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.model
+package com.pavesid.androidacademy.data.local.model
 
 data class Actor(
     val name: String,

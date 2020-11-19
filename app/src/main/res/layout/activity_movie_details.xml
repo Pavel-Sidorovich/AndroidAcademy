@@ -22,7 +22,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <!-- orig -->
             <ImageView
                 android:id="@+id/orig"
                 android:layout_width="match_parent"
@@ -30,7 +29,6 @@
                 android:contentDescription="@string/original_image" />
         </FrameLayout>
 
-        <!-- Rectangle -->
         <View
             android:id="@+id/rectangle"
             android:layout_width="@dimen/amd_rectangle_width"
@@ -42,7 +40,6 @@
             app:layout_constraintBottom_toTopOf="@+id/name"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- 13+ -->
         <TextView
             android:id="@+id/pg"
             android:layout_width="0dp"
@@ -56,7 +53,6 @@
             app:layout_constraintStart_toStartOf="@+id/rectangle"
             app:layout_constraintTop_toTopOf="@+id/rectangle" />
 
-        <!-- Name -->
         <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -71,7 +67,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageView" />
 
-        <!-- Tag -->
         <TextView
             android:id="@+id/tag"
             android:layout_width="0dp"
@@ -86,68 +81,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name" />
 
-        <!-- Star Icon -->
-        <ImageView
-            android:id="@+id/star_icon_1"
-            android:layout_width="@dimen/amd_star_width"
-            android:layout_height="@dimen/amd_star_height"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_star_24"
+        <RatingBar
+            android:id="@+id/star_icon_5"
+            android:theme="@style/RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal_16"
+            android:layout_marginTop="@dimen/spacing_small_8"
+            android:max="5"
+            android:rating="4"
+            android:stepSize="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tag"
-            app:tint="@color/selected"
-            android:contentDescription="@string/star_1" />
+            style="?android:attr/ratingBarStyleSmall" />
 
-        <!-- Star Icon -->
-        <ImageView
-            android:id="@+id/star_icon_2"
-            android:layout_width="@dimen/amd_star_width"
-            android:layout_height="@dimen/amd_star_height"
-            android:src="@drawable/ic_star_24"
-            app:layout_constraintBottom_toBottomOf="@+id/star_icon_1"
-            app:layout_constraintStart_toEndOf="@+id/star_icon_1"
-            app:layout_constraintTop_toTopOf="@+id/star_icon_1"
-            app:tint="@color/selected"
-            android:contentDescription="@string/star_2" />
-
-        <!-- Star Icon -->
-        <ImageView
-            android:id="@+id/star_icon_3"
-            android:layout_width="@dimen/amd_star_width"
-            android:layout_height="@dimen/amd_star_height"
-            android:src="@drawable/ic_star_24"
-            app:layout_constraintBottom_toBottomOf="@+id/star_icon_2"
-            app:layout_constraintStart_toEndOf="@+id/star_icon_2"
-            app:layout_constraintTop_toTopOf="@+id/star_icon_2"
-            app:tint="@color/selected"
-            android:contentDescription="@string/star_3" />
-
-        <!-- Star Icon -->
-        <ImageView
-            android:id="@+id/star_icon_4"
-            android:layout_width="@dimen/amd_star_width"
-            android:layout_height="@dimen/amd_star_height"
-            android:src="@drawable/ic_star_24"
-            app:layout_constraintBottom_toBottomOf="@+id/star_icon_3"
-            app:layout_constraintStart_toEndOf="@+id/star_icon_3"
-            app:layout_constraintTop_toTopOf="@+id/star_icon_3"
-            app:tint="@color/selected"
-            android:contentDescription="@string/star_4" />
-
-        <!-- Star Icon -->
-        <ImageView
-            android:id="@+id/star_icon_5"
-            android:layout_width="@dimen/amd_star_width"
-            android:layout_height="@dimen/amd_star_height"
-            android:src="@drawable/ic_star_24"
-            app:layout_constraintBottom_toBottomOf="@+id/star_icon_4"
-            app:layout_constraintStart_toEndOf="@+id/star_icon_4"
-            app:layout_constraintTop_toTopOf="@+id/star_icon_4"
-            app:tint="@color/no_selected"
-            android:contentDescription="@string/star_5" />
-
-        <!-- Reviews -->
         <TextView
             android:id="@+id/reviews"
             android:layout_width="wrap_content"
@@ -161,7 +108,6 @@
             app:layout_constraintStart_toEndOf="@+id/star_icon_5"
             app:layout_constraintTop_toTopOf="@+id/star_icon_5" />
 
-        <!-- Name -->
         <TextView
             android:id="@+id/storyline_title"
             android:layout_width="match_parent"
@@ -177,7 +123,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reviews" />
 
-        <!-- Storyline -->
         <TextView
             android:id="@+id/storyline"
             android:layout_width="match_parent"
@@ -194,7 +139,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/storyline_title" />
 
-        <!-- Heading -->
         <TextView
             android:id="@+id/heading"
             android:layout_width="match_parent"
@@ -210,29 +154,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/storyline" />
 
-        <!-- Movie -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cast_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_large_24"
             android:layout_marginTop="@dimen/spacing_small_8"
+            android:layout_marginBottom="@dimen/spacing_large_24"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/cast_item"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/heading"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            tools:listitem="@layout/cast_item" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal_16"
             android:layout_marginTop="@dimen/spacing_extra_large_56"
+            android:gravity="center"
             android:text="@string/back"
             android:textColor="@color/back_tint"
-            android:gravity="center"
             app:drawableStartCompat="@drawable/ic_arrow_left_24"
             app:drawableTint="@color/back_tint"
             app:layout_constraintStart_toStartOf="parent"

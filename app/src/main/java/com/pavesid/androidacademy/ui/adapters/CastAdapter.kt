@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
-import com.pavesid.androidacademy.model.Actor
+import com.pavesid.androidacademy.data.local.model.Actor
 
 class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
 

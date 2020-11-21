@@ -4,6 +4,9 @@ import com.pavesid.androidacademy.data.local.model.Actor
 
 object FakeRepository {
 
+    /**
+     * Return mockup actors of End Game
+     */
     fun getEndGameActors() = listOf(
         Actor(
             name = "Robert Downey, Jr",

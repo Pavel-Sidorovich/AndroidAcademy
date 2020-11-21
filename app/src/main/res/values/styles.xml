@@ -6,6 +6,7 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
+        <item name="android:alpha">0.9</item>
     </style>
 
     <style name="Name">
@@ -17,6 +18,9 @@
         <item name="android:shadowDy">6</item>
         <item name="android:shadowRadius">12</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lineSpacingExtra">-6sp</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="TextSize14">
@@ -29,10 +33,15 @@
 
     <style name="Tag" parent="TextSize14">
         <item name="android:textColor">@color/selected</item>
+        <item name="android:alpha">0.75</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
     <style name="Reviews" parent="TextBold">
         <item name="android:textColor">@color/no_selected</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
     <style name="StorylineTitle" parent="TextBold">
@@ -41,10 +50,16 @@
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">6</item>
         <item name="android:shadowRadius">12</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
     <style name="Storyline" parent="TextSize14">
         <item name="android:textColor">#FFFFFF</item>
+        <item name="android:alpha">0.5</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
     <style name="Heading" parent="TextBold">
@@ -54,11 +69,14 @@
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">6</item>
         <item name="android:shadowRadius">12</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lineSpacingExtra">8sp</item>
     </style>
 
     <style name="TextCast">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">#D8D8D8</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">

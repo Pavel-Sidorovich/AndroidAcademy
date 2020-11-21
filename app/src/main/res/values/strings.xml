@@ -8,11 +8,6 @@
     <string name="storyline">After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe.</string>
     <string name="heading">Cast</string>
     <string name="back">Back</string>
-    <string name="star_1">Star №1</string>
-    <string name="star_2">Star №2</string>
-    <string name="star_3">Star №3</string>
-    <string name="star_4">Star №4</string>
-    <string name="star_5">Star №5</string>
     <string name="cast_name">Cast name</string>
     <string name="original_image">Original image</string>
 </resources>

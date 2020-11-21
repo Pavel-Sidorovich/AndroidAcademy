@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:fitsSystemWindows="false"
     tools:context=".ui.activities.MovieDetailsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,144 +13,125 @@
         android:layout_height="wrap_content"
         android:descendantFocusability="blocksDescendants">
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/orig"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/original_image"
+            app:layout_constraintBottom_toBottomOf="@id/imageView"
+            app:layout_constraintEnd_toEndOf="@id/imageView"
+            app:layout_constraintStart_toStartOf="@id/imageView"
+            app:layout_constraintTop_toTopOf="@id/imageView" />
+
+        <View
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:foreground="@drawable/mask"
+            android:background="@drawable/mask"
             app:layout_constraintDimensionRatio="375:298"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/orig"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/original_image" />
-        </FrameLayout>
-
-        <View
+        <TextView
             android:id="@+id/rectangle"
+            style="@style/PG"
             android:layout_width="@dimen/amd_rectangle_width"
             android:layout_height="@dimen/amd_rectangle_height"
             android:layout_marginStart="@dimen/spacing_normal_16"
             android:layout_marginBottom="@dimen/spacing_small_8"
-            android:alpha="0.9"
             android:background="@drawable/rectangle"
+            android:text="@string/pg"
             app:layout_constraintBottom_toTopOf="@+id/name"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/pg"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/spacing_normal_16"
-            android:layout_marginTop="@dimen/spacing_extra_small_4"
-            android:layout_marginBottom="@dimen/spacing_extra_small_4"
-            android:text="@string/pg"
-            android:textAppearance="@style/PG"
-            app:layout_constraintBottom_toBottomOf="@+id/rectangle"
-            app:layout_constraintEnd_toEndOf="@+id/rectangle"
-            app:layout_constraintStart_toStartOf="@+id/rectangle"
-            app:layout_constraintTop_toTopOf="@+id/rectangle" />
-
-        <TextView
+        <com.pavesid.androidacademy.ui.custom.NoPaddingTextView
             android:id="@+id/name"
+            style="@style/Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal_16"
             android:layout_marginEnd="@dimen/spacing_normal_16"
-            android:gravity="center_vertical"
-            android:lineSpacingExtra="0sp"
             android:text="@string/name"
-            android:textAppearance="@style/Name"
             app:layout_constraintBottom_toBottomOf="@id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-        <TextView
+        <com.pavesid.androidacademy.ui.custom.NoPaddingTextView
             android:id="@+id/tag"
+            style="@style/Tag"
             android:layout_width="0dp"
             android:layout_height="@dimen/amd_tag_height"
             android:layout_marginStart="@dimen/spacing_normal_16"
             android:layout_marginEnd="@dimen/spacing_normal_16"
-            android:gravity="center_vertical|start"
-            android:lineSpacingExtra="4sp"
             android:text="@string/tag"
-            android:textAppearance="@style/Tag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name" />
 
         <RatingBar
             android:id="@+id/star_icon_5"
-            android:theme="@style/RatingBar"
+            style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal_16"
-            android:layout_marginTop="@dimen/spacing_small_8"
+            android:layout_marginTop="@dimen/spacing_extra_small_4"
             android:max="5"
             android:rating="4"
             android:stepSize="1"
+            android:theme="@style/RatingBar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tag"
-            style="?android:attr/ratingBarStyleSmall" />
+            app:layout_constraintTop_toBottomOf="@+id/tag" />
 
         <TextView
             android:id="@+id/reviews"
+            style="@style/Reviews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small_8"
-            android:gravity="center_vertical"
-            android:lineSpacingExtra="4sp"
             android:text="@string/reviews"
-            android:textAppearance="@style/Reviews"
+            android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="@+id/star_icon_5"
             app:layout_constraintStart_toEndOf="@+id/star_icon_5"
             app:layout_constraintTop_toTopOf="@+id/star_icon_5" />
 
         <TextView
             android:id="@+id/storyline_title"
+            style="@style/StorylineTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal_16"
             android:layout_marginTop="@dimen/spacing_large_24"
             android:layout_marginEnd="@dimen/spacing_normal_16"
-            android:gravity="center_vertical"
-            android:lineSpacingExtra="4sp"
             android:text="@string/storyline_title"
-            android:textAppearance="@style/StorylineTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reviews" />
 
         <TextView
             android:id="@+id/storyline"
+            style="@style/Storyline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal_16"
-            android:layout_marginTop="@dimen/spacing_extra_small_4"
+            android:layout_marginTop="@dimen/spacing_normal_16"
             android:layout_marginEnd="@dimen/spacing_normal_16"
-            android:alpha="0.75"
-            android:gravity="center_vertical"
-            android:lineSpacingExtra="4sp"
+            android:letterSpacing="-0.005"
             android:text="@string/storyline"
-            android:textAppearance="@style/Storyline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/storyline_title" />
 
         <TextView
             android:id="@+id/heading"
+            style="@style/Heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal_16"
-            android:layout_marginTop="@dimen/spacing_large_24"
+            android:layout_marginTop="@dimen/spacing_extra_large_36"
             android:layout_marginEnd="@dimen/spacing_normal_16"
-            android:gravity="center_vertical"
-            android:lineSpacingExtra="8sp"
             android:text="@string/heading"
-            android:textAppearance="@style/Heading"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/storyline" />
@@ -172,11 +154,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal_16"
-            android:layout_marginTop="@dimen/spacing_extra_large_56"
+            android:layout_marginTop="@dimen/spacing_extra_extra_large_56"
+            android:drawablePadding="@dimen/spacing_small_8"
             android:gravity="center"
+            android:lineSpacingExtra="2sp"
             android:text="@string/back"
             android:textColor="@color/back_tint"
-            app:drawableStartCompat="@drawable/ic_arrow_left_24"
+            android:textSize="12sp"
+            app:drawableStartCompat="@drawable/ic_back"
             app:drawableTint="@color/back_tint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

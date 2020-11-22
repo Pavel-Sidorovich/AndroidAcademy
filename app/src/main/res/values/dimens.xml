@@ -13,4 +13,5 @@
     <dimen name="amd_rectangle_height">24dp</dimen>
     <dimen name="amd_tag_height">20dp</dimen>
     <dimen name="ci_image_80">80dp</dimen>
+    <dimen name="ci_image_160">160dp</dimen>
 </resources>

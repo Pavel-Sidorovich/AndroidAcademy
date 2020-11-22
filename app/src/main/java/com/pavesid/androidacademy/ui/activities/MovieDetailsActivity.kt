@@ -3,6 +3,7 @@ package com.pavesid.androidacademy.ui.activities
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,8 +28,18 @@ class MovieDetailsActivity : AppCompatActivity() {
 
     private fun initView() {
 
+        val movie = FakeRepository.getEndGameMovie()
+
         val orig = findViewById<ImageView>(R.id.orig)
-        orig.load(Drawable.createFromStream(assets.open("orig.png"), null))
+
+        if (movie.image == "") {
+            orig.load(Drawable.createFromStream(assets.open("orig.png"), null))
+        } else {
+            orig.load(movie.image)
+        }
+
+        val name = findViewById<TextView>(R.id.name)
+        name.text = movie.title
 
         val recycler = findViewById<RecyclerView>(R.id.cast_recycler)
         recycler.apply {
@@ -46,7 +57,7 @@ class MovieDetailsActivity : AppCompatActivity() {
             )
         }
 
-        castAdapter.actors = FakeRepository.getEndGameActors()
+        castAdapter.actors = movie.actors
     }
 
     private fun hideUi() {

@@ -2,6 +2,7 @@ package com.pavesid.androidacademy.ui.activities
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.local.FakeRepository
 import com.pavesid.androidacademy.ui.adapters.CastAdapter
 import com.pavesid.androidacademy.ui.decorations.MarginItemDecoration
+import com.pavesid.androidacademy.utils.Utils
 
 class MovieDetailsActivity : AppCompatActivity() {
 
@@ -58,6 +60,15 @@ class MovieDetailsActivity : AppCompatActivity() {
         }
 
         castAdapter.actors = movie.actors
+
+        val nav = findViewById<View>(R.id.nav)
+        val point = Utils.getNavigationBarSize(this)
+
+        if (point?.y != 0) {
+            nav.visibility = View.VISIBLE
+        } else {
+            nav.visibility = View.GONE
+        }
     }
 
     private fun hideUi() {

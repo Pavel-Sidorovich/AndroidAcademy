@@ -17,6 +17,6 @@
         android:layout_width="@dimen/ci_image_80"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_extra_small_4"
-        style="@style/TextCast"
+        style="@style/DetailsTextCast"
         tools:text="@tools:sample/lorem"/>
 </LinearLayout>

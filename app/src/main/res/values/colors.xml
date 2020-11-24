@@ -11,4 +11,5 @@
     <color name="no_selected">#6D6D80</color>
     <color name="back_tint">#6D6D80</color>
     <color name="background">#191926</color>
+    <color name="actor_name_text_color">#D8D8D8</color>
 </resources>

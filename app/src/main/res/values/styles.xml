@@ -1,30 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="PG">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center</item>
-        <item name="android:alpha">0.9</item>
-    </style>
-
-    <style name="Name">
-        <item name="android:textSize">40sp</item>
-        <item name="android:letterSpacing">-0.01</item>
-        <item name="android:textColor">#ECECEC</item>
-        <item name="android:shadowColor">#80000000</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">6</item>
-        <item name="android:shadowRadius">12</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:lineSpacingExtra">-6sp</item>
-        <item name="android:includeFontPadding">false</item>
-    </style>
-
     <style name="TextSize14">
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextSize12">
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="TextBold" parent="TextSize14">
@@ -38,13 +20,40 @@
         <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
-    <style name="Reviews" parent="TextBold">
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="android:progressTint">@color/selected</item>
+        <item name="android:progressBackgroundTint">@color/no_selected</item>
+    </style>
+
+    <style name="DetailsPG" parent="TextSize12">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:alpha">0.9</item>
+    </style>
+
+    <style name="DetailsName">
+        <item name="android:textSize">40sp</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textColor">#ECECEC</item>
+        <item name="android:shadowColor">#80000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">6</item>
+        <item name="android:shadowRadius">12</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lineSpacingExtra">-6sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="DetailsReviews" parent="TextBold">
         <item name="android:textColor">@color/no_selected</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lineSpacingExtra">4sp</item>
+        <item name="textAllCaps">true</item>
     </style>
 
-    <style name="StorylineTitle" parent="TextBold">
+    <style name="DetailsStorylineTitle" parent="TextBold">
         <item name="android:textColor">#ECECEC</item>
         <item name="android:shadowColor">#80000000</item>
         <item name="android:shadowDx">0</item>
@@ -54,7 +63,7 @@
         <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
-    <style name="Storyline" parent="TextSize14">
+    <style name="DetailsStoryline" parent="TextSize14">
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:alpha">0.5</item>
         <item name="android:gravity">center_vertical</item>
@@ -62,7 +71,7 @@
         <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
-    <style name="Heading" parent="TextBold">
+    <style name="DetailsHeading" parent="TextBold">
         <item name="android:letterSpacing">-0.01</item>
         <item name="android:textColor">#ECECEC</item>
         <item name="android:shadowColor">#80000000</item>
@@ -73,14 +82,34 @@
         <item name="android:lineSpacingExtra">8sp</item>
     </style>
 
-    <style name="TextCast">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">#D8D8D8</item>
+    <style name="DetailsTextCast" parent="TextSize12">
+        <item name="android:textColor">@color/actor_name_text_color</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="RatingBar" parent="Theme.AppCompat">
-        <item name="android:progressTint">@color/selected</item>
-        <item name="android:progressBackgroundTint">@color/no_selected</item>
+    <style name="MovieReviews">
+        <item name="android:textColor">@color/no_selected</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="textAllCaps">true</item>
     </style>
+
+    <style name="MovieTag">
+        <item name="android:textColor">@color/selected</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:alpha">0.75</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <style name="MovieName" parent="TextSize14">
+        <item name="android:textColor">#ECECEC</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MovieDuration" parent="MovieReviews" />
 </resources>

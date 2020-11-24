@@ -20,6 +20,10 @@ class NoPaddingTextView : androidx.appcompat.widget.AppCompatTextView {
         init()
     }
 
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
+        init()
+    }
+
     private fun init() {
         includeFontPadding = false
     }

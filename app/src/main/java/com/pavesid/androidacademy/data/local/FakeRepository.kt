@@ -38,4 +38,14 @@ object FakeRepository {
             )
         )
     )
+
+    fun getAllMovies(): List<Movie> = listOf(
+        getEndGameMovie(),
+        getEndGameMovie(),
+        getEndGameMovie(),
+        getEndGameMovie(),
+        getEndGameMovie(),
+        getEndGameMovie(),
+        getEndGameMovie()
+    )
 }

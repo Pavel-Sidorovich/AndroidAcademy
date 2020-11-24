@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.MoviesFragment"
+    android:background="@color/background">
+
+   <ImageView
+       android:id="@+id/aim"
+       android:layout_width="16dp"
+       android:layout_height="16dp"
+       android:layout_marginStart="16dp"
+       android:layout_marginTop="56dp"
+       android:src="@drawable/ic_aim"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       android:contentDescription="@string/movies_aim" />
+
+   <TextView
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:text="@string/movies"
+       android:layout_marginStart="8dp"
+       android:lineSpacingExtra="4sp"
+       android:gravity="center_vertical"
+       android:textSize="14sp"
+       android:textColor="#FFFFFF"
+       app:layout_constraintBottom_toBottomOf="@+id/aim"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toEndOf="@+id/aim"
+       app:layout_constraintTop_toTopOf="@+id/aim" />
+
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/movies_recycler"
+       android:layout_width="match_parent"
+       android:layout_height="0dp"
+       android:layout_marginTop="38dp"
+       android:layout_marginStart="@dimen/spacing_extra_small_4"
+       android:layout_marginEnd="@dimen/spacing_extra_small_4"
+       app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/aim"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:spanCount="2"
+       tools:listitem="@layout/movie_item" />
+</androidx.constraintlayout.widget.ConstraintLayout>

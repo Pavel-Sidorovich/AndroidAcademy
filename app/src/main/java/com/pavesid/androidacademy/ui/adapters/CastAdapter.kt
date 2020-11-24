@@ -29,17 +29,16 @@ class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder = CastViewHolder(
-        LayoutInflater.from(parent.context).inflate(
-            R.layout.cast_item,
-            parent,
-            false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder =
+        CastViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.cast_item,
+                parent,
+                false
+            )
         )
-    )
 
-    override fun onBindViewHolder(holder: CastViewHolder, position: Int) {
-        holder.bind(actor = actors[position])
-    }
+    override fun onBindViewHolder(holder: CastViewHolder, position: Int) = holder.bind(actor = actors[position])
 
     override fun getItemCount(): Int = actors.size
 

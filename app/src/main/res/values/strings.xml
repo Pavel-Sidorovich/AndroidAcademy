@@ -10,4 +10,11 @@
     <string name="back">Back</string>
     <string name="cast_name">Cast name</string>
     <string name="original_image">Original image</string>
+    <string name="movie_name">Avengers: End Game</string>
+    <string name="duration">137 min</string>
+    <string name="movies">Movies list</string>
+    <string name="movie_like">Like</string>
+    <string name="movie_original_image">Original image</string>
+    <string name="movies_aim">Aim</string>
+    <string name="name_custom">%s № %s</string>
 </resources>

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:fitsSystemWindows="false"
-    tools:context=".ui.activities.MovieDetailsActivity">
+    android:fitsSystemWindows="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,17 +13,17 @@
         android:descendantFocusability="blocksDescendants">
 
         <ImageView
-            android:id="@+id/orig"
+            android:id="@+id/details_orig"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/original_image"
-            app:layout_constraintBottom_toBottomOf="@id/imageView"
-            app:layout_constraintEnd_toEndOf="@id/imageView"
-            app:layout_constraintStart_toStartOf="@id/imageView"
-            app:layout_constraintTop_toTopOf="@id/imageView" />
+            app:layout_constraintBottom_toBottomOf="@id/details_orig_mask"
+            app:layout_constraintEnd_toEndOf="@id/details_orig_mask"
+            app:layout_constraintStart_toStartOf="@id/details_orig_mask"
+            app:layout_constraintTop_toTopOf="@id/details_orig_mask" />
 
         <View
-            android:id="@+id/imageView"
+            android:id="@+id/details_orig_mask"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/mask"
@@ -34,32 +33,32 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/rectangle"
-            style="@style/PG"
+            android:id="@+id/details_rectangle"
+            style="@style/DetailsPG"
             android:layout_width="@dimen/amd_rectangle_width"
             android:layout_height="@dimen/amd_rectangle_height"
             android:layout_marginStart="@dimen/spacing_normal_16"
             android:layout_marginBottom="@dimen/spacing_small_8"
             android:background="@drawable/rectangle"
             android:text="@string/pg"
-            app:layout_constraintBottom_toTopOf="@+id/name"
+            app:layout_constraintBottom_toTopOf="@+id/details_name"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.pavesid.androidacademy.ui.custom.NoPaddingTextView
-            android:id="@+id/name"
-            style="@style/Name"
+            android:id="@+id/details_name"
+            style="@style/DetailsName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal_16"
             android:layout_marginEnd="@dimen/spacing_normal_16"
             tools:text="@string/name"
-            app:layout_constraintBottom_toBottomOf="@id/imageView"
+            app:layout_constraintBottom_toBottomOf="@id/details_orig_mask"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/details_orig_mask" />
 
         <com.pavesid.androidacademy.ui.custom.NoPaddingTextView
-            android:id="@+id/tag"
+            android:id="@+id/details_tag"
             style="@style/Tag"
             android:layout_width="0dp"
             android:layout_height="@dimen/amd_tag_height"
@@ -68,10 +67,10 @@
             android:text="@string/tag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name" />
+            app:layout_constraintTop_toBottomOf="@+id/details_name" />
 
         <me.zhanghai.android.materialratingbar.MaterialRatingBar
-            android:id="@+id/star_icon_5"
+            android:id="@+id/details_rating"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,23 +81,22 @@
             android:stepSize="1"
             android:theme="@style/RatingBar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tag" />
+            app:layout_constraintTop_toBottomOf="@+id/details_tag" />
 
         <TextView
-            android:id="@+id/reviews"
-            style="@style/Reviews"
+            android:id="@+id/details_reviews"
+            style="@style/DetailsReviews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_small_8"
             android:text="@string/reviews"
-            android:textAllCaps="true"
-            app:layout_constraintBottom_toBottomOf="@+id/star_icon_5"
-            app:layout_constraintStart_toEndOf="@+id/star_icon_5"
-            app:layout_constraintTop_toTopOf="@+id/star_icon_5" />
+            app:layout_constraintBottom_toBottomOf="@+id/details_rating"
+            app:layout_constraintStart_toEndOf="@+id/details_rating"
+            app:layout_constraintTop_toTopOf="@+id/details_rating" />
 
         <TextView
-            android:id="@+id/storyline_title"
-            style="@style/StorylineTitle"
+            android:id="@+id/details_storyline_title"
+            style="@style/DetailsStorylineTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal_16"
@@ -107,11 +105,11 @@
             android:text="@string/storyline_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reviews" />
+            app:layout_constraintTop_toBottomOf="@+id/details_reviews" />
 
         <TextView
-            android:id="@+id/storyline"
-            style="@style/Storyline"
+            android:id="@+id/details_storyline"
+            style="@style/DetailsStoryline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal_16"
@@ -121,11 +119,11 @@
             android:text="@string/storyline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/storyline_title" />
+            app:layout_constraintTop_toBottomOf="@+id/details_storyline_title" />
 
         <TextView
-            android:id="@+id/heading"
-            style="@style/Heading"
+            android:id="@+id/details_heading"
+            style="@style/DetailsHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal_16"
@@ -134,10 +132,10 @@
             android:text="@string/heading"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/storyline" />
+            app:layout_constraintTop_toBottomOf="@+id/details_storyline" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cast_recycler"
+            android:id="@+id/details_cast_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small_8"
@@ -145,12 +143,13 @@
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/nav"
+            app:layout_constraintBottom_toTopOf="@id/details_nav"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/heading"
+            app:layout_constraintTop_toBottomOf="@+id/details_heading"
             tools:listitem="@layout/cast_item" />
 
         <TextView
+            android:id="@+id/details_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal_16"
@@ -165,11 +164,11 @@
             app:drawableTint="@color/back_tint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        
+
         <View
-            android:id="@+id/nav"
+            android:id="@+id/details_nav"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="@dimen/spacing_nav_48"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

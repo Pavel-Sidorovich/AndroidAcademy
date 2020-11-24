@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/spacing_small_8"
+    android:layout_marginStart="@dimen/spacing_small_8"
+    app:cardCornerRadius="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/movies_bg">
+
+        <ImageView
+            android:id="@+id/movie_orig"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/movie"
+            app:layout_constraintEnd_toEndOf="@id/movie_orig_mask_3"
+            app:layout_constraintStart_toStartOf="@id/movie_orig_mask_3"
+            app:layout_constraintTop_toTopOf="@id/movie_orig_mask_3"
+            app:layout_constraintBottom_toBottomOf="@id/movie_orig_mask_3"
+            android:contentDescription="@string/movie_original_image" />
+
+        <View
+            android:id="@+id/movie_orig_mask_1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/mask"
+            app:layout_constraintEnd_toEndOf="@id/movie_orig_mask_3"
+            app:layout_constraintStart_toStartOf="@id/movie_orig_mask_3"
+            app:layout_constraintTop_toTopOf="@id/movie_orig_mask_3"
+            app:layout_constraintBottom_toBottomOf="@id/movie_orig_mask_3"/>
+        <View
+            android:id="@+id/movie_orig_mask_2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/mask"
+            app:layout_constraintEnd_toEndOf="@id/movie_orig_mask_3"
+            app:layout_constraintStart_toStartOf="@id/movie_orig_mask_3"
+            app:layout_constraintTop_toTopOf="@id/movie_orig_mask_3"
+            app:layout_constraintBottom_toBottomOf="@id/movie_orig_mask_3"/>
+        <View
+            android:id="@+id/movie_orig_mask_3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/mask"
+            app:layout_constraintDimensionRatio="H, 166:248"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/movie_rectangle"
+            style="@style/DetailsPG"
+            android:layout_width="@dimen/movie_rectangle_width_24"
+            android:layout_height="@dimen/movie_rectangle_height_24"
+            android:layout_marginStart="@dimen/spacing_small_8"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/rectangle"
+            android:text="@string/pg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:alpha="0.75"
+            android:src="@drawable/ic_like"
+            android:contentDescription="@string/movie_like"
+            app:layout_constraintBottom_toBottomOf="@+id/movie_rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/movie_rectangle" />
+
+        <TextView
+            android:id="@+id/movie_tag"
+            style="@style/MovieTag"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/amd_tag_height"
+            android:layout_marginStart="@dimen/spacing_small_8"
+            android:layout_marginEnd="@dimen/spacing_small_8"
+            android:layout_marginBottom="24dp"
+            android:text="@string/tag"
+            app:layout_constraintBottom_toBottomOf="@+id/movie_orig"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/movie_rating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/movie_height_rating_10"
+            android:layout_marginStart="@dimen/spacing_small_8"
+            android:max="5"
+            android:rating="4"
+            android:stepSize="1"
+            android:theme="@style/RatingBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movie_tag" />
+
+        <TextView
+            android:id="@+id/movie_reviews"
+            style="@style/MovieReviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_extra_small_4"
+            android:text="@string/reviews"
+            app:layout_constraintBottom_toBottomOf="@+id/movie_rating"
+            app:layout_constraintStart_toEndOf="@+id/movie_rating"
+            app:layout_constraintTop_toTopOf="@+id/movie_rating" />
+
+        <TextView
+            android:id="@+id/movie_name"
+            style="@style/MovieName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_extra_small_4"
+            android:layout_marginStart="@dimen/spacing_small_8"
+            android:layout_marginEnd="@dimen/spacing_small_8"
+            android:text="@string/movie_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movie_orig" />
+
+        <TextView
+            android:id="@+id/movie_duration"
+            style="@style/MovieDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small_8"
+            android:layout_marginEnd="@dimen/spacing_small_8"
+            android:layout_marginBottom="12dp"
+            android:text="@string/duration"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movie_name"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

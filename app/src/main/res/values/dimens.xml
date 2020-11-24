@@ -2,6 +2,7 @@
 <resources>
     <!-- Spacing -->
     <dimen name="spacing_extra_extra_large_56">56dp</dimen>
+    <dimen name="spacing_nav_48">48dp</dimen>
     <dimen name="spacing_extra_large_36">36dp</dimen>
     <dimen name="spacing_large_24">24dp</dimen>
     <dimen name="spacing_normal_16">16dp</dimen>
@@ -14,4 +15,7 @@
     <dimen name="amd_tag_height">20dp</dimen>
     <dimen name="ci_image_80">80dp</dimen>
     <dimen name="ci_image_160">160dp</dimen>
+    <dimen name="movie_rectangle_width_24">24dp</dimen>
+    <dimen name="movie_rectangle_height_24">24dp</dimen>
+    <dimen name="movie_height_rating_10">10dp</dimen>
 </resources>

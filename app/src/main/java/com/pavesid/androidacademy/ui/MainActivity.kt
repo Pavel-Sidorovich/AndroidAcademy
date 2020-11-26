@@ -1,14 +1,15 @@
-package com.pavesid.androidacademy.ui.activities
+package com.pavesid.androidacademy.ui
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
-import com.pavesid.androidacademy.ui.fragments.MoviesDetailsFragment
-import com.pavesid.androidacademy.ui.fragments.MoviesFragment
+import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
+import com.pavesid.androidacademy.ui.movies.MoviesFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MoviesFragment.Listener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -17,21 +18,32 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val rootFragment = MoviesFragment().apply { setListener(this@MainActivity) }
+
         savedInstanceState ?: supportFragmentManager.beginTransaction().apply {
-            add(R.id.container, MoviesFragment(), null)
+            add(R.id.container, rootFragment, null)
             commit()
         }
 
         hideUi()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun hideUi() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
     }
 
-    fun changeFragment(title: String) {
+    override fun changeFragmentById(id: Int) {
         supportFragmentManager.beginTransaction().apply {
-            add(R.id.container, MoviesDetailsFragment.newInstance(title), null)
+            add(R.id.container, MoviesDetailsFragment.newInstance(id), null)
             addToBackStack(null)
             commit()
         }

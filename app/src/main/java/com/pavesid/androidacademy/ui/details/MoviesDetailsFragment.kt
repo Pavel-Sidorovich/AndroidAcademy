@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.ui.fragments
+package com.pavesid.androidacademy.ui.details
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -11,10 +11,9 @@ import coil.load
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.local.FakeRepository
 import com.pavesid.androidacademy.databinding.FragmentMoviesDetailsBinding
-import com.pavesid.androidacademy.ui.activities.MainActivity
-import com.pavesid.androidacademy.ui.adapters.CastAdapter
-import com.pavesid.androidacademy.ui.decorations.CastItemDecoration
+import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.utils.Utils
+import com.pavesid.androidacademy.utils.setShaderForGradient
 
 class MoviesDetailsFragment : Fragment() {
 
@@ -22,14 +21,17 @@ class MoviesDetailsFragment : Fragment() {
     private val binding: FragmentMoviesDetailsBinding
         get() = _binding!!
 
+    private val mainActivity by lazy { activity as MainActivity }
+
     private val castAdapter by lazy { CastAdapter() }
 
-    private var addTitle = ""
+    private var movieId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         arguments?.let {
-            addTitle = it.getString(PARAM_TITLE, "")
+            movieId = it.getInt(PARAM_ID)
         }
     }
 
@@ -40,6 +42,7 @@ class MoviesDetailsFragment : Fragment() {
     ): View? {
         _binding = FragmentMoviesDetailsBinding.inflate(layoutInflater)
 
+        initActionBar()
         initView()
 
         return binding.root
@@ -50,24 +53,41 @@ class MoviesDetailsFragment : Fragment() {
         _binding = null
     }
 
+    private fun initActionBar() {
+        mainActivity.setSupportActionBar(binding.toolbar)
+        mainActivity.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
+    }
+
     private fun initView() {
 
-        val movie = FakeRepository.getEndGameMovie()
+        val movie = FakeRepository.getMovieById(movieId)
+        val preview = FakeRepository.getAllPreviews()[movieId]
 
         if (movie.image == "") {
-            binding.detailsOrig.load(Drawable.createFromStream(requireActivity().assets.open("orig.png"), null))
+            binding.detailsOrig.load(
+                Drawable.createFromStream(
+                    requireActivity().assets.open("orig.png"),
+                    null
+                )
+            )
         } else {
             binding.detailsOrig.load(movie.image)
         }
 
-        binding.detailsName.apply {
-            text = resources.getString(R.string.name_custom, movie.title, addTitle)
-            paint.shader = Utils.getShaderForGradientTextView(this)
-        }
+        binding.collapsingToolbar.title = preview.name
+        binding.detailsTag.text = preview.tags.joinToString()
+        binding.detailsStoryline.text = movie.storyline
+        binding.detailsRating.rating = preview.rating.toFloat()
+        binding.detailsReviews.text = resources.getQuantityString(R.plurals.review, preview.reviews, preview.reviews)
 
-        binding.detailsStorylineTitle.apply { paint.shader = Utils.getShaderForGradientTextView(this) }
+        binding.detailsRectangle.text = getString(R.string.pg, preview.pg)
 
-        binding.detailsHeading.apply { paint.shader = Utils.getShaderForGradientTextView(this) }
+        binding.detailsStorylineTitle.setShaderForGradient()
+
+        binding.detailsHeading.setShaderForGradient()
 
         binding.detailsCastRecycler.apply {
             layoutManager = LinearLayoutManager(
@@ -84,10 +104,6 @@ class MoviesDetailsFragment : Fragment() {
             )
         }
 
-        binding.detailsBack.setOnClickListener {
-            (activity as MainActivity).onBackPressed()
-        }
-
         castAdapter.actors = movie.actors
 
         val point = Utils.getNavigationBarSize(requireContext())
@@ -100,14 +116,15 @@ class MoviesDetailsFragment : Fragment() {
     }
 
     companion object {
-        private const val PARAM_TITLE = "add to title"
+        private const val PARAM_ID = "id"
 
         fun newInstance(
-            title: String
+            id: Int
         ): MoviesDetailsFragment {
-            val fragment = MoviesDetailsFragment()
+            val fragment =
+                MoviesDetailsFragment()
             val args = Bundle()
-            args.putString(PARAM_TITLE, title)
+            args.putInt(PARAM_ID, id)
             fragment.arguments = args
             return fragment
         }

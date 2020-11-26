@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.ui.fragments
+package com.pavesid.androidacademy.ui.movies
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.local.FakeRepository
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
-import com.pavesid.androidacademy.ui.activities.MainActivity
-import com.pavesid.androidacademy.ui.adapters.MoviesAdapter
-import com.pavesid.androidacademy.ui.decorations.MoviesItemDecoration
+import com.pavesid.androidacademy.ui.MainActivity
 
 class MoviesFragment : Fragment() {
 
@@ -19,9 +17,13 @@ class MoviesFragment : Fragment() {
     private val binding: FragmentMoviesBinding
         get() = _binding!!
 
+    private val mainActivity by lazy { activity as MainActivity }
+
+    private var listener: Listener? = null
+
     private val moviesAdapter by lazy {
         MoviesAdapter {
-            (activity as MainActivity).changeFragment(it)
+            listener?.changeFragmentById(it)
         }
     }
 
@@ -32,6 +34,7 @@ class MoviesFragment : Fragment() {
     ): View? {
         _binding = FragmentMoviesBinding.inflate(layoutInflater)
 
+        initActionBar()
         initView()
 
         return binding.root
@@ -42,10 +45,19 @@ class MoviesFragment : Fragment() {
         _binding = null
     }
 
+    private fun initActionBar() {
+        mainActivity.apply {
+            setSupportActionBar(binding.toolbar)
+            title = ""
+        }
+    }
+
     private fun initView() {
-        moviesAdapter.movies = FakeRepository.getAllMovies()
+
+        moviesAdapter.movies = FakeRepository.getAllPreviews()
         binding.moviesRecycler.apply {
-            layoutManager = GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
+            layoutManager =
+                GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
             adapter = moviesAdapter
             addItemDecoration(
                 MoviesItemDecoration(
@@ -55,5 +67,13 @@ class MoviesFragment : Fragment() {
                 )
             )
         }
+    }
+
+    fun setListener(l: Listener) {
+        listener = l
+    }
+
+    interface Listener {
+        fun changeFragmentById(id: Int)
     }
 }

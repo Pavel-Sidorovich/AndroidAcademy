@@ -4,45 +4,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.MoviesFragment"
+    tools:context=".ui.movies.MoviesFragment"
     android:background="@color/background">
 
-   <ImageView
-       android:id="@+id/aim"
-       android:layout_width="16dp"
-       android:layout_height="16dp"
-       android:layout_marginStart="16dp"
-       android:layout_marginTop="56dp"
-       android:src="@drawable/ic_aim"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       android:contentDescription="@string/movies_aim" />
-
-   <TextView
-       android:layout_width="0dp"
-       android:layout_height="wrap_content"
-       android:text="@string/movies"
-       android:layout_marginStart="8dp"
-       android:lineSpacingExtra="4sp"
-       android:gravity="center_vertical"
-       android:textSize="14sp"
-       android:textColor="#FFFFFF"
-       app:layout_constraintBottom_toBottomOf="@+id/aim"
+   <androidx.appcompat.widget.Toolbar
+       android:id="@+id/toolbar"
+       android:layout_width="match_parent"
+       android:layout_height="?attr/actionBarSize"
+       android:background="?attr/colorPrimary"
+       android:theme="@style/AppTheme.PopupOverlay"
+       app:popupTheme="@style/AppTheme.PopupOverlay"
        app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toEndOf="@+id/aim"
-       app:layout_constraintTop_toTopOf="@+id/aim" />
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent">
+
+      <ImageView
+          android:layout_width="16dp"
+          android:layout_height="16dp"
+          android:src="@drawable/ic_aim"
+          android:contentDescription="@string/movies_aim" />
+
+      <TextView
+          android:id="@+id/textView"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:gravity="center"
+          android:text="@string/movies"
+          android:textColor="@android:color/white"
+          android:textSize="14sp"
+          android:textStyle="bold" />
+   </androidx.appcompat.widget.Toolbar>
 
    <androidx.recyclerview.widget.RecyclerView
        android:id="@+id/movies_recycler"
        android:layout_width="match_parent"
        android:layout_height="0dp"
-       android:layout_marginTop="38dp"
+       android:layout_marginTop="@dimen/spacing_normal_16"
        android:layout_marginStart="@dimen/spacing_extra_small_4"
        android:layout_marginEnd="@dimen/spacing_extra_small_4"
        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/aim"
+       app:layout_constraintTop_toBottomOf="@id/toolbar"
        app:layout_constraintBottom_toBottomOf="parent"
        app:spanCount="2"
        tools:listitem="@layout/movie_item" />

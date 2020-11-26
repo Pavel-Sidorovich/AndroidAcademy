@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.ui.adapters
+package com.pavesid.androidacademy.ui.details
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +13,7 @@ import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.local.model.Actor
 
-class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
+internal class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Actor>() {
         override fun areItemsTheSame(oldItem: Actor, newItem: Actor): Boolean =

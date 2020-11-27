@@ -23,7 +23,8 @@ class MoviesFragment : Fragment() {
 
     private val moviesAdapter by lazy {
         MoviesAdapter {
-            listener?.changeFragmentById(it)
+            mainActivity.changeFragment(it)
+//            listener?.changeFragmentById(it)
         }
     }
 
@@ -42,6 +43,7 @@ class MoviesFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        listener = null
         _binding = null
     }
 

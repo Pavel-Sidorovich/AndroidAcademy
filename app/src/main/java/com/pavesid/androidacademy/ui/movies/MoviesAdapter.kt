@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.local.model.MoviePreview
 import com.pavesid.androidacademy.utils.setShaderForGradient
@@ -66,7 +67,9 @@ internal class MoviesAdapter(private val listener: (Int) -> Unit) :
         fun bind(moviePreview: MoviePreview) {
             id = moviePreview.id
             pg.text = itemView.context.getString(R.string.pg, moviePreview.pg)
-            origImage.load(moviePreview.image)
+            origImage.load(moviePreview.image) {
+                transformations(RoundedCornersTransformation(8f, 8f, 0f, 0f))
+            }
             tags.text = moviePreview.tags.joinToString()
             rating.rating = moviePreview.rating.toFloat()
             reviews.text = itemView.context.resources.getQuantityString(

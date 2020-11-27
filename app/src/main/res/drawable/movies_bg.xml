@@ -3,7 +3,9 @@
     <gradient
         android:type="linear"
         android:angle="270"
-        android:startColor="#404056"
+        android:startColor="#FD404056"
         android:endColor="#222232">
     </gradient>
+    <corners android:radius="@dimen/movie_radius_8"/>
+    <stroke android:color="#50636375" android:width="1dp" />
 </shape>

@@ -17,4 +17,5 @@
     <dimen name="movie_rectangle_width_24">24dp</dimen>
     <dimen name="movie_rectangle_height_24">24dp</dimen>
     <dimen name="movie_height_rating_10">10dp</dimen>
+    <dimen name="movie_radius_8">8dp</dimen>
 </resources>

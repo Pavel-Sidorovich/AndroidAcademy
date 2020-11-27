@@ -18,14 +18,14 @@ class MainActivity : AppCompatActivity(), MoviesFragment.Listener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        hideUi()
+
         val rootFragment = MoviesFragment().apply { setListener(this@MainActivity) }
 
         savedInstanceState ?: supportFragmentManager.beginTransaction().apply {
             add(R.id.container, rootFragment, null)
             commit()
         }
-
-        hideUi()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -42,6 +42,14 @@ class MainActivity : AppCompatActivity(), MoviesFragment.Listener {
     }
 
     override fun changeFragmentById(id: Int) {
+        supportFragmentManager.beginTransaction().apply {
+            add(R.id.container, MoviesDetailsFragment.newInstance(id), null)
+            addToBackStack(null)
+            commit()
+        }
+    }
+
+    fun changeFragment(id: Int) {
         supportFragmentManager.beginTransaction().apply {
             add(R.id.container, MoviesDetailsFragment.newInstance(id), null)
             addToBackStack(null)

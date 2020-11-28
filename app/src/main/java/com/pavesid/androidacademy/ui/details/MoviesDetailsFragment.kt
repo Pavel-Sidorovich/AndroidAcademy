@@ -1,11 +1,13 @@
 package com.pavesid.androidacademy.ui.details
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
@@ -50,6 +52,8 @@ class MoviesDetailsFragment : Fragment() {
     ): View? {
         _binding = FragmentMoviesDetailsBinding.inflate(layoutInflater)
 
+        mainActivity.window.statusBarColor = Color.TRANSPARENT
+
         savedInstanceState ?: viewModel.getMovie(movieId)
 
         subscribeToObservers()
@@ -57,6 +61,11 @@ class MoviesDetailsFragment : Fragment() {
         initView()
 
         return binding.root
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mainActivity.window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.background)
     }
 
     override fun onDestroy() {

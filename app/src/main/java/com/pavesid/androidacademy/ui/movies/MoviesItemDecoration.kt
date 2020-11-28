@@ -15,6 +15,8 @@ internal class MoviesItemDecoration(private val spaceSize: Int, private val bigS
         val count = (parent.adapter?.itemCount ?: 1) - 1
         val lastIndexInNotLastLine = (count / gridSize) * gridSize
         with(outRect) {
+            right = spaceSize / 2
+            left = spaceSize / 2
             val position = parent.getChildAdapterPosition(view)
             bottom =
                 if (position >= lastIndexInNotLastLine) {

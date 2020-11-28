@@ -8,8 +8,6 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="@drawable/ripple"
-    android:layout_marginEnd="@dimen/spacing_small_8"
-    android:layout_marginStart="@dimen/spacing_small_8"
     android:layout_margin="2dp"
     app:cardCornerRadius="@dimen/movie_radius_8" >
 

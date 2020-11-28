@@ -3,7 +3,6 @@ package com.pavesid.androidacademy.ui
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
 import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
@@ -19,8 +18,6 @@ class MainActivity : AppCompatActivity(), MoviesFragment.Listener {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        hideUi()
 
         val rootFragment = MoviesFragment().apply { setListener(this@MainActivity) }
 
@@ -44,10 +41,6 @@ class MainActivity : AppCompatActivity(), MoviesFragment.Listener {
         _binding = null
     }
 
-    private fun hideUi() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-    }
-
     override fun changeFragmentById(id: Int) {
         supportFragmentManager.beginTransaction().apply {
             add(R.id.container, MoviesDetailsFragment.newInstance(id), null)
@@ -57,8 +50,9 @@ class MainActivity : AppCompatActivity(), MoviesFragment.Listener {
     }
 
     fun changeFragment(id: Int) {
+        val detailFragment = MoviesDetailsFragment.newInstance(id)
         supportFragmentManager.beginTransaction().apply {
-            add(R.id.container, MoviesDetailsFragment.newInstance(id), null)
+            add(R.id.container, detailFragment, null)
             addToBackStack(null)
             commit()
         }

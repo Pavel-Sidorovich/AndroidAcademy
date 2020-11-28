@@ -11,11 +11,13 @@ import com.pavesid.androidacademy.ui.movies.MoviesFragment
 
 class MainActivity : AppCompatActivity(), MoviesFragment.Listener {
 
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding: ActivityMainBinding
+        get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         hideUi()
@@ -35,6 +37,11 @@ class MainActivity : AppCompatActivity(), MoviesFragment.Listener {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     private fun hideUi() {

@@ -4,12 +4,12 @@ import com.pavesid.androidacademy.data.local.model.Actor
 import com.pavesid.androidacademy.data.local.model.Movie
 import com.pavesid.androidacademy.data.local.model.MoviePreview
 
-object FakeRepository {
+object FakeRepository : MoviesRepository {
 
     /**
      * Return mockup movie by Id
      */
-    fun getMovieById(id: Int): Movie {
+    override fun getMovieById(id: Int): Movie {
         return when (id % 4) {
             0 ->
                 Movie(
@@ -121,7 +121,7 @@ object FakeRepository {
     /**
      * Return all previews for our movies
      */
-    fun getAllPreviews(): List<MoviePreview> = listOf(
+    override fun getAllPreviews(): List<MoviePreview> = listOf(
         MoviePreview(
             id = 0,
             image = "https://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg",

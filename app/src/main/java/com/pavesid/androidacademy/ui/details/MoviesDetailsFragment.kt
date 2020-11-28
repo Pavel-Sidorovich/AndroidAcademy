@@ -5,13 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.pavesid.androidacademy.R
-import com.pavesid.androidacademy.data.local.FakeRepository
+import com.pavesid.androidacademy.data.local.model.Movie
+import com.pavesid.androidacademy.data.local.model.MoviePreview
 import com.pavesid.androidacademy.databinding.FragmentMoviesDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
+import com.pavesid.androidacademy.ui.MainViewModel
+import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.utils.Utils
 import com.pavesid.androidacademy.utils.setShaderForGradient
 
@@ -26,6 +32,8 @@ class MoviesDetailsFragment : Fragment() {
     private val castAdapter by lazy { CastAdapter() }
 
     private var movieId = 0
+
+    private val viewModel: MainViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +50,9 @@ class MoviesDetailsFragment : Fragment() {
     ): View? {
         _binding = FragmentMoviesDetailsBinding.inflate(layoutInflater)
 
+        savedInstanceState ?: viewModel.getMovie(movieId)
+
+        subscribeToObservers()
         initActionBar()
         initView()
 
@@ -61,11 +72,7 @@ class MoviesDetailsFragment : Fragment() {
         }
     }
 
-    private fun initView() {
-
-        val movie = FakeRepository.getMovieById(movieId)
-        val preview = FakeRepository.getAllPreviews()[movieId]
-
+    private fun initMovie(movie: Movie) {
         if (movie.image == "") {
             binding.detailsOrig.load(
                 Drawable.createFromStream(
@@ -76,15 +83,56 @@ class MoviesDetailsFragment : Fragment() {
         } else {
             binding.detailsOrig.load(movie.image)
         }
+        binding.detailsStoryline.text = movie.storyline
+        castAdapter.actors = movie.actors
+    }
+
+    private fun initPreview(preview: MoviePreview) {
 
         binding.collapsingToolbar.title = preview.name
         binding.detailsTag.text = preview.tags.joinToString()
-        binding.detailsStoryline.text = movie.storyline
         binding.detailsRating.rating = preview.rating.toFloat()
         binding.detailsReviews.text = resources.getQuantityString(R.plurals.review, preview.reviews, preview.reviews)
 
         binding.detailsRectangle.text = getString(R.string.pg, preview.pg)
+    }
 
+    private fun subscribeToObservers() {
+        viewModel.moviesPreview.observe(viewLifecycleOwner) { resource ->
+            when (resource.status) {
+                Status.SUCCESS -> {
+                    binding.progress.visibility = View.GONE
+                    resource.data?.let { previews ->
+                        initPreview(previews[movieId])
+                    }
+                }
+                Status.ERROR -> {
+                    binding.progress.visibility = View.GONE
+                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
+                }
+                Status.LOADING -> binding.progress.visibility = View.VISIBLE
+            }
+        }
+        viewModel.movie.observe(viewLifecycleOwner) { resource ->
+            when (resource.status) {
+                Status.SUCCESS -> {
+                    resource.data?.let { movie ->
+                        if (movie.id == movieId % 4) { // TODO change 4 later
+                            binding.progressMovie.visibility = View.GONE
+                            initMovie(movie)
+                        }
+                    }
+                }
+                Status.ERROR -> {
+                    binding.progressMovie.visibility = View.GONE
+                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
+                }
+                Status.LOADING -> binding.progressMovie.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun initView() {
         binding.detailsStorylineTitle.setShaderForGradient()
 
         binding.detailsHeading.setShaderForGradient()
@@ -103,8 +151,6 @@ class MoviesDetailsFragment : Fragment() {
                 )
             )
         }
-
-        castAdapter.actors = movie.actors
 
         val point = Utils.getNavigationBarSize(requireContext())
 

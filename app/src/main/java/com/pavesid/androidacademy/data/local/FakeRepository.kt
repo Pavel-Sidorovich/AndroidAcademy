@@ -125,7 +125,7 @@ object FakeRepository : MoviesRepository {
         MoviePreview(
             id = 0,
             image = "https://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg",
-            name = "Avengers: End Game",
+            name = "Avengers: End Game \n Avengers: End Game",
             rating = 4,
             pg = 13,
             reviews = 135,

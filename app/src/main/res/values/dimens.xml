@@ -5,17 +5,20 @@
     <dimen name="spacing_extra_large_36">36dp</dimen>
     <dimen name="spacing_large_24">24dp</dimen>
     <dimen name="spacing_normal_16">16dp</dimen>
+    <dimen name="spacing_small_normal_12">12dp</dimen>
     <dimen name="spacing_small_8">8dp</dimen>
     <dimen name="spacing_extra_small_4">4dp</dimen>
 
     <!-- Different other -->
-    <dimen name="amd_rectangle_width">24dp</dimen>
-    <dimen name="amd_rectangle_height">24dp</dimen>
-    <dimen name="amd_tag_height">20dp</dimen>
+    <dimen name="movies_rectangle_width">24dp</dimen>
+    <dimen name="movies_rectangle_height">24dp</dimen>
+    <dimen name="movies_tag_height">20dp</dimen>
     <dimen name="ci_image_80">80dp</dimen>
     <dimen name="ci_image_160">160dp</dimen>
     <dimen name="movie_rectangle_width_24">24dp</dimen>
     <dimen name="movie_rectangle_height_24">24dp</dimen>
     <dimen name="movie_height_rating_10">10dp</dimen>
     <dimen name="movie_radius_8">8dp</dimen>
+    <dimen name="movies_aim_width">16dp</dimen>
+    <dimen name="movies_aim_height">16dp</dimen>
 </resources>

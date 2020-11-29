@@ -103,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:background="@color/background">
+        android:background="@color/background_color">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -122,8 +122,8 @@
             <TextView
                 android:id="@+id/details_rectangle"
                 style="@style/DetailsPG"
-                android:layout_width="@dimen/amd_rectangle_width"
-                android:layout_height="@dimen/amd_rectangle_height"
+                android:layout_width="@dimen/movies_rectangle_width"
+                android:layout_height="@dimen/movies_rectangle_height"
                 android:layout_marginTop="@dimen/spacing_normal_16"
                 android:layout_marginEnd="@dimen/spacing_normal_16"
                 android:background="@drawable/rectangle"
@@ -134,7 +134,7 @@
                 android:id="@+id/details_tag"
                 style="@style/Tag"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/amd_tag_height"
+                android:layout_height="@dimen/movies_tag_height"
                 android:layout_marginStart="@dimen/spacing_normal_16"
                 android:layout_marginTop="@dimen/spacing_normal_16"
                 app:layout_constraintEnd_toStartOf="@+id/details_rectangle"

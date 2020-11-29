@@ -65,7 +65,7 @@ class MoviesDetailsFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        mainActivity.window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.background)
+        mainActivity.window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.background_color)
     }
 
     override fun onDestroy() {

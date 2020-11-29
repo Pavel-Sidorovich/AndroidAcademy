@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.movies.MoviesFragment"
-    android:background="@color/background">
+    android:background="@color/background_color">
 
    <androidx.appcompat.widget.Toolbar
        android:id="@+id/toolbar"
@@ -14,13 +14,14 @@
        android:background="?attr/colorPrimary"
        android:theme="@style/AppTheme.PopupOverlay"
        app:popupTheme="@style/AppTheme.PopupOverlay"
+       android:layout_marginTop="@dimen/spacing_extra_large_36"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintTop_toTopOf="parent">
 
       <ImageView
-          android:layout_width="16dp"
-          android:layout_height="16dp"
+          android:layout_width="@dimen/movies_aim_width"
+          android:layout_height="@dimen/movies_aim_height"
           android:layout_marginEnd="@dimen/spacing_small_8"
           android:src="@drawable/ic_aim"
           android:contentDescription="@string/movies_aim" />
@@ -41,8 +42,8 @@
        android:layout_width="match_parent"
        android:layout_height="0dp"
        android:layout_marginTop="@dimen/spacing_normal_16"
-       android:layout_marginStart="@dimen/spacing_extra_small_4"
-       android:layout_marginEnd="@dimen/spacing_extra_small_4"
+       android:layout_marginStart="@dimen/spacing_small_8"
+       android:layout_marginEnd="@dimen/spacing_small_8"
        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"

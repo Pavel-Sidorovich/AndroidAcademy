@@ -2,7 +2,10 @@
     <!-- Base application theme. -->
     <style name="Theme.AndroidAcademy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/background</item>
-        <item name="colorPrimaryDark">@color/background</item>
+        <item name="colorPrimary">@color/background_color</item>
+        <item name="colorPrimaryDark">@color/background_color</item>
+
+<!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 </resources>

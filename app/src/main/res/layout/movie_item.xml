@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,13 +8,13 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="@drawable/ripple"
-    android:layout_margin="2dp"
-    app:cardCornerRadius="@dimen/movie_radius_8" >
+    app:cardCornerRadius="@dimen/movie_radius_8"
+    app:strokeColor="@color/border_color"
+    app:strokeWidth="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="1dp"
         android:background="@drawable/movies_bg">
 
         <ImageView
@@ -63,7 +63,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/spacing_small_8"
             android:alpha="0.75"
             android:src="@drawable/ic_like"
             android:contentDescription="@string/movie_like"
@@ -75,10 +75,10 @@
             android:id="@+id/movie_tag"
             style="@style/MovieTag"
             android:layout_width="0dp"
-            android:layout_height="@dimen/amd_tag_height"
-            android:layout_marginStart="@dimen/spacing_small_8"
-            android:layout_marginEnd="@dimen/spacing_small_8"
-            android:layout_marginBottom="24dp"
+            android:layout_height="@dimen/movies_tag_height"
+            android:layout_marginStart="@dimen/spacing_extra_small_4"
+            android:layout_marginEnd="@dimen/spacing_extra_small_4"
+            android:layout_marginBottom="@dimen/spacing_normal_16"
             tools:text="@string/tag"
             app:layout_constraintBottom_toBottomOf="@+id/movie_orig"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +89,7 @@
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/movie_height_rating_10"
-            android:layout_marginStart="@dimen/spacing_small_8"
+            android:layout_marginStart="@dimen/spacing_extra_small_4"
             android:max="5"
             tools:rating="4"
             android:stepSize="1"
@@ -112,9 +112,9 @@
             style="@style/MovieName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_extra_small_4"
-            android:layout_marginStart="@dimen/spacing_small_8"
-            android:layout_marginEnd="@dimen/spacing_small_8"
+            android:layout_marginTop="@dimen/spacing_small_normal_12"
+            android:layout_marginStart="@dimen/spacing_extra_small_4"
+            android:layout_marginEnd="@dimen/spacing_extra_small_4"
             tools:text="@string/movie_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -125,13 +125,13 @@
             style="@style/MovieDuration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small_8"
-            android:layout_marginEnd="@dimen/spacing_small_8"
-            android:layout_marginBottom="12dp"
+            android:layout_marginStart="@dimen/spacing_extra_small_4"
+            android:layout_marginEnd="@dimen/spacing_extra_small_4"
+            android:layout_marginBottom="@dimen/spacing_small_8"
             tools:text="@string/duration"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movie_name"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

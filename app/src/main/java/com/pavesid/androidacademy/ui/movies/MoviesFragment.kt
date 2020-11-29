@@ -65,12 +65,13 @@ class MoviesFragment : Fragment() {
     private fun initView() {
 
         binding.moviesRecycler.apply {
+            setHasFixedSize(true)
             layoutManager =
                 GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
             adapter = moviesAdapter
             addItemDecoration(
                 MoviesItemDecoration(
-                    spaceSize = resources.getDimensionPixelSize(R.dimen.spacing_small_8),
+                    spaceSize = resources.getDimensionPixelSize(R.dimen.spacing_normal_16),
                     bigSpaceSize = resources.getDimensionPixelSize(R.dimen.spacing_nav_48),
                     gridSize = resources.getInteger(R.integer.grid_count)
                 )

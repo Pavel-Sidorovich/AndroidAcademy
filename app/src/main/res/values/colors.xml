@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#FFFFFFFF</color>
-    <color name="selected">#FF3365</color>
-    <color name="no_selected">#6D6D80</color>
-    <color name="background">#191926</color>
+    <color name="white_color">#FFFFFFFF</color>
+    <color name="selected_color">#FF3365</color>
+    <color name="no_selected_color">#6D6D80</color>
+    <color name="background_color">#191926</color>
     <color name="actor_name_text_color">#D8D8D8</color>
+    <color name="border_color">#80636375</color>
 </resources>

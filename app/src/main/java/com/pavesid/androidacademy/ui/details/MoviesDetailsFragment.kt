@@ -1,5 +1,6 @@
 package com.pavesid.androidacademy.ui.details
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -65,7 +66,8 @@ class MoviesDetailsFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        mainActivity.window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.background_color)
+        mainActivity.window.statusBarColor =
+            ContextCompat.getColor(requireContext(), R.color.background_color)
     }
 
     override fun onDestroy() {
@@ -101,7 +103,8 @@ class MoviesDetailsFragment : Fragment() {
         binding.collapsingToolbar.title = preview.name
         binding.detailsTag.text = preview.tags.joinToString()
         binding.detailsRating.rating = preview.rating.toFloat()
-        binding.detailsReviews.text = resources.getQuantityString(R.plurals.review, preview.reviews, preview.reviews)
+        binding.detailsReviews.text =
+            resources.getQuantityString(R.plurals.review, preview.reviews, preview.reviews)
 
         binding.detailsRectangle.text = getString(R.string.pg, preview.pg)
     }
@@ -160,6 +163,24 @@ class MoviesDetailsFragment : Fragment() {
                 )
             )
         }
+
+        val param = binding.scrollView.layoutParams as ViewGroup.MarginLayoutParams
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            param.setMargins(
+                0,
+                0,
+                -resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
+                0
+            )
+        } else {
+            param.setMargins(
+                0,
+                0,
+                0,
+                0
+            )
+        }
+        binding.scrollView.layoutParams = param
 
         val point = Utils.getNavigationBarSize(requireContext())
 

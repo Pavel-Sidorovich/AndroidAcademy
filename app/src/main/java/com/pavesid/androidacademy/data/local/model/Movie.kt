@@ -1,7 +1,8 @@
 package com.pavesid.androidacademy.data.local.model
 
 data class Movie(
-    val title: String,
+    val id: Int,
     val image: String,
-    val actors: List<Actor>
+    val actors: List<Actor>,
+    val storyline: String
 )

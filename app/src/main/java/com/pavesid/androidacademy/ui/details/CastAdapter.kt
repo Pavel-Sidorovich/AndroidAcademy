@@ -13,6 +13,7 @@ import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.local.model.Actor
 
+// TODO add first and last another type with border like wall or smth. This would stop rotation our cast
 internal class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Actor>() {

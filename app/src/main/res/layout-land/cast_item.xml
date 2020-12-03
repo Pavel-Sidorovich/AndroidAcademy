@@ -3,7 +3,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="@dimen/spacing_extra_extra_large_48"
+    android:paddingBottom="@dimen/spacing_extra_extra_large_48">
 
     <ImageView
         android:id="@+id/image_cast"

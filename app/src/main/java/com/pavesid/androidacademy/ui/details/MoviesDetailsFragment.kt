@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -33,6 +36,14 @@ class MoviesDetailsFragment : Fragment() {
     private val mainActivity by lazy { activity as MainActivity }
 
     private val castAdapter by lazy { CastAdapter() }
+
+    private val layoutManager by lazy {
+        LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+    }
 
     private var movieId = 0
 
@@ -142,6 +153,37 @@ class MoviesDetailsFragment : Fragment() {
                 Status.LOADING -> binding.progressMovie.visibility = View.VISIBLE
             }
         }
+
+        animateRecycler()
+    }
+
+    private fun animateRecycler() {
+        var prev = 0.0
+        mainActivity.angle.observe(viewLifecycleOwner) {
+            val rotate = RotateAnimation(
+                prev.toFloat() % 45,
+                it.toFloat() % 45,
+                Animation.RELATIVE_TO_SELF,
+                0.5f,
+                Animation.RELATIVE_TO_SELF,
+                0f
+            )
+            rotate.interpolator = LinearInterpolator()
+            rotate.duration = 100
+            rotate.fillAfter = true
+            rotate.isFillEnabled = true
+
+            val first = layoutManager.findFirstVisibleItemPosition()
+            val last = layoutManager.findLastVisibleItemPosition()
+
+            if (first != -1 && last != -1) {
+                for (i in first..last) {
+                    val view = layoutManager.findViewByPosition(i)
+                    view?.startAnimation(rotate)
+                }
+                prev = it
+            }
+        }
     }
 
     private fun initView() {
@@ -150,11 +192,7 @@ class MoviesDetailsFragment : Fragment() {
         binding.detailsHeading.setShaderForGradient()
 
         binding.detailsCastRecycler.apply {
-            layoutManager = LinearLayoutManager(
-                requireContext(),
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
+            layoutManager = this@MoviesDetailsFragment.layoutManager
             adapter = castAdapter
             addItemDecoration(
                 CastItemDecoration(

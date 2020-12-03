@@ -2,6 +2,7 @@
 <resources>
     <!-- Spacing -->
     <dimen name="spacing_nav_48">48dp</dimen>
+    <dimen name="spacing_extra_extra_large_48">48dp</dimen>
     <dimen name="spacing_extra_large_36">36dp</dimen>
     <dimen name="spacing_large_24">24dp</dimen>
     <dimen name="spacing_normal_16">16dp</dimen>

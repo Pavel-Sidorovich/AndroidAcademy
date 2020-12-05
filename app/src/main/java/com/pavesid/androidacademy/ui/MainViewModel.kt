@@ -8,10 +8,9 @@ import com.pavesid.androidacademy.data.local.FakeRepository
 import com.pavesid.androidacademy.data.local.model.Movie
 import com.pavesid.androidacademy.data.local.model.MoviePreview
 import com.pavesid.androidacademy.utils.Resource
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MainViewModel() : ViewModel() {
+class MainViewModel : ViewModel() {
 
     private val _moviesPreview = MutableLiveData<Resource<List<MoviePreview>>>()
     val moviesPreview: LiveData<Resource<List<MoviePreview>>> = _moviesPreview
@@ -22,7 +21,7 @@ class MainViewModel() : ViewModel() {
     init {
         viewModelScope.launch {
             _moviesPreview.postValue(Resource.loading(null))
-            delay(2000L)
+//            delay(2000L)
             _moviesPreview.postValue(Resource.success(FakeRepository.getAllPreviews()))
         }
     }
@@ -30,7 +29,7 @@ class MainViewModel() : ViewModel() {
     fun getMovie(id: Int) {
         viewModelScope.launch {
             _movie.postValue(Resource.loading(null))
-            delay(2000)
+//            delay(2000)
             _movie.postValue(Resource.success(FakeRepository.getMovieById(id)))
         }
     }

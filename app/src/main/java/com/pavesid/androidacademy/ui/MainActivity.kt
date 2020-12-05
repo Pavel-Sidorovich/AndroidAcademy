@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Display
 import android.view.MenuItem
 import android.view.Surface
@@ -31,11 +32,6 @@ class MainActivity : AppCompatActivity(), MoviesFragment.Listener, SensorEventLi
 
     private val sensorManager by lazy { getSystemService(SENSOR_SERVICE) as SensorManager }
 
-    private val defaultMagnetometer: Sensor? by lazy {
-        sensorManager.getDefaultSensor(
-            TYPE_MAGNETIC_FIELD
-        )
-    }
     private val defaultAccelerometer: Sensor? by lazy {
         sensorManager.getDefaultSensor(
             TYPE_ACCELEROMETER
@@ -125,11 +121,14 @@ class MainActivity : AppCompatActivity(), MoviesFragment.Listener, SensorEventLi
                 round(Math.toDegrees(atan2(gravity[0].toDouble(), gravity[1].toDouble()))) + 90
             else -> round(Math.toDegrees(atan2(gravity[0].toDouble(), gravity[1].toDouble())))
         }
+
+        Log.d("Tag", rotation.toString())
         rotation = when (rotation) {
             in 20.0..Double.MAX_VALUE -> 20.0
-            in Double.NEGATIVE_INFINITY..-20.0 -> -20.0
+            in -Double.MAX_VALUE..-20.0 -> -20.0
             else -> rotation
         }
+        Log.d("Tag_2", rotation.toString())
 
         _angle.postValue(rotation)
     }
@@ -143,9 +142,6 @@ class MainActivity : AppCompatActivity(), MoviesFragment.Listener, SensorEventLi
     }
 
     private fun initListeners() {
-        defaultMagnetometer?.let {
-            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
-        }
         defaultAccelerometer?.let {
             sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
         }

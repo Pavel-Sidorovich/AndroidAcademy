@@ -1,10 +1,9 @@
 package com.pavesid.androidacademy.ui.movies
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
@@ -14,12 +13,11 @@ import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.ui.MainViewModel
 import com.pavesid.androidacademy.utils.Status
+import com.pavesid.androidacademy.utils.viewBinding
 
-class MoviesFragment : Fragment() {
+class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
-    private var _binding: FragmentMoviesBinding? = null
-    private val binding: FragmentMoviesBinding
-        get() = _binding!!
+    private val binding: FragmentMoviesBinding by viewBinding(FragmentMoviesBinding::bind)
 
     private val mainActivity by lazy { activity as MainActivity }
 
@@ -35,24 +33,23 @@ class MoviesFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentMoviesBinding.inflate(layoutInflater)
+    override fun onStart() {
+        super.onStart()
+        mainActivity.window.statusBarColor =
+            ContextCompat.getColor(requireContext(), R.color.background_color)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initActionBar()
         initView()
         subscribeToObservers()
-
-        return binding.root
     }
 
     override fun onDestroy() {
         super.onDestroy()
         listener = null
-        _binding = null
     }
 
     private fun initActionBar() {

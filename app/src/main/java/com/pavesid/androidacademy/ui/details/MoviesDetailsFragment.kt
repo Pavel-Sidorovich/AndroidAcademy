@@ -4,14 +4,12 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
@@ -26,12 +24,11 @@ import com.pavesid.androidacademy.ui.MainViewModel
 import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.utils.Utils
 import com.pavesid.androidacademy.utils.setShaderForGradient
+import com.pavesid.androidacademy.utils.viewBinding
 
-class MoviesDetailsFragment : Fragment() {
+class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
 
-    private var _binding: FragmentMoviesDetailsBinding? = null
-    private val binding: FragmentMoviesDetailsBinding
-        get() = _binding!!
+    private val binding: FragmentMoviesDetailsBinding by viewBinding(FragmentMoviesDetailsBinding::bind)
 
     private val mainActivity by lazy { activity as MainActivity }
 
@@ -57,33 +54,19 @@ class MoviesDetailsFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentMoviesDetailsBinding.inflate(layoutInflater)
-
-        mainActivity.window.statusBarColor = Color.TRANSPARENT
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         savedInstanceState ?: viewModel.getMovie(movieId)
 
         subscribeToObservers()
         initActionBar()
         initView()
-
-        return binding.root
     }
 
-    override fun onStop() {
-        super.onStop()
-        mainActivity.window.statusBarColor =
-            ContextCompat.getColor(requireContext(), R.color.background_color)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    override fun onStart() {
+        super.onStart()
+        mainActivity.window.statusBarColor = Color.TRANSPARENT
     }
 
     private fun initActionBar() {
@@ -161,15 +144,15 @@ class MoviesDetailsFragment : Fragment() {
         var prev = 0.0
         mainActivity.angle.observe(viewLifecycleOwner) {
             val rotate = RotateAnimation(
-                prev.toFloat() % 45,
-                it.toFloat() % 45,
+                prev.toFloat(),
+                it.toFloat(),
                 Animation.RELATIVE_TO_SELF,
                 0.5f,
                 Animation.RELATIVE_TO_SELF,
                 0f
             )
             rotate.interpolator = LinearInterpolator()
-            rotate.duration = 100
+            rotate.duration = 250
             rotate.fillAfter = true
             rotate.isFillEnabled = true
 

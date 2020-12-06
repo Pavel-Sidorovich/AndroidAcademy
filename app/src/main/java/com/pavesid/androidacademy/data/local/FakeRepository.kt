@@ -3,7 +3,6 @@ package com.pavesid.androidacademy.data.local
 import com.pavesid.androidacademy.data.local.model.Actor
 import com.pavesid.androidacademy.data.local.model.Movie
 import com.pavesid.androidacademy.data.local.model.MoviePreview
-import java.util.*
 
 object FakeRepository : MoviesRepository {
 

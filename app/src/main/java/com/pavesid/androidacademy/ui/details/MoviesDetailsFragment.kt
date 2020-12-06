@@ -65,7 +65,6 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
 
     private val sensorManager by lazy { requireContext().getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager }
 
-    // System display. Need this for determining rotation.
     private val thisDisplay: Display? by lazy {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             (requireContext().getSystemService(AppCompatActivity.WINDOW_SERVICE) as WindowManager).defaultDisplay

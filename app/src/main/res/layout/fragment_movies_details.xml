@@ -19,6 +19,7 @@
             app:contentScrim="?attr/colorPrimary"
             android:fitsSystemWindows="true"
             tools:title="@string/name"
+            app:maxLines="2"
             app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
             app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">

@@ -13,9 +13,10 @@ import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.local.model.MoviePreview
 import com.pavesid.androidacademy.utils.setShaderForGradient
+import java.util.*
 
 internal class MoviesAdapter(private val listener: (Int) -> Unit) :
-    RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
+    RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(), ItemTouchHelperAdapter {
 
     private val diffCallback = object : DiffUtil.ItemCallback<MoviePreview>() {
         override fun areItemsTheSame(oldItem: MoviePreview, newItem: MoviePreview): Boolean =
@@ -46,6 +47,28 @@ internal class MoviesAdapter(private val listener: (Int) -> Unit) :
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) =
         holder.bind(moviePreview = movies[position])
 
+    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        val mutableMovies = movies.toMutableList()
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(mutableMovies, i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(mutableMovies, i, i - 1)
+            }
+        }
+        movies = mutableMovies
+
+        return true
+    }
+
+    override fun onItemDismiss(position: Int) {
+        val mutableMovies = movies.toMutableList()
+        mutableMovies.removeAt(position)
+        movies = mutableMovies
+    }
+
     class MoviesViewHolder(itemView: View, private val listener: (Int) -> Unit) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
@@ -68,7 +91,7 @@ internal class MoviesAdapter(private val listener: (Int) -> Unit) :
             id = moviePreview.id
             pg.text = itemView.context.getString(R.string.pg, moviePreview.pg)
             origImage.load(moviePreview.image) {
-                transformations(RoundedCornersTransformation(8f, 8f, 0f, 0f))
+                transformations(RoundedCornersTransformation(12f, 12f, 0f, 0f))
             }
             tags.text = moviePreview.tags.joinToString()
             rating.rating = moviePreview.rating.toFloat()

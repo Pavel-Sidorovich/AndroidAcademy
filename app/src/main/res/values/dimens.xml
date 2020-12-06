@@ -22,4 +22,5 @@
     <dimen name="movie_radius_8">8dp</dimen>
     <dimen name="movies_aim_width">16dp</dimen>
     <dimen name="movies_aim_height">16dp</dimen>
+    <dimen name="border_size">1dp</dimen>
 </resources>

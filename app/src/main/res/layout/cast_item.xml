@@ -11,6 +11,7 @@
         android:id="@+id/image_cast"
         android:layout_width="@dimen/ci_image_80"
         android:layout_height="@dimen/ci_image_80"
+        android:scaleType="centerCrop"
         tools:src="@drawable/ic_launcher_background"
         android:contentDescription="@string/cast_name" />
 

@@ -21,7 +21,6 @@ class MainViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             _moviesPreview.postValue(Resource.loading(null))
-//            delay(2000L)
             _moviesPreview.postValue(Resource.success(FakeRepository.getAllPreviews()))
         }
     }
@@ -29,7 +28,6 @@ class MainViewModel : ViewModel() {
     fun getMovie(id: Int) {
         viewModelScope.launch {
             _movie.postValue(Resource.loading(null))
-//            delay(2000)
             _movie.postValue(Resource.success(FakeRepository.getMovieById(id)))
         }
     }

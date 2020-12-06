@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.ui.MainActivity
@@ -21,15 +22,13 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     private val mainActivity by lazy { activity as MainActivity }
 
-    private var listener: Listener? = null
-
     private val moviesAdapter by lazy {
         MoviesAdapter {
             mainActivity.changeFragment(it)
-            // TODO
-            // listener?.changeFragmentById(it)
         }
     }
+
+    private val callback by lazy { MoviesItemTouchHelper(moviesAdapter) }
 
     private val viewModel: MainViewModel by activityViewModels()
 
@@ -47,11 +46,6 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         subscribeToObservers()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        listener = null
-    }
-
     private fun initActionBar() {
         mainActivity.apply {
             setSupportActionBar(binding.toolbar)
@@ -66,14 +60,16 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
             layoutManager =
                 GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
             adapter = moviesAdapter
+
             addItemDecoration(
                 MoviesItemDecoration(
-                    spaceSize = resources.getDimensionPixelSize(R.dimen.spacing_normal_16),
-                    bigSpaceSize = resources.getDimensionPixelSize(R.dimen.spacing_nav_48),
-                    gridSize = resources.getInteger(R.integer.grid_count)
+                    spaceSize = resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
                 )
             )
         }
+
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(binding.moviesRecycler)
     }
 
     private fun subscribeToObservers() {
@@ -92,13 +88,5 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
                 Status.LOADING -> binding.progress.visibility = View.VISIBLE
             }
         }
-    }
-
-    fun setListener(l: Listener) {
-        listener = l
-    }
-
-    interface Listener {
-        fun changeFragmentById(id: Int)
     }
 }

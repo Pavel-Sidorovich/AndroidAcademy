@@ -4,7 +4,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-internal class MoviesItemDecoration(private val spaceSize: Int, private val bigSpaceSize: Int, private val gridSize: Int) :
+internal class MoviesItemDecoration(private val spaceSize: Int) :
     RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
@@ -12,16 +12,10 @@ internal class MoviesItemDecoration(private val spaceSize: Int, private val bigS
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        val count = (parent.adapter?.itemCount ?: 1) - 1
-        val lastIndexInNotLastLine = (count / gridSize) * gridSize
         with(outRect) {
             right = spaceSize / 2
             left = spaceSize / 2
-            val position = parent.getChildAdapterPosition(view)
-            bottom =
-                if (position >= lastIndexInNotLastLine) {
-                    bigSpaceSize
-                } else spaceSize
+            bottom = spaceSize
         }
     }
 }

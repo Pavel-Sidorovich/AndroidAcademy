@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.pavesid.androidacademy.R
@@ -73,20 +72,24 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
     }
 
     private fun subscribeToObservers() {
-        viewModel.moviesPreview.observe(viewLifecycleOwner) { resource ->
-            when (resource.status) {
-                Status.SUCCESS -> {
-                    binding.progress.visibility = View.GONE
-                    resource.data?.let { previews ->
-                        moviesAdapter.movies = previews
+        viewModel.moviesPreview.observe(
+            viewLifecycleOwner,
+            { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        binding.progress.visibility = View.GONE
+                        resource.data?.let { previews ->
+                            moviesAdapter.movies = previews
+                        }
                     }
+                    Status.ERROR -> {
+                        binding.progress.visibility = View.GONE
+                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    Status.LOADING -> binding.progress.visibility = View.VISIBLE
                 }
-                Status.ERROR -> {
-                    binding.progress.visibility = View.GONE
-                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
-                }
-                Status.LOADING -> binding.progress.visibility = View.VISIBLE
             }
-        }
+        )
     }
 }

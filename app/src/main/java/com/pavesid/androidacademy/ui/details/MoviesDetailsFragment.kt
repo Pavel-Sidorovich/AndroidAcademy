@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.pavesid.androidacademy.R
@@ -198,38 +197,46 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun subscribeToObservers() {
-        viewModel.moviesPreview.observe(viewLifecycleOwner) { resource ->
-            when (resource.status) {
-                Status.SUCCESS -> {
-                    binding.progress.visibility = View.GONE
-                    resource.data?.let { previews ->
-                        initPreview(previews[movieId])
-                    }
-                }
-                Status.ERROR -> {
-                    binding.progress.visibility = View.GONE
-                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
-                }
-                Status.LOADING -> binding.progress.visibility = View.VISIBLE
-            }
-        }
-        viewModel.movie.observe(viewLifecycleOwner) { resource ->
-            when (resource.status) {
-                Status.SUCCESS -> {
-                    resource.data?.let { movie ->
-                        if (movie.id == movieId % 4) { // TODO change 4 later
-                            binding.progressMovie.visibility = View.GONE
-                            initMovie(movie)
+        viewModel.moviesPreview.observe(
+            viewLifecycleOwner,
+            { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        binding.progress.visibility = View.GONE
+                        resource.data?.let { previews ->
+                            initPreview(previews[movieId])
                         }
                     }
+                    Status.ERROR -> {
+                        binding.progress.visibility = View.GONE
+                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    Status.LOADING -> binding.progress.visibility = View.VISIBLE
                 }
-                Status.ERROR -> {
-                    binding.progressMovie.visibility = View.GONE
-                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
-                }
-                Status.LOADING -> binding.progressMovie.visibility = View.VISIBLE
             }
-        }
+        )
+        viewModel.movie.observe(
+            viewLifecycleOwner,
+            { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        resource.data?.let { movie ->
+                            if (movie.id == movieId % 4) { // TODO change 4 later
+                                binding.progressMovie.visibility = View.GONE
+                                initMovie(movie)
+                            }
+                        }
+                    }
+                    Status.ERROR -> {
+                        binding.progressMovie.visibility = View.GONE
+                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    Status.LOADING -> binding.progressMovie.visibility = View.VISIBLE
+                }
+            }
+        )
     }
 
     private fun animateRecycler(prev: Int, current: Int) {

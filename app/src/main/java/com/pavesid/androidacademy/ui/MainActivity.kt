@@ -33,6 +33,12 @@ class MainActivity : AppCompatActivity() {
     fun changeFragment(id: Int) {
         val detailFragment = MoviesDetailsFragment.newInstance(id)
         supportFragmentManager.beginTransaction().apply {
+            setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out
+            )
             add(R.id.container, detailFragment, null)
             addToBackStack(null)
             commit()

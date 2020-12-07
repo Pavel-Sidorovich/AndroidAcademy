@@ -13,7 +13,7 @@ import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.local.model.MoviePreview
 import com.pavesid.androidacademy.utils.setShaderForGradient
-import java.util.*
+import java.util.Collections
 
 internal class MoviesAdapter(private val listener: (Int) -> Unit) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(), ItemTouchHelperAdapter {

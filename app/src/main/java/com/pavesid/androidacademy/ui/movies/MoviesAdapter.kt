@@ -91,6 +91,7 @@ internal class MoviesAdapter(private val listener: (Int) -> Unit) :
             id = moviePreview.id
             pg.text = itemView.context.getString(R.string.pg, moviePreview.pg)
             origImage.load(moviePreview.image) {
+                crossfade(true)
                 transformations(RoundedCornersTransformation(12f, 12f, 0f, 0f))
             }
             tags.text = moviePreview.tags.joinToString()

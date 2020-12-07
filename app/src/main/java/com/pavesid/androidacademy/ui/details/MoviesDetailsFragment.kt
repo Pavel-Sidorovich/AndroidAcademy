@@ -177,9 +177,13 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
                     requireActivity().assets.open("orig.png"),
                     null
                 )
-            )
+            ) {
+                crossfade(true)
+            }
         } else {
-            binding.detailsOrig.load(movie.image)
+            binding.detailsOrig.load(movie.image) {
+                crossfade(true)
+            }
         }
         binding.detailsStoryline.text = movie.storyline
         castAdapter.actors = movie.actors

@@ -50,6 +50,7 @@ internal class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() 
         fun bind(actor: Actor) {
             name.text = actor.name
             image.load(actor.imageSrc) {
+                crossfade(true)
                 transformations(RoundedCornersTransformation(8f))
             }
         }

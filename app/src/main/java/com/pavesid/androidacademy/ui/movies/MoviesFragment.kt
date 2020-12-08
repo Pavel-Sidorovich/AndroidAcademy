@@ -3,7 +3,6 @@ package com.pavesid.androidacademy.ui.movies
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,6 +12,7 @@ import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.ui.MainViewModel
 import com.pavesid.androidacademy.utils.Status
+import com.pavesid.androidacademy.utils.Utils.getColorFromAttr
 import com.pavesid.androidacademy.utils.viewBinding
 
 class MoviesFragment : Fragment(R.layout.fragment_movies) {
@@ -33,8 +33,10 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     override fun onStart() {
         super.onStart()
-        mainActivity.window.statusBarColor =
-            ContextCompat.getColor(requireContext(), R.color.background_color)
+        mainActivity.window.statusBarColor = getColorFromAttr(
+            R.attr.backgroundColor,
+            requireContext().theme
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -2,10 +2,29 @@
     <!-- Base application theme. -->
     <style name="Theme.AndroidAcademy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/background_color</item>
-        <item name="colorPrimaryDark">@color/background_color</item>
+        <item name="colorPrimary">@color/background_color_light</item>
+        <item name="colorPrimaryDark">@color/background_color_light</item>
 
-<!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
+        <item name="colorBackground">@color/background_color_light</item>
+        <item name="colorActorNameText">@color/actor_name_text_color_light</item>
+        <item name="colorText">@color/text_color_light</item>
+        <item name="colorSelected">@color/selected_color</item>
+        <item name="colorNoSelected">@color/no_selected_color_light</item>
+        <item name="colorBorder">@color/border_color_light</item>
+        <item name="colorPrimaryBW">@color/black_color</item>
+        <item name="colorStartBackground">@color/start_background_color_light</item>
+        <item name="colorMiddleTextView">@color/middle_color_light</item>
+        <item name="colorEndBackground">@color/end_background_color_light</item>
+
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
+        <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
         <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <!-- Style for the navigation drawer icon -->
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">#00FF00</item>
     </style>
 </resources>

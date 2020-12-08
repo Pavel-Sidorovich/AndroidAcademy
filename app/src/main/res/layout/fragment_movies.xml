@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.movies.MoviesFragment"
-    android:background="@color/background_color">
+    android:background="?attr/colorBackground">
 
    <androidx.appcompat.widget.Toolbar
        android:id="@+id/toolbar"
        android:layout_width="match_parent"
        android:layout_height="?attr/actionBarSize"
-       android:background="?attr/colorPrimary"
        android:theme="@style/AppTheme.PopupOverlay"
        app:popupTheme="@style/AppTheme.PopupOverlay"
        android:layout_marginTop="@dimen/spacing_extra_large_36"
@@ -32,7 +31,7 @@
           android:layout_height="wrap_content"
           android:gravity="center"
           android:text="@string/movies"
-          android:textColor="@android:color/white"
+          android:textColor="?attr/colorPrimaryBW"
           android:textSize="14sp"
           android:textStyle="bold" />
    </androidx.appcompat.widget.Toolbar>

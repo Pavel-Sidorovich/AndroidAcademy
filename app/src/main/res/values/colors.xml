@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white_color">#FFFFFFFF</color>
+    <color name="white_color">#FFFFFF</color>
+    <color name="black_color">#000000</color>
     <color name="selected_color">#FF3365</color>
     <color name="no_selected_color">#6D6D80</color>
+    <color name="no_selected_color_light">#92927f</color>
     <color name="background_color">#191926</color>
+    <color name="background_color_light">#E6E6D9</color>
     <color name="actor_name_text_color">#D8D8D8</color>
+    <color name="actor_name_text_color_light">#272727</color>
+    <color name="text_color">#ECECEC</color>
+    <color name="text_color_light">#131313</color>
     <color name="border_color">#80636375</color>
+    <color name="border_color_light">#809C9C8A</color>
+    <color name="start_background_color">#FD404056</color>
+    <color name="start_background_color_light">#FDBFBFA9</color>
+    <color name="end_background_color">#222232</color>
+    <color name="end_background_color_light">#DDDDCD</color>
+    <color name="middle_color">#C4C4C4</color>
+    <color name="middle_color_light">#3B3B3B</color>
 </resources>

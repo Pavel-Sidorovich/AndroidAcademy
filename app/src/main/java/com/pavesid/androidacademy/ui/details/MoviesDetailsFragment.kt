@@ -175,7 +175,7 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
             }
         }
         binding.detailsStoryline.text = movie.storyline
-        castAdapter.actors = movie.actors
+        castAdapter.setData(movie.actors)
     }
 
     private fun initPreview(preview: MoviePreview) {

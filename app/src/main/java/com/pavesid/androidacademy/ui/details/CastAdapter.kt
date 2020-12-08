@@ -5,8 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
@@ -15,19 +13,7 @@ import com.pavesid.androidacademy.data.local.model.Actor
 
 internal class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Actor>() {
-        override fun areItemsTheSame(oldItem: Actor, newItem: Actor): Boolean =
-            oldItem.name == newItem.name
-
-        override fun areContentsTheSame(oldItem: Actor, newItem: Actor): Boolean =
-            oldItem.hashCode() == newItem.hashCode()
-    }
-
-    private val differ = AsyncListDiffer(this, diffCallback)
-
-    var actors: List<Actor>
-        get() = differ.currentList
-        set(value) = differ.submitList(value)
+    private var actors: List<Actor> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder =
         CastViewHolder(
@@ -38,9 +24,15 @@ internal class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() 
             )
         )
 
-    override fun onBindViewHolder(holder: CastViewHolder, position: Int) = holder.bind(actor = actors[position])
+    override fun onBindViewHolder(holder: CastViewHolder, position: Int) =
+        holder.bind(actor = actors[position])
 
     override fun getItemCount(): Int = actors.size
+
+    fun setData(data: List<Actor>) {
+        actors = data
+        notifyDataSetChanged()
+    }
 
     inner class CastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

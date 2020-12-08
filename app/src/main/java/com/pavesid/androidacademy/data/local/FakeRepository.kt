@@ -113,7 +113,7 @@ object FakeRepository : MoviesRepository {
                             imageSrc = "https://upload.wikimedia.org/wikipedia/commons/d/d9/Robin_Wright_Cannes_2017_%28cropped%29.jpg"
                         )
                     ),
-                    storyline = "Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah."
+                    storyline = "Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah.Fast forward to the 1980s as Wonder Woman's next big screen adventure finds her facing two all-new foes: Max Lord and The Cheetah."
                 )
         }
     }
@@ -121,118 +121,70 @@ object FakeRepository : MoviesRepository {
     /**
      * Return all previews for our movies
      */
-    override fun getAllPreviews(): List<MoviePreview> = listOf(
-        MoviePreview(
-            id = 0,
-            image = "https://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg",
-            name = "Avengers: End Game \n Avengers: End Game",
-            rating = 4,
-            pg = 13,
-            reviews = 135,
-            duration = 137,
-            tags = listOf(
-                "Action",
-                "Adventure",
-                "Fantasy"
+    override fun getAllPreviews(): List<MoviePreview> {
+        val mutableList = ArrayList<MoviePreview>()
+        for (i in 0 until 3) {
+            mutableList.addAll(
+                listOf(
+                    MoviePreview(
+                        id = 4 * i,
+                        image = "https://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg",
+                        name = "Avengers: End Game",
+                        rating = 4,
+                        pg = 13,
+                        reviews = 135,
+                        duration = 137,
+                        tags = listOf(
+                            "Action",
+                            "Adventure",
+                            "Fantasy"
+                        )
+                    ),
+                    MoviePreview(
+                        id = 4 * i + 1,
+                        image = "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
+                        name = "Tenet",
+                        rating = 5,
+                        pg = 16,
+                        reviews = 98,
+                        duration = 97,
+                        tags = listOf(
+                            "Action",
+                            "Sci-Fi",
+                            "Thriller"
+                        )
+                    ),
+                    MoviePreview(
+                        id = 4 * i + 2,
+                        image = "https://terrigen-cdn-dev.marvel.com/content/prod/1x/blackwidow_lob_crd_04.jpg",
+                        name = "Black Widow",
+                        rating = 4,
+                        pg = 13,
+                        reviews = 38,
+                        duration = 102,
+                        tags = listOf(
+                            "Action",
+                            "Adventure",
+                            "Sci-Fi"
+                        )
+                    ),
+                    MoviePreview(
+                        id = 4 * i + 3,
+                        image = "https://upload.wikimedia.org/wikipedia/ru/6/67/Wonder_Woman_1984_%28poster%29.jpg",
+                        name = "Wonder Woman 1984",
+                        rating = 5,
+                        pg = 13,
+                        reviews = 74,
+                        duration = 120,
+                        tags = listOf(
+                            "Action",
+                            "Adventure",
+                            "Fantasy"
+                        )
+                    )
+                )
             )
-        ),
-        MoviePreview(
-            id = 1,
-            image = "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
-            name = "Tenet",
-            rating = 5,
-            pg = 16,
-            reviews = 98,
-            duration = 97,
-            tags = listOf(
-                "Action",
-                "Sci-Fi",
-                "Thriller"
-            )
-        ),
-        MoviePreview(
-            id = 2,
-            image = "https://terrigen-cdn-dev.marvel.com/content/prod/1x/blackwidow_lob_crd_04.jpg",
-            name = "Black Widow",
-            rating = 4,
-            pg = 13,
-            reviews = 38,
-            duration = 102,
-            tags = listOf(
-                "Action",
-                "Adventure",
-                "Sci-Fi"
-            )
-        ),
-        MoviePreview(
-            id = 3,
-            image = "https://upload.wikimedia.org/wikipedia/ru/6/67/Wonder_Woman_1984_%28poster%29.jpg",
-            name = "Wonder Woman 1984",
-            rating = 5,
-            pg = 13,
-            reviews = 74,
-            duration = 120,
-            tags = listOf(
-                "Action",
-                "Adventure",
-                "Fantasy"
-            )
-        ),
-        MoviePreview(
-            id = 4,
-            image = "https://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg",
-            name = "Avengers: End Game",
-            rating = 4,
-            pg = 13,
-            reviews = 135,
-            duration = 137,
-            tags = listOf(
-                "Action",
-                "Adventure",
-                "Fantasy"
-            )
-        ),
-        MoviePreview(
-            id = 5,
-            image = "https://upload.wikimedia.org/wikipedia/en/1/14/Tenet_movie_poster.jpg",
-            name = "Tenet",
-            rating = 5,
-            pg = 16,
-            reviews = 98,
-            duration = 97,
-            tags = listOf(
-                "Action",
-                "Sci-Fi",
-                "Thriller"
-            )
-        ),
-        MoviePreview(
-            id = 6,
-            image = "https://terrigen-cdn-dev.marvel.com/content/prod/1x/blackwidow_lob_crd_04.jpg",
-            name = "Black Widow",
-            rating = 4,
-            pg = 13,
-            reviews = 38,
-            duration = 102,
-            tags = listOf(
-                "Action",
-                "Adventure",
-                "Sci-Fi"
-            )
-        ),
-        MoviePreview(
-            id = 7,
-            image = "https://upload.wikimedia.org/wikipedia/ru/6/67/Wonder_Woman_1984_%28poster%29.jpg",
-            name = "Wonder Woman 1984",
-            rating = 5,
-            pg = 13,
-            reviews = 74,
-            duration = 120,
-            tags = listOf(
-                "Action",
-                "Adventure",
-                "Fantasy"
-            )
-        )
-    )
+        }
+        return mutableList
+    }
 }

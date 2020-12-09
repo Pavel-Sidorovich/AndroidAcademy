@@ -162,7 +162,7 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     private fun initMovie() {
         movie?.let { movie ->
             if (movie.poster.isNotBlank()) {
-                binding.detailsOrig.load(movie.poster) {
+                binding.detailsOrig.load(movie.backdrop) {
                     crossfade(true)
                 }
             }

@@ -83,7 +83,7 @@
         android:layout_height="@dimen/movie_height_rating_10"
         android:layout_marginStart="@dimen/spacing_extra_small_4"
         android:max="5"
-        android:stepSize="1"
+        android:stepSize="0.1"
         android:theme="@style/RatingBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/movie_tag"

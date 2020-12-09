@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
-import com.pavesid.androidacademy.data.local.model.Actor
+import com.pavesid.androidacademy.data.Actor
 
 internal class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
 
@@ -41,7 +41,7 @@ internal class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() 
 
         fun bind(actor: Actor) {
             name.text = actor.name
-            image.load(actor.imageSrc) {
+            image.load(actor.picture) {
                 crossfade(true)
                 transformations(RoundedCornersTransformation(8f))
             }

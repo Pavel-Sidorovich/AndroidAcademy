@@ -17,7 +17,7 @@
     <style name="Tag" parent="TextSize14">
         <item name="android:textColor">?attr/colorSelected</item>
         <item name="android:alpha">0.75</item>
-        <item name="android:gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical|start</item>
         <item name="android:lineSpacingExtra">4sp</item>
     </style>
 

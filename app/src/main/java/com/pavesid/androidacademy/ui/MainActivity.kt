@@ -1,6 +1,7 @@
 package com.pavesid.androidacademy.ui
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.pavesid.androidacademy.R
@@ -30,8 +31,8 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun changeFragment(id: Int) {
-        val detailFragment = MoviesDetailsFragment.newInstance(id)
+    fun changeFragment(parcelable: Parcelable) {
+        val detailFragment = MoviesDetailsFragment.newInstance(parcelable)
         supportFragmentManager.beginTransaction().apply {
             setCustomAnimations(
                 R.anim.slide_in,

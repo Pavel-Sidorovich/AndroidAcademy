@@ -16,15 +16,7 @@
         <item name="colorMiddleTextView">@color/middle_color_light</item>
         <item name="colorEndBackground">@color/end_background_color_light</item>
 
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-
-        <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
         <item name="android:windowTranslucentNavigation">true</item>
-    </style>
-
-    <!-- Style for the navigation drawer icon -->
-    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">true</item>
-        <item name="color">#00FF00</item>
+        <item name="android:windowBackground">@color/background_color_light</item>
     </style>
 </resources>

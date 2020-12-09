@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.movies.MoviesFragment"
-    android:background="?attr/colorBackground">
+    tools:context=".ui.movies.MoviesFragment">
 
    <androidx.appcompat.widget.Toolbar
        android:id="@+id/toolbar"
@@ -13,7 +12,6 @@
        android:layout_height="?attr/actionBarSize"
        android:theme="@style/AppTheme.PopupOverlay"
        app:popupTheme="@style/AppTheme.PopupOverlay"
-       android:layout_marginTop="@dimen/spacing_extra_large_36"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintTop_toTopOf="parent">
@@ -40,9 +38,10 @@
        android:id="@+id/movies_recycler"
        android:layout_width="match_parent"
        android:layout_height="0dp"
-       android:layout_marginTop="@dimen/spacing_normal_16"
+       android:clipToPadding="false"
+       android:paddingTop="@dimen/spacing_normal_16"
+       android:paddingBottom="@dimen/spacing_extra_extra_large_48"
        android:layout_marginStart="@dimen/spacing_small_8"
-       android:layout_marginEnd="@dimen/spacing_small_8"
        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"

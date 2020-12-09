@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.Display
 import android.view.Surface
 import android.view.View
@@ -16,20 +17,15 @@ import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.pavesid.androidacademy.R
-import com.pavesid.androidacademy.data.local.model.Movie
-import com.pavesid.androidacademy.data.local.model.MoviePreview
+import com.pavesid.androidacademy.data.Movie
 import com.pavesid.androidacademy.databinding.FragmentMoviesDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
-import com.pavesid.androidacademy.ui.MainViewModel
-import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.utils.setShaderForGradient
 import com.pavesid.androidacademy.utils.viewBinding
 import kotlin.math.abs
@@ -70,13 +66,11 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
         }
     }
 
-    private val viewModel: MainViewModel by activityViewModels()
-
     private var angle by Delegates.observable(0) { _, oldValue, newValue ->
         animateRecycler(oldValue, newValue)
     }
 
-    private var movieId = 0
+    private var movie: Movie? = null
 
     private val eventListener: SensorEventListener = object : SensorEventListener {
 
@@ -101,16 +95,13 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         arguments?.let {
-            movieId = it.getInt(PARAM_ID)
+            movie = it.getParcelable(PARAM_PARCELABLE)
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        savedInstanceState ?: viewModel.getMovie(movieId)
-
-        subscribeToObservers()
         initActionBar()
         initView()
     }
@@ -168,68 +159,33 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
         }
     }
 
-    private fun initMovie(movie: Movie) {
-        if (movie.image.isNotBlank()) {
-            binding.detailsOrig.load(movie.image) {
-                crossfade(true)
+    private fun initMovie() {
+        movie?.let { movie ->
+            if (movie.poster.isNotBlank()) {
+                binding.detailsOrig.load(movie.poster) {
+                    crossfade(true)
+                }
+            }
+            if (movie.actors.isNotEmpty()) {
+                castAdapter.setData(movie.actors)
+            } else {
+                binding.detailsHeading.visibility = View.GONE
+            }
+
+            binding.apply {
+                detailsStoryline.text = movie.overview
+                collapsingToolbar.title = movie.title
+                detailsTag.text = movie.genres.joinToString { it.name }
+                detailsRating.rating = movie.ratings / 2
+                detailsReviews.text =
+                    resources.getQuantityString(
+                        R.plurals.review,
+                        movie.numberOfRatings,
+                        movie.numberOfRatings
+                    )
+                detailsRectangle.text = getString(R.string.pg, movie.minimumAge)
             }
         }
-        binding.detailsStoryline.text = movie.storyline
-        castAdapter.setData(movie.actors)
-    }
-
-    private fun initPreview(preview: MoviePreview) {
-
-        binding.collapsingToolbar.title = preview.name
-        binding.detailsTag.text = preview.tags.joinToString()
-        binding.detailsRating.rating = preview.rating.toFloat()
-        binding.detailsReviews.text =
-            resources.getQuantityString(R.plurals.review, preview.reviews, preview.reviews)
-
-        binding.detailsRectangle.text = getString(R.string.pg, preview.pg)
-    }
-
-    private fun subscribeToObservers() {
-        viewModel.moviesPreview.observe(
-            viewLifecycleOwner,
-            { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        binding.progress.visibility = View.GONE
-                        resource.data?.let { previews ->
-                            initPreview(previews[movieId])
-                        }
-                    }
-                    Status.ERROR -> {
-                        binding.progress.visibility = View.GONE
-                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    Status.LOADING -> binding.progress.visibility = View.VISIBLE
-                }
-            }
-        )
-        viewModel.movie.observe(
-            viewLifecycleOwner,
-            { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        resource.data?.let { movie ->
-                            if (movie.id == movieId % 4) { // TODO change 4 later
-                                binding.progressMovie.visibility = View.GONE
-                                initMovie(movie)
-                            }
-                        }
-                    }
-                    Status.ERROR -> {
-                        binding.progressMovie.visibility = View.GONE
-                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    Status.LOADING -> binding.progressMovie.visibility = View.VISIBLE
-                }
-            }
-        )
     }
 
     private fun animateRecycler(prev: Int, current: Int) {
@@ -251,6 +207,7 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun initView() {
+        initMovie()
         binding.detailsStorylineTitle.setShaderForGradient()
 
         binding.detailsHeading.setShaderForGradient()
@@ -288,15 +245,15 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     companion object {
         private const val ANGLE_DIVIDER = 5
         private const val MAX_ANGLE = 10
-        private const val PARAM_ID = "id"
+        private const val PARAM_PARCELABLE = "ParcelableElement"
 
         fun newInstance(
-            id: Int
+            parcelable: Parcelable
         ): MoviesDetailsFragment {
             val fragment =
                 MoviesDetailsFragment()
             val args = Bundle()
-            args.putInt(PARAM_ID, id)
+            args.putParcelable(PARAM_PARCELABLE, parcelable)
             fragment.arguments = args
             return fragment
         }

@@ -21,4 +21,12 @@ object MoviesModule {
     ) = MoviesItemDecoration(
         spaceSize = context.resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
     )
+
+//    @Provides
+//    @FragmentScoped
+//    fun provideMoviesRepository(
+//        @ApplicationContext context: Context
+//    ) =
+// //        MoviesRemoteRepository() as MoviesRepository
+//        FakeAssetsRepository(context) as MoviesRepository
 }

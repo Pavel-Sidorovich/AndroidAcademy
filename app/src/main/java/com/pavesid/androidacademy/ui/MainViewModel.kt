@@ -22,7 +22,7 @@ class MainViewModel @ViewModelInject constructor(
     val movies: LiveData<Resource<List<Movie>>> = _movies
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-
+        _movies.postValue(Resource.error(throwable.message ?: "", null))
         Timber.d(throwable)
     }
 

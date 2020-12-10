@@ -51,18 +51,18 @@ object AppDependencies {
     private const val timber = "com.jakewharton.timber:timber:${Versions.timber_version}"
 
     //Dagger - Hilt
-    private const val hilt_android = "com.google.dagger:hilt-android:${Versions.hilt_version}"
-    private const val hilt_android_compiler =
+    private const val hiltAndroid = "com.google.dagger:hilt-android:${Versions.hilt_version}"
+    private const val hiltAndroidCompiler =
         "com.google.dagger:hilt-android-compiler:${Versions.hilt_version}"
 
-    private const val hilt_lifecycle_viewmodel =
+    private const val hiltLifecycleViewmodel =
         "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_compiler_version}"
-    private const val hilt_compiler =
+    private const val hiltCompiler =
         "androidx.hilt:hilt-compiler:${Versions.hilt_compiler_version}"
 
     // Retrofit
     private const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit_version}"
-    private const val converter_gson =
+    private const val converterGson =
         "com.squareup.retrofit2:converter-gson:${Versions.retrofit_version}"
 
     //Test libs
@@ -88,13 +88,15 @@ object AppDependencies {
         add(leakcanary)
         add(serialization)
         add(timber)
-        add(hilt_android)
-        add(hilt_lifecycle_viewmodel)
+        add(hiltAndroid)
+        add(hiltLifecycleViewmodel)
+        add(retrofit2)
+        add(converterGson)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {
-        add(hilt_android_compiler)
-        add(hilt_compiler)
+        add(hiltAndroidCompiler)
+        add(hiltCompiler)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {

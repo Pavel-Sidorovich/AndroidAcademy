@@ -1,12 +1,10 @@
 package com.pavesid.androidacademy.di
 
-import android.content.Context
 import com.pavesid.androidacademy.repositories.MoviesRepository
-import com.pavesid.androidacademy.repositories.assets.FakeAssetsRepository
+import com.pavesid.androidacademy.repositories.remote.MoviesRemoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -16,7 +14,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideMoviesRepository(
-        @ApplicationContext context: Context
-    ) = FakeAssetsRepository(context) as MoviesRepository
+    fun provideMoviesRepository() =
+        MoviesRemoteRepository() as MoviesRepository // FakeAssetsRepository(context) as MoviesRepository
 }

@@ -28,6 +28,7 @@ import com.pavesid.androidacademy.databinding.FragmentMoviesDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.utils.setShaderForGradient
 import com.pavesid.androidacademy.utils.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.atan2
@@ -35,29 +36,27 @@ import kotlin.math.round
 import kotlin.math.sqrt
 import kotlin.properties.Delegates
 
+@AndroidEntryPoint
 class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_movies_details) {
 
     private val binding: FragmentMoviesDetailsBinding by viewBinding(FragmentMoviesDetailsBinding::bind)
 
     private val mainActivity by lazy { activity as MainActivity }
 
-    private val castAdapter by lazy { CastAdapter() }
+    @Inject
+    internal lateinit var castAdapter: CastAdapter
 
-    private val layoutManager by lazy {
-        LinearLayoutManager(
-            requireContext(),
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-    }
+    @Inject
+    lateinit var layoutManager: LinearLayoutManager
 
-    private val defaultAccelerometer: Sensor? by lazy {
-        sensorManager.getDefaultSensor(
-            Sensor.TYPE_ACCELEROMETER
-        )
-    }
+    @Inject
+    lateinit var sensorManager: SensorManager
 
-    private val sensorManager by lazy { requireContext().getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager }
+    @Inject
+    lateinit var defaultAccelerometer: Sensor
+
+    @Inject
+    internal lateinit var castItemDecoration: CastItemDecoration
 
     private val thisDisplay: Display? by lazy {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -147,7 +146,7 @@ class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_m
     }
 
     private fun initListeners() {
-        defaultAccelerometer?.let {
+        defaultAccelerometer.let {
             sensorManager.registerListener(eventListener, it, SensorManager.SENSOR_DELAY_UI)
         }
     }
@@ -209,23 +208,24 @@ class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_m
 
     private fun initView() {
         initMovie()
-        binding.detailsStorylineTitle.setShaderForGradient()
-
-        binding.detailsHeading.setShaderForGradient()
-
-        binding.detailsCastRecycler.apply {
-            layoutManager = this@MoviesDetailsFragment.layoutManager
-            adapter = castAdapter
-            addItemDecoration(
-                CastItemDecoration(
-                    spaceSize = resources.getDimensionPixelSize(R.dimen.spacing_extra_small_4),
-                    bigSpaceSize = resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
-                )
-            )
+        binding.apply {
+            detailsStorylineTitle.setShaderForGradient()
+            detailsHeading.setShaderForGradient()
+            detailsCastRecycler.apply {
+                layoutManager = this@MoviesDetailsFragment.layoutManager
+                adapter = castAdapter
+                addItemDecoration(castItemDecoration)
+            }
         }
 
         val param = binding.scrollView.layoutParams as ViewGroup.MarginLayoutParams
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.scrollView.setPadding(
+                0,
+                0,
+                resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
+                0
+            )
             param.setMargins(
                 0,
                 0,

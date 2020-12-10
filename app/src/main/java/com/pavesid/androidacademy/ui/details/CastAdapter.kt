@@ -10,8 +10,10 @@ import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.Actor
+import javax.inject.Inject
 
-internal class CastAdapter : RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
+internal class CastAdapter @Inject constructor() :
+    RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
 
     private var actors: List<Actor> = emptyList()
 

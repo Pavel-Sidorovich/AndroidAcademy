@@ -60,6 +60,11 @@ object AppDependencies {
     private const val hilt_compiler =
         "androidx.hilt:hilt-compiler:${Versions.hilt_compiler_version}"
 
+    // Retrofit
+    private const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit_version}"
+    private const val converter_gson =
+        "com.squareup.retrofit2:converter-gson:${Versions.retrofit_version}"
+
     //Test libs
     private const val junit = "junit:junit:${Versions.junit}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"

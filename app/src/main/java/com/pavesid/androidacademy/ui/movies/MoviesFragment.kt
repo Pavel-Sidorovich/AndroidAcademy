@@ -17,8 +17,10 @@ import com.pavesid.androidacademy.ui.MainViewModel
 import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.utils.getColorFromAttr
 import com.pavesid.androidacademy.utils.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MoviesFragment @Inject constructor(
     var viewModel: MainViewModel?
 ) : Fragment(R.layout.fragment_movies) {
@@ -26,6 +28,9 @@ class MoviesFragment @Inject constructor(
     constructor() : this(null)
 
     private val binding: FragmentMoviesBinding by viewBinding(FragmentMoviesBinding::bind)
+
+    @Inject
+    internal lateinit var moviesItemDecoration: MoviesItemDecoration
 
     private val mainActivity by lazy { activity as MainActivity }
 
@@ -78,11 +83,7 @@ class MoviesFragment @Inject constructor(
                 GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
             adapter = moviesAdapter
 
-            addItemDecoration(
-                MoviesItemDecoration(
-                    spaceSize = resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
-                )
-            )
+            addItemDecoration(moviesItemDecoration)
         }
 
         val touchHelper = ItemTouchHelper(callback)

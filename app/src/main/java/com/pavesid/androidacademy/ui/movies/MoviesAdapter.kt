@@ -93,7 +93,7 @@ internal class MoviesAdapter(private val listener: (Parcelable) -> Unit) :
             pg.text = itemView.context.getString(R.string.pg, movie.minimumAge)
             origImage.load(movie.poster) {
                 crossfade(true)
-                transformations(RoundedCornersTransformation(12f, 12f, 0f, 0f))
+                transformations(RoundedCornersTransformation(14f, 14f, 0f, 0f))
             }
             tags.text = movie.genres.take(MAX_GENRE).joinToString { it.name }
             rating.rating = movie.ratings / 2

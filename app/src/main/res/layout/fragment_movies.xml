@@ -53,6 +53,7 @@
        android:paddingTop="@dimen/spacing_normal_16"
        android:paddingBottom="@dimen/spacing_extra_extra_large_48"
        android:layout_marginStart="@dimen/spacing_small_8"
+       android:layout_marginEnd="@dimen/spacing_small_8"
        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"

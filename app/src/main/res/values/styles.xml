@@ -10,7 +10,6 @@
     </style>
 
     <style name="TextBold" parent="TextSize14">
-        <item name="android:textStyle">bold</item>
         <item name="android:gravity">center_vertical|start</item>
     </style>
 
@@ -19,6 +18,7 @@
         <item name="android:alpha">0.75</item>
         <item name="android:gravity">center_vertical|start</item>
         <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">
@@ -28,15 +28,16 @@
 
     <style name="DetailsPG" parent="TextSize12">
         <item name="android:textColor">?attr/colorPrimaryBW</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
         <item name="android:alpha">0.9</item>
+        <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
     <style name="DetailsReviews" parent="TextBold">
         <item name="android:textColor">?attr/colorNoSelected</item>
         <item name="android:lineSpacingExtra">4sp</item>
         <item name="textAllCaps">true</item>
+        <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
     <style name="DetailsStorylineTitle" parent="TextBold">
@@ -46,14 +47,15 @@
         <item name="android:shadowDy">6</item>
         <item name="android:shadowRadius">12</item>
         <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
     <style name="DetailsStoryline" parent="TextSize14">
         <item name="android:textColor">?attr/colorPrimaryBW</item>
         <item name="android:alpha">0.5</item>
         <item name="android:gravity">center_vertical|start</item>
-        <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="DetailsHeading" parent="TextBold">
@@ -64,20 +66,21 @@
         <item name="android:shadowDy">6</item>
         <item name="android:shadowRadius">12</item>
         <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
     <style name="DetailsTextCast" parent="TextSize12">
         <item name="android:textColor">?attr/colorActorNameText</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
     <style name="MovieReviews">
         <item name="android:textColor">?attr/colorNoSelected</item>
         <item name="android:textSize">8sp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:gravity">center_vertical|start</item>
         <item name="android:lineSpacingExtra">4sp</item>
         <item name="textAllCaps">true</item>
+        <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
     <style name="MovieTag">
@@ -85,6 +88,7 @@
         <item name="android:textSize">8sp</item>
         <item name="android:alpha">0.75</item>
         <item name="android:gravity">center_vertical|start</item>
+        <item name="android:fontFamily">sans-serif-light</item>>
         <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
@@ -94,7 +98,7 @@
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:lineSpacingExtra">4sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
     <style name="MovieDuration" parent="MovieReviews" />

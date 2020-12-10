@@ -28,13 +28,14 @@ import com.pavesid.androidacademy.databinding.FragmentMoviesDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.utils.setShaderForGradient
 import com.pavesid.androidacademy.utils.viewBinding
+import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.round
 import kotlin.math.sqrt
 import kotlin.properties.Delegates
 
-class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
+class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_movies_details) {
 
     private val binding: FragmentMoviesDetailsBinding by viewBinding(FragmentMoviesDetailsBinding::bind)
 

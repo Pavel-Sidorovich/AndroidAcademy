@@ -50,6 +50,16 @@ object AppDependencies {
     //Timber
     private const val timber = "com.jakewharton.timber:timber:${Versions.timber_version}"
 
+    //Dagger - Hilt
+    private const val hilt_android = "com.google.dagger:hilt-android:${Versions.hilt_version}"
+    private const val hilt_android_compiler =
+        "com.google.dagger:hilt-android-compiler:${Versions.hilt_version}"
+
+    private const val hilt_lifecycle_viewmodel =
+        "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_compiler_version}"
+    private const val hilt_compiler =
+        "androidx.hilt:hilt-compiler:${Versions.hilt_compiler_version}"
+
     //Test libs
     private const val junit = "junit:junit:${Versions.junit}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
@@ -73,6 +83,13 @@ object AppDependencies {
         add(leakcanary)
         add(serialization)
         add(timber)
+        add(hilt_android)
+        add(hilt_lifecycle_viewmodel)
+    }
+
+    val kaptLibraries = arrayListOf<String>().apply {
+        add(hilt_android_compiler)
+        add(hilt_compiler)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {

@@ -16,6 +16,8 @@ object Versions {
     const val constraintlayout_version = "2.0.4"
     const val serialization_version = "1.0.1"
     const val timber_version = "4.7.1"
+    const val hilt_version = "2.30.1-alpha"
+    const val hilt_compiler_version = "1.0.0-alpha02"
 
     //Test
     const val junit = "4.13.1"

@@ -1,7 +1,9 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("kotlin-kapt")
     id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
     id("org.jlleitschuh.gradle.ktlint").version("9.4.1")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
@@ -54,7 +56,14 @@ dependencies {
     // App libs
     implementation(AppDependencies.appLibraries)
 
+    // Kapt
+    kapt(AppDependencies.kaptLibraries)
+
     // Test libs
     testImplementation(AppDependencies.testLibraries)
     androidTestImplementation(AppDependencies.androidTestLibraries)
+}
+
+kapt {
+    correctErrorTypes = true
 }

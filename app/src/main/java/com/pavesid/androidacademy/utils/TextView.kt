@@ -1,9 +1,9 @@
 package com.pavesid.androidacademy.utils
 
-import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.widget.TextView
+import com.pavesid.androidacademy.R
 
 fun TextView.setShaderForGradient() {
     this.paint.shader = LinearGradient(
@@ -12,9 +12,9 @@ fun TextView.setShaderForGradient() {
         0f,
         this.textSize,
         intArrayOf(
-            Color.parseColor("#ECECEC"),
-            Color.parseColor("#C4C4C4"),
-            Color.parseColor("#FFFFFF")
+            this.context.theme.getColorFromAttr(R.attr.colorText),
+            this.context.theme.getColorFromAttr(R.attr.colorMiddleTextView),
+            this.context.theme.getColorFromAttr(R.attr.colorPrimaryBW)
         ),
         null,
         Shader.TileMode.REPEAT

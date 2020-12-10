@@ -2,7 +2,6 @@ package com.pavesid.androidacademy.ui.details
 
 import android.content.res.Configuration
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -31,7 +30,6 @@ import com.pavesid.androidacademy.databinding.FragmentMoviesDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.ui.MainViewModel
 import com.pavesid.androidacademy.utils.Status
-import com.pavesid.androidacademy.utils.Utils
 import com.pavesid.androidacademy.utils.setShaderForGradient
 import com.pavesid.androidacademy.utils.viewBinding
 import kotlin.math.abs
@@ -171,22 +169,13 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun initMovie(movie: Movie) {
-        if (movie.image == "") {
-            binding.detailsOrig.load(
-                Drawable.createFromStream(
-                    requireActivity().assets.open("orig.png"),
-                    null
-                )
-            ) {
-                crossfade(true)
-            }
-        } else {
+        if (movie.image.isNotBlank()) {
             binding.detailsOrig.load(movie.image) {
                 crossfade(true)
             }
         }
         binding.detailsStoryline.text = movie.storyline
-        castAdapter.actors = movie.actors
+        castAdapter.setData(movie.actors)
     }
 
     private fun initPreview(preview: MoviePreview) {
@@ -294,14 +283,6 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
             )
         }
         binding.scrollView.layoutParams = param
-
-        val point = Utils.getNavigationBarSize(requireContext())
-
-        if (point?.y != 0) {
-            binding.detailsNav.visibility = View.VISIBLE
-        } else {
-            binding.detailsNav.visibility = View.GONE
-        }
     }
 
     companion object {

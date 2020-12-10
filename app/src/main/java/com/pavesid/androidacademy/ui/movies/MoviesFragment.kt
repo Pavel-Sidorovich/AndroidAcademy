@@ -12,7 +12,7 @@ import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.loadMovies
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.ui.MainActivity
-import com.pavesid.androidacademy.utils.Utils.getColorFromAttr
+import com.pavesid.androidacademy.utils.getColorFromAttr
 import com.pavesid.androidacademy.utils.viewBinding
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -48,9 +48,8 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     override fun onStart() {
         super.onStart()
-        mainActivity.window.statusBarColor = getColorFromAttr(
-            R.attr.backgroundColor,
-            requireContext().theme
+        mainActivity.window.statusBarColor = requireContext().theme.getColorFromAttr(
+            R.attr.backgroundColor
         )
     }
 

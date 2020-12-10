@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="@dimen/spacing_large_24"
+    android:elevation="@dimen/cast_elevation"
     android:paddingBottom="@dimen/spacing_large_24">
 
     <ImageView

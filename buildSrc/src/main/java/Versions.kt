@@ -19,6 +19,8 @@ object Versions {
     const val hilt_version = "2.30.1-alpha"
     const val hilt_compiler_version = "1.0.0-alpha02"
     const val retrofit_version = "2.9.0"
+    const val serialization_converter_version = "0.8.0"
+    const val ktlint_version = "0.40.0"
 
     //Test
     const val junit = "4.13.1"

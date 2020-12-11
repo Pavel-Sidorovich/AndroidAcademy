@@ -62,8 +62,11 @@ object AppDependencies {
 
     // Retrofit
     private const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit_version}"
-    private const val converterGson =
-        "com.squareup.retrofit2:converter-gson:${Versions.retrofit_version}"
+    private const val converterSerialization =
+        "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.serialization_converter_version}"
+
+    //KTLint
+    const val ktlint = "com.pinterest:ktlint:${Versions.ktlint_version}"
 
     //Test libs
     private const val junit = "junit:junit:${Versions.junit}"
@@ -91,7 +94,8 @@ object AppDependencies {
         add(hiltAndroid)
         add(hiltLifecycleViewmodel)
         add(retrofit2)
-        add(converterGson)
+        add(converterSerialization)
+//        add(ktlint)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {

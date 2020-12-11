@@ -4,7 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
-    id("org.jlleitschuh.gradle.ktlint").version("9.4.1")
+//    id("org.jlleitschuh.gradle.ktlint").version("9.4.1")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
@@ -66,4 +66,34 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+}
+
+fun Project.getKtlintConfiguration(): Configuration {
+    return configurations.findByName("ktlint") ?: configurations.create("ktlint") {
+        val dependency = project.dependencies.create(AppDependencies.ktlint)
+        dependencies.add(dependency)
+    }
+}
+
+val outputDir = "${project.buildDir}/reports/ktlint/"
+val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
+
+val ktlintCheck by tasks.creating(JavaExec::class) {
+    inputs.files(inputFiles)
+    outputs.dir(outputDir)
+
+    description = "Check Kotlin code style."
+    classpath = getKtlintConfiguration()
+    main = "com.pinterest.ktlint.Main"
+    args = listOf("src/**/*.kt")
+}
+
+val ktlintFormat by tasks.creating(JavaExec::class) {
+    inputs.files(inputFiles)
+    outputs.dir(outputDir)
+
+    description = "Fix Kotlin code style deviations."
+    classpath = getKtlintConfiguration()
+    main = "com.pinterest.ktlint.Main"
+    args = listOf("-F", "src/**/*.kt")
 }

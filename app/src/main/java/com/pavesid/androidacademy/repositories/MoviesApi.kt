@@ -1,7 +1,7 @@
-package com.pavesid.androidacademy.repositories.remote
+package com.pavesid.androidacademy.repositories
 
-import com.pavesid.androidacademy.data.JsonActor
-import com.pavesid.androidacademy.data.JsonGenre
+import com.pavesid.androidacademy.data.Actor
+import com.pavesid.androidacademy.data.Genre
 import com.pavesid.androidacademy.data.JsonMovie
 import retrofit2.http.GET
 
@@ -10,8 +10,8 @@ interface MoviesApi {
     suspend fun getMovies(): List<JsonMovie>
 
     @GET("cabd1ace6db4d8fa2dbddafd1f7657c9/raw/5552b38be572213f1061842deab6e06e7e7bb2ab/genres.json")
-    suspend fun getGenres(): List<JsonGenre>
+    suspend fun getGenres(): List<Genre>
 
     @GET("26133aa4e31a24e4ee4b19e60774c827/raw/9031d722b5ef6459bd81ceb938924122c2e18114/people.json")
-    suspend fun getActors(): List<JsonActor>
+    suspend fun getActors(): List<Actor>
 }

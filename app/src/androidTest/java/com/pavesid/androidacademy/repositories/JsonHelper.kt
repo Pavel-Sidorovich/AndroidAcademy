@@ -1,10 +1,8 @@
-package com.pavesid.androidacademy.repositories.assets
+package com.pavesid.androidacademy.repositories
 
 import android.content.Context
 import com.pavesid.androidacademy.data.Actor
 import com.pavesid.androidacademy.data.Genre
-import com.pavesid.androidacademy.data.JsonActor
-import com.pavesid.androidacademy.data.JsonGenre
 import com.pavesid.androidacademy.data.JsonMovie
 import com.pavesid.androidacademy.data.Movie
 import kotlinx.coroutines.Dispatchers
@@ -29,10 +27,7 @@ internal object JsonHelper {
         parseGenres(data)
     }
 
-    private fun parseGenres(data: String): List<Genre> {
-        val jsonGenres = jsonFormat.decodeFromString<List<JsonGenre>>(data)
-        return jsonGenres.map { Genre(id = it.id, name = it.name) }
-    }
+    private fun parseGenres(data: String): List<Genre> = jsonFormat.decodeFromString(data)
 
     private fun readAssetFileToString(context: Context, fileName: String): String {
         val stream = context.assets.open(fileName)
@@ -44,10 +39,7 @@ internal object JsonHelper {
         parseActors(data)
     }
 
-    private fun parseActors(data: String): List<Actor> {
-        val jsonActors = jsonFormat.decodeFromString<List<JsonActor>>(data)
-        return jsonActors.map { Actor(id = it.id, name = it.name, picture = it.profilePicture) }
-    }
+    private fun parseActors(data: String): List<Actor> = jsonFormat.decodeFromString(data)
 
     private fun parseMovies(
         data: String,

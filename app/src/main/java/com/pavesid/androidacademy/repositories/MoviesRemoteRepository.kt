@@ -1,14 +1,13 @@
-package com.pavesid.androidacademy.repositories.remote
+package com.pavesid.androidacademy.repositories
 
 import com.pavesid.androidacademy.data.Actor
 import com.pavesid.androidacademy.data.Genre
-import com.pavesid.androidacademy.data.JsonActor
-import com.pavesid.androidacademy.data.JsonGenre
 import com.pavesid.androidacademy.data.JsonMovie
 import com.pavesid.androidacademy.data.Movie
-import com.pavesid.androidacademy.repositories.MoviesRepository
 import javax.inject.Inject
+import kotlinx.serialization.ExperimentalSerializationApi
 
+@ExperimentalSerializationApi
 class MoviesRemoteRepository @Inject constructor() : MoviesRepository {
 
     override suspend fun getMovies(): List<Movie> = parseMovies(
@@ -19,13 +18,11 @@ class MoviesRemoteRepository @Inject constructor() : MoviesRepository {
 
     private fun parseMovies(
         jsonMovies: List<JsonMovie>,
-        jsonGenres: List<JsonGenre>,
-        jsonActors: List<JsonActor>
+        jsonGenres: List<Genre>,
+        jsonActors: List<Actor>
     ): List<Movie> {
-        val actorsMap =
-            jsonActors.map { Actor(id = it.id, name = it.name, picture = it.profilePicture) }
-                .associateBy { it.id }
-        val genresMap = jsonGenres.map { Genre(id = it.id, name = it.name) }.associateBy { it.id }
+        val actorsMap = jsonActors.associateBy { it.id }
+        val genresMap = jsonGenres.associateBy { it.id }
 
         return jsonMovies.map { jsonMovie ->
             Movie(

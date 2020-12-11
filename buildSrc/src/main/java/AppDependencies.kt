@@ -95,7 +95,6 @@ object AppDependencies {
         add(hiltLifecycleViewmodel)
         add(retrofit2)
         add(converterSerialization)
-//        add(ktlint)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {

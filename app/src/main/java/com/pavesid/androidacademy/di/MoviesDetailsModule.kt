@@ -4,9 +4,7 @@ import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.pavesid.androidacademy.R
-import com.pavesid.androidacademy.ui.details.CastAdapter
 import com.pavesid.androidacademy.ui.details.CastItemDecoration
 import dagger.Module
 import dagger.Provides
@@ -31,20 +29,6 @@ object MoviesDetailsModule {
         sensorManager: SensorManager
     ): Sensor = sensorManager.getDefaultSensor(
         Sensor.TYPE_ACCELEROMETER
-    )
-
-    @Provides
-    @FragmentScoped
-    internal fun provideAdapter() = CastAdapter()
-
-    @Provides
-    @FragmentScoped
-    fun provideLayoutManager(
-        @ApplicationContext context: Context
-    ) = LinearLayoutManager(
-        context,
-        LinearLayoutManager.HORIZONTAL,
-        false
     )
 
     @Provides

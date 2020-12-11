@@ -9,5 +9,5 @@ class FakeAssetsRepository @Inject constructor(
     @ApplicationContext val context: Context
 ) : MoviesRepository {
 
-    override suspend fun getMovies(): List<Movie> = JsonHelper.loadMovies(context)
+    override suspend fun getMovies(): List<Movie> = MoviesSource.loadMovies(context)
 }

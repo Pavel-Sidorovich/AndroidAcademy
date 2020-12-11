@@ -26,7 +26,7 @@ import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.Movie
 import com.pavesid.androidacademy.databinding.FragmentMoviesDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
-import com.pavesid.androidacademy.utils.setShaderForGradient
+import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
 import com.pavesid.androidacademy.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -41,22 +41,30 @@ class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_m
 
     private val binding: FragmentMoviesDetailsBinding by viewBinding(FragmentMoviesDetailsBinding::bind)
 
-    private val mainActivity by lazy { activity as MainActivity }
-
-    @Inject
-    internal lateinit var castAdapter: CastAdapter
-
-    @Inject
-    lateinit var layoutManager: LinearLayoutManager
-
     @Inject
     lateinit var sensorManager: SensorManager
 
     @Inject
     lateinit var defaultAccelerometer: Sensor
 
-    @Inject
-    internal lateinit var castItemDecoration: CastItemDecoration
+    private val mainActivity by lazy { activity as MainActivity }
+
+    private val castAdapter: CastAdapter = CastAdapter()
+
+    private val layoutManager: LinearLayoutManager by lazy {
+        LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+    }
+
+    private val castItemDecoration: CastItemDecoration by lazy {
+        CastItemDecoration(
+            spaceSize = requireContext().resources.getDimensionPixelSize(R.dimen.spacing_extra_small_4),
+            bigSpaceSize = requireContext().resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
+        )
+    }
 
     private val thisDisplay: Display? by lazy {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -161,7 +169,7 @@ class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_m
 
     private fun initMovie() {
         movie?.let { movie ->
-            if (movie.poster.isNotBlank()) {
+            if (movie.backdrop.isNotBlank()) {
                 binding.detailsOrig.load(movie.backdrop) {
                     crossfade(true)
                 }

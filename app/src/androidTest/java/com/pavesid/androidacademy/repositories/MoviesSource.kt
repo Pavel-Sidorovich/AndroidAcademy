@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-internal object JsonHelper {
+internal object MoviesSource {
 
     internal suspend fun loadMovies(context: Context): List<Movie> = withContext(Dispatchers.IO) {
         val genresMap = loadGenres(context)

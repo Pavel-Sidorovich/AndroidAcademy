@@ -1,10 +1,9 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
-//    id("org.jlleitschuh.gradle.ktlint").version("9.4.1")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 

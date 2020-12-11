@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.utils
+package com.pavesid.androidacademy.utils.extensions
 
 import android.content.res.Resources
 import android.util.TypedValue

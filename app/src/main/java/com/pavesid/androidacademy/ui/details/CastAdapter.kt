@@ -1,7 +1,6 @@
 package com.pavesid.androidacademy.ui.details
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,6 +9,7 @@ import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.Actor
+import com.pavesid.androidacademy.databinding.CastItemBinding
 import javax.inject.Inject
 
 internal class CastAdapter @Inject constructor() :
@@ -18,13 +18,7 @@ internal class CastAdapter @Inject constructor() :
     private var actors: List<Actor> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder =
-        CastViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.cast_item,
-                parent,
-                false
-            )
-        )
+        CastViewHolder(CastItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: CastViewHolder, position: Int) =
         holder.bind(actor = actors[position])
@@ -36,16 +30,19 @@ internal class CastAdapter @Inject constructor() :
         notifyDataSetChanged()
     }
 
-    inner class CastViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class CastViewHolder(private val binding: CastItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         private val name = itemView.findViewById<TextView>(R.id.name_cast)
         private val image = itemView.findViewById<ImageView>(R.id.image_cast)
 
         fun bind(actor: Actor) {
-            name.text = actor.name
-            image.load(actor.picture) {
-                crossfade(true)
-                transformations(RoundedCornersTransformation(8f))
+            binding.apply {
+                nameCast.text = actor.name
+                imageCast.load(actor.picture) {
+                    crossfade(true)
+                    transformations(RoundedCornersTransformation(8f))
+                }
             }
         }
     }

@@ -4,8 +4,6 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +11,8 @@ import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.Movie
-import com.pavesid.androidacademy.utils.setShaderForGradient
+import com.pavesid.androidacademy.databinding.MovieItemBinding
+import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
 import java.util.Collections
 
 internal class MoviesAdapter(private val listener: (Parcelable) -> Unit) :
@@ -35,11 +34,7 @@ internal class MoviesAdapter(private val listener: (Parcelable) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder =
         MoviesViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.movie_item,
-                parent,
-                false
-            ),
+            MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             listener = listener
         )
 
@@ -70,41 +65,36 @@ internal class MoviesAdapter(private val listener: (Parcelable) -> Unit) :
         movies = mutableMovies
     }
 
-    class MoviesViewHolder(itemView: View, private val listener: (Parcelable) -> Unit) :
-        RecyclerView.ViewHolder(itemView), View.OnClickListener {
-
-        private val name = itemView.findViewById<TextView>(R.id.movie_name)
-        private val pg = itemView.findViewById<TextView>(R.id.movie_rectangle_pg)
-        private val duration = itemView.findViewById<TextView>(R.id.movie_duration)
-        private val tags = itemView.findViewById<TextView>(R.id.movie_tag)
-        private val reviews = itemView.findViewById<TextView>(R.id.movie_reviews)
-        private val origImage = itemView.findViewById<ImageView>(R.id.movie_orig)
-        private val rating =
-            itemView.findViewById<me.zhanghai.android.materialratingbar.MaterialRatingBar>(R.id.movie_rating)
+    class MoviesViewHolder(
+        private val binding: MovieItemBinding,
+        private val listener: (Parcelable) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         private var movie: Movie? = null
 
         init {
-            itemView.setOnClickListener(this)
+            binding.root.setOnClickListener(this)
         }
 
         fun bind(movie: Movie) {
             this.movie = movie
-            pg.text = itemView.context.getString(R.string.pg, movie.minimumAge)
-            origImage.load(movie.poster) {
-                crossfade(true)
-                transformations(RoundedCornersTransformation(14f, 14f, 0f, 0f))
+            binding.apply {
+                movieRectanglePg.text = itemView.context.getString(R.string.pg, movie.minimumAge)
+                movieOrig.load(movie.poster) {
+                    crossfade(true)
+                    transformations(RoundedCornersTransformation(14f, 14f, 0f, 0f))
+                }
+                movieTag.text = movie.genres.take(MAX_GENRE).joinToString { it.name }
+                movieRating.rating = movie.ratings / 2
+                movieReviews.text = itemView.context.resources.getQuantityString(
+                    R.plurals.review,
+                    movie.numberOfRatings,
+                    movie.numberOfRatings
+                )
+                movieDuration.text = itemView.context.getString(R.string.duration, movie.runtime)
+                movieName.text = movie.title
+                movieName.setShaderForGradient()
             }
-            tags.text = movie.genres.take(MAX_GENRE).joinToString { it.name }
-            rating.rating = movie.ratings / 2
-            reviews.text = itemView.context.resources.getQuantityString(
-                R.plurals.review,
-                movie.numberOfRatings,
-                movie.numberOfRatings
-            )
-            duration.text = itemView.context.getString(R.string.duration, movie.runtime)
-            name.text = movie.title
-            name.setShaderForGradient()
         }
 
         override fun onClick(p0: View?) {

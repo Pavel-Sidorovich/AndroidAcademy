@@ -22,4 +22,8 @@
     <dimen name="movies_aim_width">16dp</dimen>
     <dimen name="movies_aim_height">16dp</dimen>
     <dimen name="border_size">1dp</dimen>
+    <dimen name="double_border_size">2dp</dimen>
+    <dimen name="cast_elevation">2dp</dimen>
+    <dimen name="appbar_elevation">4dp</dimen>
+    <dimen name="movie_elevation">2dp</dimen>
 </resources>

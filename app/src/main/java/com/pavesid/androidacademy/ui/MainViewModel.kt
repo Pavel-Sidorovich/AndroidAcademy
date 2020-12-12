@@ -1,34 +1,36 @@
 package com.pavesid.androidacademy.ui
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pavesid.androidacademy.data.local.FakeRepository
-import com.pavesid.androidacademy.data.local.model.Movie
-import com.pavesid.androidacademy.data.local.model.MoviePreview
-import com.pavesid.androidacademy.utils.Resource
+import com.pavesid.androidacademy.data.Movie
+import com.pavesid.androidacademy.repositories.MoviesRepository
+import com.pavesid.androidacademy.utils.extensions.Resource
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
-class MainViewModel : ViewModel() {
+class MainViewModel @ViewModelInject constructor(
+    private val repository: MoviesRepository
+) : ViewModel() {
 
-    private val _moviesPreview = MutableLiveData<Resource<List<MoviePreview>>>()
-    val moviesPreview: LiveData<Resource<List<MoviePreview>>> = _moviesPreview
+    private val _movies = MutableLiveData<Resource<List<Movie>>>()
+    val movies: LiveData<Resource<List<Movie>>> = _movies
 
-    private val _movie = MutableLiveData<Resource<Movie>>()
-    val movie: LiveData<Resource<Movie>> = _movie
-
-    init {
-        viewModelScope.launch {
-            _moviesPreview.postValue(Resource.loading(null))
-            _moviesPreview.postValue(Resource.success(FakeRepository.getAllPreviews()))
-        }
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        _movies.postValue(Resource.error(throwable.message ?: "", null))
+        Timber.d(throwable)
     }
 
-    fun getMovie(id: Int) {
-        viewModelScope.launch {
-            _movie.postValue(Resource.loading(null))
-            _movie.postValue(Resource.success(FakeRepository.getMovieById(id)))
+    init {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            delay(2000)
+            _movies.postValue(Resource.loading(null))
+            _movies.postValue(Resource.success(repository.getMovies()))
         }
     }
 }

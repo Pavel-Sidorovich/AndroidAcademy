@@ -4,20 +4,31 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.ui.MainViewModel
-import com.pavesid.androidacademy.utils.Status
-import com.pavesid.androidacademy.utils.getColorFromAttr
+import com.pavesid.androidacademy.utils.extensions.Status
+import com.pavesid.androidacademy.utils.extensions.getColorFromAttr
 import com.pavesid.androidacademy.utils.viewBinding
+import javax.inject.Inject
 
-class MoviesFragment : Fragment(R.layout.fragment_movies) {
+class MoviesFragment @Inject constructor(
+    var viewModel: MainViewModel?
+) : Fragment(R.layout.fragment_movies) {
+
+    constructor() : this(null)
 
     private val binding: FragmentMoviesBinding by viewBinding(FragmentMoviesBinding::bind)
+
+    private val moviesItemDecoration: MoviesItemDecoration by lazy {
+        MoviesItemDecoration(
+            spaceSize = requireContext().resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
+        )
+    }
 
     private val mainActivity by lazy { activity as MainActivity }
 
@@ -29,8 +40,6 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     private val callback by lazy { MoviesItemTouchHelper(moviesAdapter) }
 
-    private val viewModel: MainViewModel by activityViewModels()
-
     override fun onStart() {
         super.onStart()
         mainActivity.window.statusBarColor = requireContext().theme.getColorFromAttr(
@@ -40,6 +49,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = viewModel ?: ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         initActionBar()
         initView()
@@ -61,11 +71,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
                 GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
             adapter = moviesAdapter
 
-            addItemDecoration(
-                MoviesItemDecoration(
-                    spaceSize = resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
-                )
-            )
+            addItemDecoration(moviesItemDecoration)
         }
 
         val touchHelper = ItemTouchHelper(callback)
@@ -73,14 +79,14 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
     }
 
     private fun subscribeToObservers() {
-        viewModel.moviesPreview.observe(
+        viewModel?.movies?.observe(
             viewLifecycleOwner,
             { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
                         binding.progress.visibility = View.GONE
-                        resource.data?.let { previews ->
-                            moviesAdapter.movies = previews
+                        resource.data?.let { movies ->
+                            moviesAdapter.movies = movies
                         }
                     }
                     Status.ERROR -> {

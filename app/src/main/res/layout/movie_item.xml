@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/movies_bg">
+    android:background="@drawable/movies_bg"
+    android:elevation="@dimen/movie_elevation">
 
     <ImageView
         android:id="@+id/movie_orig"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/border_size"
-        android:layout_marginTop="@dimen/border_size"
-        android:layout_marginEnd="@dimen/border_size"
+        android:layout_marginStart="@dimen/double_border_size"
+        android:layout_marginTop="@dimen/double_border_size"
+        android:layout_marginEnd="@dimen/double_border_size"
         android:contentDescription="@string/movie_original_image"
         android:scaleType="centerCrop"
         app:layout_constraintDimensionRatio="166:248"
@@ -83,7 +84,7 @@
         android:layout_height="@dimen/movie_height_rating_10"
         android:layout_marginStart="@dimen/spacing_extra_small_4"
         android:max="5"
-        android:stepSize="1"
+        android:stepSize="0.1"
         android:theme="@style/RatingBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/movie_tag"

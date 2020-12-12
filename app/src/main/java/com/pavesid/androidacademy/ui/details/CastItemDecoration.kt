@@ -3,9 +3,12 @@ package com.pavesid.androidacademy.ui.details
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import javax.inject.Inject
 
-internal class CastItemDecoration(private val spaceSize: Int, private val bigSpaceSize: Int) :
-    RecyclerView.ItemDecoration() {
+internal class CastItemDecoration @Inject constructor(
+    private val spaceSize: Int,
+    private val bigSpaceSize: Int
+) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,

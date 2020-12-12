@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.Display
 import android.view.Surface
 import android.view.View
@@ -16,37 +17,41 @@ import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.pavesid.androidacademy.R
-import com.pavesid.androidacademy.data.local.model.Movie
-import com.pavesid.androidacademy.data.local.model.MoviePreview
+import com.pavesid.androidacademy.data.Movie
 import com.pavesid.androidacademy.databinding.FragmentMoviesDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
-import com.pavesid.androidacademy.ui.MainViewModel
-import com.pavesid.androidacademy.utils.Status
-import com.pavesid.androidacademy.utils.setShaderForGradient
+import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
 import com.pavesid.androidacademy.utils.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.round
 import kotlin.math.sqrt
 import kotlin.properties.Delegates
 
-class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
+@AndroidEntryPoint
+class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_movies_details) {
 
     private val binding: FragmentMoviesDetailsBinding by viewBinding(FragmentMoviesDetailsBinding::bind)
 
+    @Inject
+    lateinit var sensorManager: SensorManager
+
+    @Inject
+    lateinit var defaultAccelerometer: Sensor
+
     private val mainActivity by lazy { activity as MainActivity }
 
-    private val castAdapter by lazy { CastAdapter() }
+    private val castAdapter: CastAdapter = CastAdapter()
 
-    private val layoutManager by lazy {
+    private val layoutManager: LinearLayoutManager by lazy {
         LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
@@ -54,13 +59,12 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
         )
     }
 
-    private val defaultAccelerometer: Sensor? by lazy {
-        sensorManager.getDefaultSensor(
-            Sensor.TYPE_ACCELEROMETER
+    private val castItemDecoration: CastItemDecoration by lazy {
+        CastItemDecoration(
+            spaceSize = requireContext().resources.getDimensionPixelSize(R.dimen.spacing_extra_small_4),
+            bigSpaceSize = requireContext().resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
         )
     }
-
-    private val sensorManager by lazy { requireContext().getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager }
 
     private val thisDisplay: Display? by lazy {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -70,13 +74,11 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
         }
     }
 
-    private val viewModel: MainViewModel by activityViewModels()
-
     private var angle by Delegates.observable(0) { _, oldValue, newValue ->
         animateRecycler(oldValue, newValue)
     }
 
-    private var movieId = 0
+    private var movie: Movie? = null
 
     private val eventListener: SensorEventListener = object : SensorEventListener {
 
@@ -101,16 +103,13 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         arguments?.let {
-            movieId = it.getInt(PARAM_ID)
+            movie = it.getParcelable(PARAM_PARCELABLE)
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        savedInstanceState ?: viewModel.getMovie(movieId)
-
-        subscribeToObservers()
         initActionBar()
         initView()
     }
@@ -155,7 +154,7 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun initListeners() {
-        defaultAccelerometer?.let {
+        defaultAccelerometer.let {
             sensorManager.registerListener(eventListener, it, SensorManager.SENSOR_DELAY_UI)
         }
     }
@@ -168,68 +167,33 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
         }
     }
 
-    private fun initMovie(movie: Movie) {
-        if (movie.image.isNotBlank()) {
-            binding.detailsOrig.load(movie.image) {
-                crossfade(true)
+    private fun initMovie() {
+        movie?.let { movie ->
+            if (movie.backdrop.isNotBlank()) {
+                binding.detailsOrig.load(movie.backdrop) {
+                    crossfade(true)
+                }
+            }
+            if (movie.actors.isNotEmpty()) {
+                castAdapter.setData(movie.actors)
+            } else {
+                binding.detailsHeading.visibility = View.GONE
+            }
+
+            binding.apply {
+                detailsStoryline.text = movie.overview
+                collapsingToolbar.title = movie.title
+                detailsTag.text = movie.genres.joinToString { it.name }
+                detailsRating.rating = movie.ratings / 2
+                detailsReviews.text =
+                    resources.getQuantityString(
+                        R.plurals.review,
+                        movie.numberOfRatings,
+                        movie.numberOfRatings
+                    )
+                detailsRectangle.text = getString(R.string.pg, movie.minimumAge)
             }
         }
-        binding.detailsStoryline.text = movie.storyline
-        castAdapter.setData(movie.actors)
-    }
-
-    private fun initPreview(preview: MoviePreview) {
-
-        binding.collapsingToolbar.title = preview.name
-        binding.detailsTag.text = preview.tags.joinToString()
-        binding.detailsRating.rating = preview.rating.toFloat()
-        binding.detailsReviews.text =
-            resources.getQuantityString(R.plurals.review, preview.reviews, preview.reviews)
-
-        binding.detailsRectangle.text = getString(R.string.pg, preview.pg)
-    }
-
-    private fun subscribeToObservers() {
-        viewModel.moviesPreview.observe(
-            viewLifecycleOwner,
-            { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        binding.progress.visibility = View.GONE
-                        resource.data?.let { previews ->
-                            initPreview(previews[movieId])
-                        }
-                    }
-                    Status.ERROR -> {
-                        binding.progress.visibility = View.GONE
-                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    Status.LOADING -> binding.progress.visibility = View.VISIBLE
-                }
-            }
-        )
-        viewModel.movie.observe(
-            viewLifecycleOwner,
-            { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        resource.data?.let { movie ->
-                            if (movie.id == movieId % 4) { // TODO change 4 later
-                                binding.progressMovie.visibility = View.GONE
-                                initMovie(movie)
-                            }
-                        }
-                    }
-                    Status.ERROR -> {
-                        binding.progressMovie.visibility = View.GONE
-                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    Status.LOADING -> binding.progressMovie.visibility = View.VISIBLE
-                }
-            }
-        )
     }
 
     private fun animateRecycler(prev: Int, current: Int) {
@@ -251,23 +215,25 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun initView() {
-        binding.detailsStorylineTitle.setShaderForGradient()
-
-        binding.detailsHeading.setShaderForGradient()
-
-        binding.detailsCastRecycler.apply {
-            layoutManager = this@MoviesDetailsFragment.layoutManager
-            adapter = castAdapter
-            addItemDecoration(
-                CastItemDecoration(
-                    spaceSize = resources.getDimensionPixelSize(R.dimen.spacing_extra_small_4),
-                    bigSpaceSize = resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
-                )
-            )
+        initMovie()
+        binding.apply {
+            detailsStorylineTitle.setShaderForGradient()
+            detailsHeading.setShaderForGradient()
+            detailsCastRecycler.apply {
+                layoutManager = this@MoviesDetailsFragment.layoutManager
+                adapter = castAdapter
+                addItemDecoration(castItemDecoration)
+            }
         }
 
         val param = binding.scrollView.layoutParams as ViewGroup.MarginLayoutParams
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.scrollView.setPadding(
+                0,
+                0,
+                resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
+                0
+            )
             param.setMargins(
                 0,
                 0,
@@ -288,15 +254,15 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     companion object {
         private const val ANGLE_DIVIDER = 5
         private const val MAX_ANGLE = 10
-        private const val PARAM_ID = "id"
+        private const val PARAM_PARCELABLE = "ParcelableElement"
 
         fun newInstance(
-            id: Int
+            parcelable: Parcelable
         ): MoviesDetailsFragment {
             val fragment =
                 MoviesDetailsFragment()
             val args = Bundle()
-            args.putInt(PARAM_ID, id)
+            args.putParcelable(PARAM_PARCELABLE, parcelable)
             fragment.arguments = args
             return fragment
         }

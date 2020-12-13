@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/background_color_light</item>
 
         <item name="colorBackground">@color/background_color_light</item>
+        <item name="colorBackgroundWithAlpha">@color/background_color_alpha_light</item>
         <item name="colorActorNameText">@color/actor_name_text_color_light</item>
         <item name="colorText">@color/text_color_light</item>
         <item name="colorSelected">@color/selected_color</item>

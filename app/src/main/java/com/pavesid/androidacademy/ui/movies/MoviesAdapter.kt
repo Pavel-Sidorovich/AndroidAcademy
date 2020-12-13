@@ -107,6 +107,6 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
     }
 
     private companion object {
-        private const val MAX_GENRE = 4
+        private const val MAX_GENRE = 3
     }
 }

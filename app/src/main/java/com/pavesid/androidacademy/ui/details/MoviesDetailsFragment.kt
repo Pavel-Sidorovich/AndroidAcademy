@@ -245,13 +245,13 @@ class MoviesDetailsFragment @Inject constructor() :
         val param = binding.scrollView.layoutParams as ViewGroup.MarginLayoutParams
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             binding.scrollView.setPadding(
-                0,
+                resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
                 0,
                 resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
                 0
             )
             param.setMargins(
-                0,
+                -resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
                 0,
                 -resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
                 0

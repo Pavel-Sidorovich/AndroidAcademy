@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:background="?attr/colorBackground"
-        android:theme="@style/AppTheme.AppBarOverlay">
+	    android:elevation="@dimen/appbar_elevation"
+	    android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -103,16 +104,17 @@
             android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants">
 
-            <TextView
-                android:id="@+id/details_rectangle"
-                style="@style/DetailsPG"
-                android:layout_width="@dimen/movies_rectangle_width"
-                android:layout_height="@dimen/movies_rectangle_height"
-                android:layout_marginTop="@dimen/spacing_normal_16"
-                android:layout_marginEnd="@dimen/spacing_normal_16"
-                android:background="@drawable/rectangle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+	        <TextView
+		        android:id="@+id/details_rectangle"
+		        style="@style/DetailsPG"
+		        android:layout_width="@dimen/movies_rectangle_size"
+		        android:layout_height="@dimen/movies_rectangle_size"
+		        android:minWidth="@dimen/movies_rectangle_min_size"
+		        android:minHeight="@dimen/movies_rectangle_min_size"
+		        android:layout_marginTop="@dimen/spacing_normal_16"
+		        android:layout_marginEnd="@dimen/spacing_normal_16"
+		        app:layout_constraintEnd_toEndOf="parent"
+		        app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/details_tag"

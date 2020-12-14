@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var themeIsChanging = false
+    private var fragmentIsChanging = false
 
     private lateinit var binding: ActivityMainBinding
 
@@ -81,10 +82,11 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
+                fragmentIsChanging = false
                 true
             }
             R.id.theme -> {
-                if (!themeIsChanging) {
+                if (!themeIsChanging && !fragmentIsChanging) {
                     themeIsChanging = true
                     isDarkTheme = !isDarkTheme
                     prefs.edit().putBoolean(THEME, isDarkTheme).apply()
@@ -97,17 +99,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun changeFragment(parcelable: Parcelable) {
-        val detailFragment = MoviesDetailsFragment.newInstance(parcelable)
-        supportFragmentManager.beginTransaction().apply {
-            setCustomAnimations(
-                R.anim.slide_in,
-                R.anim.fade_out,
-                R.anim.fade_in,
-                R.anim.slide_out
-            )
-            add(R.id.container, detailFragment, null)
-            addToBackStack(null)
-            commit()
+        if (!themeIsChanging && !fragmentIsChanging) {
+            fragmentIsChanging = true
+            val detailFragment = MoviesDetailsFragment.newInstance(parcelable)
+            supportFragmentManager.beginTransaction().apply {
+                setCustomAnimations(
+                    R.anim.slide_in,
+                    R.anim.fade_out,
+                    R.anim.fade_in,
+                    R.anim.slide_out
+                )
+                add(R.id.container, detailFragment, null)
+                addToBackStack(null)
+                commit()
+            }
         }
     }
 

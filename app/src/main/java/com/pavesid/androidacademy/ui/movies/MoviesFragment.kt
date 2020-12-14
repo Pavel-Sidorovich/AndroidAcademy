@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.ui.MainActivity
-import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.ui.MoviesViewModel
+import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.utils.extensions.getColorFromAttr
 import com.pavesid.androidacademy.utils.viewBinding
 import javax.inject.Inject

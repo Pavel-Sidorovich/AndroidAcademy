@@ -9,6 +9,7 @@ import android.graphics.Canvas
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -21,6 +22,7 @@ import com.pavesid.androidacademy.ui.movies.MoviesFragment
 import com.pavesid.androidacademy.ui.screenshot.ScreenActivity
 import com.pavesid.androidacademy.utils.CompressBitmap
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.hypot
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -91,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                     themeIsChanging = true
                     isDarkTheme = !isDarkTheme
                     prefs.edit().putBoolean(THEME, isDarkTheme).apply()
-                    changeTheme(true)
+                    changeTheme(findViewById(R.id.theme))
                 }
                 true
             }
@@ -117,14 +119,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeTheme(needScreen: Boolean = false) {
-        if (needScreen) {
+    private fun changeTheme(view: View? = null) {
+        view?.let {
             val windowBitmap = Bitmap.createBitmap(window.decorView.width, window.decorView.height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(windowBitmap)
             window.decorView.draw(canvas)
+
+            val location = IntArray(2)
+            it.getLocationOnScreen(location)
             prefs.edit().putString(App.SCREEN, CompressBitmap.compressToString(windowBitmap))
                 .apply()
             val intent = Intent(this, ScreenActivity::class.java).apply {
+                putExtra(App.POS_X, location[0] + it.width / 2)
+                putExtra(App.POS_Y, location[1] + it.width / 2)
+                putExtra(App.RADIUS, hypot(window.decorView.width.toDouble(), window.decorView.height.toDouble()).toFloat())
                 addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             }
             overridePendingTransition(0, 0)

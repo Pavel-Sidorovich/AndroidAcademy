@@ -18,6 +18,9 @@ class App : Application() {
 
     companion object {
         const val INIT = "initialized"
+        const val POS_X = "x_position"
+        const val POS_Y = "y_position"
+        const val RADIUS = "radius"
         const val FINISH = "anim_finished"
         const val SCREEN = "screen_image"
     }

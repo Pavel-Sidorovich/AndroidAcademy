@@ -2,7 +2,6 @@ package com.pavesid.androidacademy.ui.screenshot
 
 import android.animation.Animator
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.view.View.VISIBLE
@@ -12,9 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
 import com.pavesid.androidacademy.App
+import com.pavesid.androidacademy.App.Companion.POS_X
+import com.pavesid.androidacademy.App.Companion.POS_Y
+import com.pavesid.androidacademy.App.Companion.RADIUS
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.utils.CompressBitmap
-import kotlin.math.hypot
 
 class ScreenActivity : AppCompatActivity() {
 
@@ -25,6 +26,9 @@ class ScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_screen)
 
         val image = CompressBitmap.uncompressFromString(prefs.getString(App.SCREEN, "") ?: "")
+        val posX: Int = intent?.extras?.getInt(POS_X) ?: 0
+        val posY: Int = intent?.extras?.getInt(POS_Y) ?: 0
+        val radius: Float = intent?.extras?.getFloat(RADIUS) ?: 0f
         val screen = findViewById<ImageView>(R.id.screen)
         screen.setImageBitmap(image)
         screen.scaleType = ImageView.ScaleType.MATRIX
@@ -34,7 +38,7 @@ class ScreenActivity : AppCompatActivity() {
 
         val listener = object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View?) {
-                startCircularAnimationToRightTop(v as? ImageView, image)
+                (v as? ImageView)?.startCircularReveal(posX, posY, radius)
             }
 
             override fun onViewDetachedFromWindow(v: View?) {}
@@ -42,32 +46,14 @@ class ScreenActivity : AppCompatActivity() {
         screen.addOnAttachStateChangeListener(listener)
     }
 
-    private fun startCircularAnimationToRightTop(
-        view: ImageView?,
-        image: Bitmap,
-        toTop: Boolean = true
-    ) {
-        view?.let { screen ->
-            val cX: Int = if (toTop) image.width else image.width / 2
-            val cY: Int = if (toTop) 0 else image.height / 2
-            val finalRadius = if (toTop) hypot(
-                cX.toDouble(),
-                image.height.toDouble()
-            ).toFloat() else hypot(cX.toDouble(), cY.toDouble()).toFloat()
-
-            val anim = ViewAnimationUtils.createCircularReveal(
-                screen,
-                cX,
-                cY,
-                finalRadius,
-                0f
-            )
-            anim.duration = 1000
-            anim.interpolator = CubicBezierInterpolator.EASE_BOTH
+    fun ImageView.startCircularReveal(startX: Int, startY: Int, startRadius: Float) {
+        ViewAnimationUtils.createCircularReveal(this, startX, startY, startRadius, 0f).apply {
+            duration = 1000
+            interpolator = CubicBezierInterpolator.EASE_BOTH
             val animationListener = object : Animator.AnimatorListener {
                 override fun onAnimationEnd(animation: Animator?) {
-                    screen.setImageDrawable(null)
-                    screen.visibility = View.GONE
+                    this@startCircularReveal.setImageDrawable(null)
+                    this@startCircularReveal.visibility = View.GONE
                     LocalBroadcastManager.getInstance(this@ScreenActivity)
                         .sendBroadcast(Intent(App.FINISH))
                     finish()
@@ -77,8 +63,8 @@ class ScreenActivity : AppCompatActivity() {
                 override fun onAnimationRepeat(animation: Animator?) {}
                 override fun onAnimationStart(animation: Animator?) {}
             }
-            anim.addListener(animationListener)
-            anim.start()
+            addListener(animationListener)
+            start()
         }
     }
 }

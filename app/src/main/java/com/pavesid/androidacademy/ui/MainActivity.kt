@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.MenuItem
@@ -11,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
-import com.jraska.falcon.Falcon
 import com.pavesid.androidacademy.App
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
@@ -118,7 +119,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun changeTheme(needScreen: Boolean = false) {
         if (needScreen) {
-            val windowBitmap = Falcon.takeScreenshotBitmap(this)
+            val windowBitmap = Bitmap.createBitmap(window.decorView.width, window.decorView.height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(windowBitmap)
+            window.decorView.draw(canvas)
             prefs.edit().putString(App.SCREEN, CompressBitmap.compressToString(windowBitmap))
                 .apply()
             val intent = Intent(this, ScreenActivity::class.java).apply {

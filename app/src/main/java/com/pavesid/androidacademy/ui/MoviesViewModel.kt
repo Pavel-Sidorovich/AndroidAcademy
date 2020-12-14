@@ -14,7 +14,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class MainViewModel @ViewModelInject constructor(
+class MoviesViewModel @ViewModelInject constructor(
     private val repository: MoviesRepository
 ) : ViewModel() {
 

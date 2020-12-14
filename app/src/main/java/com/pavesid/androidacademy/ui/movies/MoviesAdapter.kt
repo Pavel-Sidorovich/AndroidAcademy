@@ -15,7 +15,7 @@ import com.pavesid.androidacademy.databinding.MovieItemBinding
 import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
 import java.util.Collections
 
-internal class MoviesAdapter(private val listener: (Parcelable) -> Unit) :
+internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Unit) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(), ItemTouchHelperAdapter {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
@@ -67,7 +67,7 @@ internal class MoviesAdapter(private val listener: (Parcelable) -> Unit) :
 
     class MoviesViewHolder(
         private val binding: MovieItemBinding,
-        private val listener: (Parcelable) -> Unit
+        private val listener: (Parcelable, Int, Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         private var movie: Movie? = null
@@ -97,8 +97,12 @@ internal class MoviesAdapter(private val listener: (Parcelable) -> Unit) :
             }
         }
 
-        override fun onClick(p0: View?) {
-            movie?.let(listener)
+        override fun onClick(view: View) {
+            val cX = (view.left + view.right) / 2
+            val cY = (view.top + view.bottom) / 2
+            movie?.let {
+                listener(it, cX, cY)
+            }
         }
     }
 

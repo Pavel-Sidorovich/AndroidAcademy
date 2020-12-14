@@ -1,9 +1,9 @@
 object Versions {
-    //App level
+    // App level
     const val gradle_version = "4.1.1"
     const val kotlin_version = "1.4.20"
 
-    //Libs
+    // Libs
     const val coil_version = "1.0.0"
     const val ratingbar_version = "1.4.0"
     const val coroutines_version = "1.3.9"
@@ -22,7 +22,7 @@ object Versions {
     const val serialization_converter_version = "0.8.0"
     const val ktlint_version = "0.40.0"
 
-    //Test
+    // Test
     const val junit = "4.13.1"
     const val extJunit = "1.1.2"
     const val espresso = "3.3.0"

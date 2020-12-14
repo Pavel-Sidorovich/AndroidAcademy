@@ -55,13 +55,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {
-//        with(supportFragmentManager.findFragmentById(R.id.container)) {
-//            this?.view?.startCircularReveal(cX, cY)
         val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
         supportFragmentManager.open {
             add(R.id.container, detailFragment, null)
             addToBackStack(null)
         }
-//        }
     }
 }

@@ -68,6 +68,8 @@ class ScreenActivity : AppCompatActivity() {
                 override fun onAnimationEnd(animation: Animator?) {
                     screen.setImageDrawable(null)
                     screen.visibility = View.GONE
+                    LocalBroadcastManager.getInstance(this@ScreenActivity)
+                        .sendBroadcast(Intent(App.FINISH))
                     finish()
                 }
 

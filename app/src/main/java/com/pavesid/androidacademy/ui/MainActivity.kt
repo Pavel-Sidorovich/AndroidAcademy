@@ -28,13 +28,23 @@ class MainActivity : AppCompatActivity() {
 
     private var isDarkTheme = false
 
-    private val receiver by lazy {
+    private val initScreenReceiver by lazy {
         object : BroadcastReceiver() {
             override fun onReceive(p0: Context?, p1: Intent?) {
                 recreate()
             }
         }
     }
+
+    private val finishAnimReceiver by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(p0: Context?, p1: Intent?) {
+                themeIsChanging = false
+            }
+        }
+    }
+
+    private var themeIsChanging = false
 
     private lateinit var binding: ActivityMainBinding
 
@@ -53,12 +63,18 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter(App.INIT))
+        LocalBroadcastManager.getInstance(this).apply {
+            registerReceiver(initScreenReceiver, IntentFilter(App.INIT))
+            registerReceiver(finishAnimReceiver, IntentFilter(App.FINISH))
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+        LocalBroadcastManager.getInstance(this).apply {
+            unregisterReceiver(initScreenReceiver)
+            unregisterReceiver(finishAnimReceiver)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -68,9 +84,12 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.theme -> {
-                isDarkTheme = !isDarkTheme
-                prefs.edit().putBoolean(THEME, isDarkTheme).apply()
-                changeTheme(true)
+                if (!themeIsChanging) {
+                    themeIsChanging = true
+                    isDarkTheme = !isDarkTheme
+                    prefs.edit().putBoolean(THEME, isDarkTheme).apply()
+                    changeTheme(true)
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

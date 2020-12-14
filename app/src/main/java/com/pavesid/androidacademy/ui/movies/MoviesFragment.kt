@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.ui.MainActivity
-import com.pavesid.androidacademy.ui.MainViewModel
 import com.pavesid.androidacademy.utils.Status
+import com.pavesid.androidacademy.ui.MoviesViewModel
 import com.pavesid.androidacademy.utils.extensions.getColorFromAttr
 import com.pavesid.androidacademy.utils.viewBinding
 import javax.inject.Inject
 
 class MoviesFragment @Inject constructor(
-    var viewModel: MainViewModel?
+    var viewModel: MoviesViewModel?
 ) : Fragment(R.layout.fragment_movies) {
 
     constructor() : this(null)
@@ -49,7 +49,7 @@ class MoviesFragment @Inject constructor(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = viewModel ?: ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        viewModel = viewModel ?: ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
 
         initActionBar()
         initView()

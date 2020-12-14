@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
+    android:background="?attr/colorBackground"
     tools:context=".ui.movies.MoviesFragment">
 
    <com.google.android.material.appbar.AppBarLayout

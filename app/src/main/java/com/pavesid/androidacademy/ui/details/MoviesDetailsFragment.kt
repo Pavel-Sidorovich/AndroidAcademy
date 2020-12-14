@@ -10,6 +10,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.Display
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
@@ -114,6 +116,11 @@ class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_m
         initView()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun onStart() {
         super.onStart()
         mainActivity.window.statusBarColor = Color.TRANSPARENT
@@ -123,6 +130,7 @@ class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_m
     override fun onStop() {
         super.onStop()
         sensorManager.unregisterListener(eventListener)
+        mainActivity.setSupportActionBar(null)
     }
 
     private fun getAngle() {

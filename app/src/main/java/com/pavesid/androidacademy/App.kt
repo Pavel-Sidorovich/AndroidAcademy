@@ -15,4 +15,9 @@ class App : Application() {
         }
         super.onCreate()
     }
+
+    companion object {
+        const val INIT = "initialized"
+        const val SCREEN = "screen_image"
+    }
 }

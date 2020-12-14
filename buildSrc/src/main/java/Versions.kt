@@ -9,6 +9,7 @@ object Versions {
     const val coroutines_version = "1.3.9"
     const val lifecycle_version = "2.2.0"
     const val fragment_ktx_version = "1.2.5"
+    const val preference_ktx_version = "1.1.1"
     const val leakcanary_version = "2.5"
     const val core_ktx_version = "1.5.0-alpha05"
     const val appcompat_version = "1.2.0"
@@ -20,6 +21,8 @@ object Versions {
     const val hilt_compiler_version = "1.0.0-alpha02"
     const val retrofit_version = "2.9.0"
     const val serialization_converter_version = "0.8.0"
+    const val falcon_version = "2.1.1"
+    const val localbroadcastmanager_version = "1.0.0"
     const val ktlint_version = "0.40.0"
 
     //Test

@@ -39,6 +39,10 @@ object AppDependencies {
     private const val fragmentKtx =
         "androidx.fragment:fragment-ktx:${Versions.fragment_ktx_version}"
 
+    // Preference KTX
+    private const val preferenceKtx =
+        "androidx.preference:preference-ktx:${Versions.preference_ktx_version}"
+
     // LeakCanary
     private const val leakcanary =
         "com.squareup.leakcanary:leakcanary-android:${Versions.leakcanary_version}"
@@ -64,6 +68,13 @@ object AppDependencies {
     private const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit_version}"
     private const val converterSerialization =
         "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.serialization_converter_version}"
+
+    // Falcon
+    private const val falcon = "com.jraska:falcon:${Versions.falcon_version}"
+
+    // LocalBroadcastManager
+    private const val localbroadcastmanager =
+        "androidx.localbroadcastmanager:localbroadcastmanager:${Versions.localbroadcastmanager_version}"
 
     //KTLint
     const val ktlint = "com.pinterest:ktlint:${Versions.ktlint_version}"
@@ -95,6 +106,9 @@ object AppDependencies {
         add(hiltLifecycleViewmodel)
         add(retrofit2)
         add(converterSerialization)
+        add(localbroadcastmanager)
+        add(falcon)
+        add(preferenceKtx)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {

@@ -1,6 +1,8 @@
 package com.pavesid.androidacademy.ui.movies
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -47,6 +49,11 @@ class MoviesFragment @Inject constructor(
         )
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = viewModel ?: ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
@@ -54,6 +61,11 @@ class MoviesFragment @Inject constructor(
         initActionBar()
         initView()
         subscribeToObservers()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun initActionBar() {

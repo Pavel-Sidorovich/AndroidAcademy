@@ -43,17 +43,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val finishAnimReceiver by lazy {
-        object : BroadcastReceiver() {
-            override fun onReceive(p0: Context?, p1: Intent?) {
-                themeIsChanging = false
-            }
-        }
-    }
-
-    private var themeIsChanging = false
-    private var fragmentIsChanging = false
-
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +61,6 @@ class MainActivity : AppCompatActivity() {
 
         LocalBroadcastManager.getInstance(this).apply {
             registerReceiver(initScreenReceiver, IntentFilter(App.INIT))
-            registerReceiver(finishAnimReceiver, IntentFilter(App.FINISH))
         }
     }
 
@@ -80,7 +68,6 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(this).apply {
             unregisterReceiver(initScreenReceiver)
-            unregisterReceiver(finishAnimReceiver)
         }
     }
 
@@ -88,16 +75,12 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
-                fragmentIsChanging = false
                 true
             }
             R.id.theme -> {
-                if (!themeIsChanging && !fragmentIsChanging) {
-                    themeIsChanging = true
-                    isDarkTheme = !isDarkTheme
-                    prefs.edit().putBoolean(THEME, isDarkTheme).apply()
-                    changeTheme(findViewById(R.id.theme))
-                }
+                isDarkTheme = !isDarkTheme
+                prefs.edit().putBoolean(THEME, isDarkTheme).apply()
+                changeTheme(findViewById(R.id.theme))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -105,13 +88,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {
-        if (!themeIsChanging && !fragmentIsChanging) {
-            fragmentIsChanging = true
-            val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
-            supportFragmentManager.open {
-                add(R.id.container, detailFragment, null)
-                addToBackStack(null)
-            }
+        val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
+        supportFragmentManager.open {
+            add(R.id.container, detailFragment, null)
+            addToBackStack(null)
         }
     }
     override fun onBackPressed() {
@@ -134,7 +114,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun changeTheme(view: View? = null) {
         view?.let {
-            val windowBitmap = Bitmap.createBitmap(window.decorView.width, window.decorView.height, Bitmap.Config.ARGB_8888)
+            val windowBitmap = Bitmap.createBitmap(
+                window.decorView.width,
+                window.decorView.height,
+                Bitmap.Config.ARGB_8888
+            )
             val canvas = Canvas(windowBitmap)
             window.decorView.draw(canvas)
 
@@ -145,7 +129,13 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ScreenActivity::class.java).apply {
                 putExtra(App.POS_X, location[0] + it.width / 2)
                 putExtra(App.POS_Y, location[1] + it.width / 2)
-                putExtra(App.RADIUS, hypot(window.decorView.width.toDouble(), window.decorView.height.toDouble()).toFloat())
+                putExtra(
+                    App.RADIUS,
+                    hypot(
+                        window.decorView.width.toDouble(),
+                        window.decorView.height.toDouble()
+                    ).toFloat()
+                )
                 addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             }
             overridePendingTransition(0, 0)

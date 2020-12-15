@@ -22,5 +22,8 @@
 	    <item name="android:windowBackground">@color/background_color</item>
 
 	    <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
     </style>
 </resources>

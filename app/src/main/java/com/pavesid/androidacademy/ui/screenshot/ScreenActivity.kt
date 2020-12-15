@@ -54,8 +54,6 @@ class ScreenActivity : AppCompatActivity() {
                 override fun onAnimationEnd(animation: Animator?) {
                     this@startCircularReveal.setImageDrawable(null)
                     this@startCircularReveal.visibility = View.GONE
-                    LocalBroadcastManager.getInstance(this@ScreenActivity)
-                        .sendBroadcast(Intent(App.FINISH))
                     finish()
                 }
 

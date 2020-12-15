@@ -16,11 +16,14 @@
         <item name="colorStartBackground">@color/start_background_color_light</item>
         <item name="colorMiddleTextView">@color/middle_color_light</item>
         <item name="colorEndBackground">@color/end_background_color_light</item>
-	      <item name="colorTransparent">@android:color/transparent</item>
+        <item name="colorTransparent">@android:color/transparent</item>
 
-	      <item name="android:windowTranslucentNavigation">true</item>
-	      <item name="android:windowBackground">@color/background_color_light</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowBackground">@color/background_color_light</item>
 
-	      <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
       </style>
 </resources>

@@ -5,22 +5,22 @@
         <item name="colorPrimary">@color/background_color_light</item>
         <item name="colorPrimaryDark">@color/background_color_light</item>
 
-	    <item name="colorBackground">@color/background_color_light</item>
-	    <item name="colorActorNameText">@color/actor_name_text_color_light</item>
-	    <item name="colorText">@color/text_color_light</item>
-	    <item name="colorSelected">@color/selected_color</item>
-	    <item name="colorNoSelected">@color/no_selected_color_light</item>
-	    <item name="colorBorder">@color/border_color_light</item>
-	    <item name="colorPrimaryBW">@color/black_color</item>
-	    <item name="colorStartBackground">@color/start_background_color_light</item>
-	    <item name="colorMiddleTextView">@color/middle_color_light</item>
-	    <item name="colorEndBackground">@color/end_background_color_light</item>
-	    <item name="colorTransparent">@android:color/transparent</item>
+        <item name="colorBackground">@color/background_color_light</item>
         <item name="colorBackgroundWithAlpha">@color/background_color_alpha_light</item>
+        <item name="colorActorNameText">@color/actor_name_text_color_light</item>
+        <item name="colorText">@color/text_color_light</item>
+        <item name="colorSelected">@color/selected_color</item>
+        <item name="colorNoSelected">@color/no_selected_color_light</item>
+        <item name="colorBorder">@color/border_color_light</item>
+        <item name="colorPrimaryBW">@color/black_color</item>
+        <item name="colorStartBackground">@color/start_background_color_light</item>
+        <item name="colorMiddleTextView">@color/middle_color_light</item>
+        <item name="colorEndBackground">@color/end_background_color_light</item>
+	      <item name="colorTransparent">@android:color/transparent</item>
 
-	    <item name="android:windowTranslucentNavigation">true</item>
-	    <item name="android:windowBackground">@color/background_color_light</item>
+	      <item name="android:windowTranslucentNavigation">true</item>
+	      <item name="android:windowBackground">@color/background_color_light</item>
 
-	    <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
-    </style>
+	      <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+      </style>
 </resources>

@@ -73,7 +73,7 @@ object AppDependencies {
     private const val localBroadcastManager =
         "androidx.localbroadcastmanager:localbroadcastmanager:${Versions.local_broadcast_manager_version}"
 
-    //KTLint
+    // KTLint
     const val ktlint = "com.pinterest:ktlint:${Versions.kt_lint_version}"
 
     // Test libs

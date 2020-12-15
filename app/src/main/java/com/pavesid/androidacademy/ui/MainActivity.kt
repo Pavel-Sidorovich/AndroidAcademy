@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -85,6 +86,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -101,17 +107,6 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {
-        if (!detailsIsOpen) {
-            detailsIsOpen = true
-            val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
-            supportFragmentManager.open {
-                add(R.id.container, detailFragment, null)
-                addToBackStack(null)
-            }
         }
     }
 
@@ -165,6 +160,17 @@ class MainActivity : AppCompatActivity() {
         }
         delegate.localNightMode =
             if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+    }
+
+    fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {
+        if (!detailsIsOpen) {
+            detailsIsOpen = true
+            val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
+            supportFragmentManager.open {
+                add(R.id.container, detailFragment, null)
+                addToBackStack(null)
+            }
+        }
     }
 
     private companion object {

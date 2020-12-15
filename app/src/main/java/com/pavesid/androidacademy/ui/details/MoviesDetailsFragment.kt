@@ -128,7 +128,7 @@ class MoviesDetailsFragment @Inject constructor() :
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
+        menu.findItem(R.id.theme).isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -188,6 +188,11 @@ class MoviesDetailsFragment @Inject constructor() :
         mainActivity.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
+        }
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.toolbar.setPadding(resources.getDimension(R.dimen.spacing_extra_extra_large_48).toInt(), 0, 0, 0)
+        } else {
+            binding.toolbar.setPadding(0, 0, 0, 0)
         }
     }
 

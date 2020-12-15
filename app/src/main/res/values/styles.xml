@@ -120,11 +120,6 @@
 		<item name="android:tint">?attr/colorPrimaryBW</item>
 	</style>
 
-	<style name="WindowAnimationTransition">
-		<item name="android:windowExitAnimation">@android:anim/fade_out</item>
-		<item name="android:windowEnterAnimation">@android:anim/fade_in</item>
-	</style>
-
 	<style name="Theme.AndroidAcademy.Transparent" parent="Theme.AndroidAcademy">
 		<item name="android:windowActionBar">false</item>
 		<item name="android:windowNoTitle">true</item>

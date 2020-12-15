@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="colorBackground" format="reference" />
+    <attr name="colorBackgroundWithAlpha" format="reference" />
     <attr name="colorActorNameText" format="reference" />
     <attr name="colorText" format="reference" />
     <attr name="colorSelected" format="reference" />

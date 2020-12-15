@@ -42,16 +42,18 @@
         app:layout_constraintTop_toTopOf="@id/movie_orig" />
 
     <TextView
-        android:id="@+id/movie_rectangle_pg"
-        style="@style/DetailsPG"
-        android:layout_width="@dimen/movie_rectangle_width_24"
-        android:layout_height="@dimen/movie_rectangle_height_24"
-        android:layout_marginStart="@dimen/spacing_small_8"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/rectangle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/pg" />
+	    android:id="@+id/movie_rectangle_pg"
+	    style="@style/DetailsPG"
+	    android:layout_width="@dimen/movie_rectangle_size_24"
+	    android:layout_height="@dimen/movie_rectangle_size_24"
+	    android:layout_marginTop="@dimen/spacing_small_8"
+	    android:minWidth="@dimen/movie_rectangle_min_size_24"
+	    android:layout_marginStart="@dimen/spacing_small_8"
+	    android:minHeight="@dimen/movie_rectangle_min_size_24"
+	    android:background="@drawable/rectangle"
+	    app:layout_constraintStart_toStartOf="parent"
+	    app:layout_constraintTop_toTopOf="parent"
+	    tools:text="@string/pg" />
 
     <ImageView
         android:layout_width="wrap_content"

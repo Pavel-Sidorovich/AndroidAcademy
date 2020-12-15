@@ -16,6 +16,7 @@
 	    <item name="colorMiddleTextView">@color/middle_color_light</item>
 	    <item name="colorEndBackground">@color/end_background_color_light</item>
 	    <item name="colorTransparent">@android:color/transparent</item>
+        <item name="colorBackgroundWithAlpha">@color/background_color_alpha_light</item>
 
 	    <item name="android:windowTranslucentNavigation">true</item>
 	    <item name="android:windowBackground">@color/background_color_light</item>

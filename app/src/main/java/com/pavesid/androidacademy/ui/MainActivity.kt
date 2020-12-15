@@ -21,6 +21,10 @@ import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
 import com.pavesid.androidacademy.ui.screenshot.ScreenActivity
 import com.pavesid.androidacademy.utils.CompressBitmap
+import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
+import com.pavesid.androidacademy.utils.extensions.exitCircularReveal
+import com.pavesid.androidacademy.utils.extensions.exitCircularRevealToLeft
+import com.pavesid.androidacademy.utils.extensions.open
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.hypot
 
@@ -62,9 +66,8 @@ class MainActivity : AppCompatActivity() {
 
         val rootFragment = MoviesFragment()
 
-        savedInstanceState ?: supportFragmentManager.beginTransaction().apply {
+        savedInstanceState ?: supportFragmentManager.open {
             add(R.id.container, rootFragment, null)
-            commit()
         }
 
         LocalBroadcastManager.getInstance(this).apply {
@@ -101,20 +104,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun changeFragment(parcelable: Parcelable) {
+    fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {
         if (!themeIsChanging && !fragmentIsChanging) {
             fragmentIsChanging = true
-            val detailFragment = MoviesDetailsFragment.newInstance(parcelable)
-            supportFragmentManager.beginTransaction().apply {
-                setCustomAnimations(
-                    R.anim.slide_in,
-                    R.anim.fade_out,
-                    R.anim.fade_in,
-                    R.anim.slide_out
-                )
+            val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
+            supportFragmentManager.open {
                 add(R.id.container, detailFragment, null)
                 addToBackStack(null)
-                commit()
+            }
+        }
+    }
+    override fun onBackPressed() {
+        with(supportFragmentManager.findFragmentById(R.id.container)) {
+            if ((this as? ExitWithAnimation)?.isToBeExitedWithAnimation() == true) {
+                if (this.posX == null || this.posY == null) {
+                    this.view?.exitCircularRevealToLeft {
+                        super.onBackPressed()
+                    }
+                } else {
+                    this.view?.exitCircularReveal(this.posX!!, this.posY!!) {
+                        super.onBackPressed()
+                    } ?: super.onBackPressed()
+                }
+            } else {
+                super.onBackPressed()
             }
         }
     }

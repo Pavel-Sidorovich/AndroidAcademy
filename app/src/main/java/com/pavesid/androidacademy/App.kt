@@ -22,5 +22,6 @@ class App : Application() {
         const val POS_Y = "y_position"
         const val RADIUS = "radius"
         const val SCREEN = "screen_image"
+        const val FINISH = "animation_finish"
     }
 }

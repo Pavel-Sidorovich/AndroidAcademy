@@ -35,10 +35,22 @@ class MainActivity : AppCompatActivity() {
 
     private var isDarkTheme = false
 
+    private var detailsIsOpen = false
+
+    private var themeIsChanging = false
+
     private val initScreenReceiver by lazy {
         object : BroadcastReceiver() {
             override fun onReceive(p0: Context?, p1: Intent?) {
                 recreate()
+            }
+        }
+    }
+
+    private val closeScreenReceiver by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(p0: Context?, p1: Intent?) {
+                themeIsChanging = false
             }
         }
     }
@@ -61,6 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         LocalBroadcastManager.getInstance(this).apply {
             registerReceiver(initScreenReceiver, IntentFilter(App.INIT))
+            registerReceiver(closeScreenReceiver, IntentFilter(App.FINISH))
         }
     }
 
@@ -68,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(this).apply {
             unregisterReceiver(initScreenReceiver)
+            unregisterReceiver(closeScreenReceiver)
         }
     }
 
@@ -78,9 +92,12 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.theme -> {
-                isDarkTheme = !isDarkTheme
-                prefs.edit().putBoolean(THEME, isDarkTheme).apply()
-                changeTheme(findViewById(R.id.theme))
+                if (!themeIsChanging) {
+                    themeIsChanging = true
+                    isDarkTheme = !isDarkTheme
+                    prefs.edit().putBoolean(THEME, isDarkTheme).apply()
+                    changeTheme(findViewById(R.id.theme))
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -88,15 +105,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {
-        val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
-        supportFragmentManager.open {
-            add(R.id.container, detailFragment, null)
-            addToBackStack(null)
+        if (!detailsIsOpen) {
+            detailsIsOpen = true
+            val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
+            supportFragmentManager.open {
+                add(R.id.container, detailFragment, null)
+                addToBackStack(null)
+            }
         }
     }
+
     override fun onBackPressed() {
         with(supportFragmentManager.findFragmentById(R.id.container)) {
             if ((this as? ExitWithAnimation)?.isToBeExitedWithAnimation() == true) {
+                detailsIsOpen = false
                 if (this.posX == null || this.posY == null) {
                     this.view?.exitCircularRevealToLeft {
                         super.onBackPressed()

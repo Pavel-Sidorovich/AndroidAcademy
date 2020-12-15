@@ -11,7 +11,7 @@ import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.ui.MainViewModel
-import com.pavesid.androidacademy.utils.extensions.Status
+import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.utils.extensions.getColorFromAttr
 import com.pavesid.androidacademy.utils.viewBinding
 import javax.inject.Inject
@@ -33,8 +33,8 @@ class MoviesFragment @Inject constructor(
     private val mainActivity by lazy { activity as MainActivity }
 
     private val moviesAdapter by lazy {
-        MoviesAdapter {
-            mainActivity.changeFragment(it)
+        MoviesAdapter { movie, cX, cY ->
+            mainActivity.changeFragment(movie, cX, cY)
         }
     }
 

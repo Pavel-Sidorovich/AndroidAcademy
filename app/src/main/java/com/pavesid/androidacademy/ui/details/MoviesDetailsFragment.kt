@@ -26,7 +26,10 @@ import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.Movie
 import com.pavesid.androidacademy.databinding.FragmentMoviesDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
+import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
 import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
+import com.pavesid.androidacademy.utils.extensions.startCircularReveal
+import com.pavesid.androidacademy.utils.extensions.startCircularRevealFromLeft
 import com.pavesid.androidacademy.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -37,7 +40,9 @@ import kotlin.math.sqrt
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_movies_details) {
+class MoviesDetailsFragment @Inject constructor() :
+    Fragment(R.layout.fragment_movies_details),
+    ExitWithAnimation {
 
     private val binding: FragmentMoviesDetailsBinding by viewBinding(FragmentMoviesDetailsBinding::bind)
 
@@ -112,6 +117,12 @@ class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_m
 
         initActionBar()
         initView()
+
+        savedInstanceState ?: if (posX != null && posY != null) {
+            view.startCircularReveal(posX!!, posY!!)
+        } else {
+            view.startCircularRevealFromLeft()
+        }
     }
 
     override fun onStart() {
@@ -124,6 +135,11 @@ class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_m
         super.onStop()
         sensorManager.unregisterListener(eventListener)
     }
+
+    override var posX: Int? = null
+    override var posY: Int? = null
+
+    override fun isToBeExitedWithAnimation(): Boolean = true
 
     private fun getAngle() {
         val normalizerGravity =
@@ -256,15 +272,17 @@ class MoviesDetailsFragment @Inject constructor() : Fragment(R.layout.fragment_m
         private const val MAX_ANGLE = 10
         private const val PARAM_PARCELABLE = "ParcelableElement"
 
+        @JvmStatic
         fun newInstance(
-            parcelable: Parcelable
-        ): MoviesDetailsFragment {
-            val fragment =
-                MoviesDetailsFragment()
+            parcelable: Parcelable,
+            cX: Int,
+            cY: Int
+        ): MoviesDetailsFragment = MoviesDetailsFragment().apply {
+            posX = cX
+            posY = cY
             val args = Bundle()
             args.putParcelable(PARAM_PARCELABLE, parcelable)
-            fragment.arguments = args
-            return fragment
+            arguments = args
         }
     }
 }

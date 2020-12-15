@@ -2,22 +2,22 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object AppDependencies {
 
-    //Stdlib
+    // Stdlib
     private const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin_version}"
 
-    //Android UI
+    // Android UI
     private const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat_version}"
     private const val coreKtx = "androidx.core:core-ktx:${Versions.core_ktx_version}"
     private const val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraintlayout_version}"
     private const val material = "com.google.android.material:material:${Versions.material_version}"
 
-    //Coil
+    // Coil
     private const val coil = "io.coil-kt:coil:${Versions.coil_version}"
     private const val coilTransformations =
         "com.github.Commit451.coil-transformations:transformations:${Versions.coil_version}"
 
-    //RatingBar
+    // RatingBar
     private const val ratingBar =
         "me.zhanghai.android.materialratingbar:library:${Versions.ratingbar_version}"
 
@@ -35,7 +35,7 @@ object AppDependencies {
     private const val runtime =
         "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle_version}"
 
-    //Fragment KTX
+    // Fragment KTX
     private const val fragmentKtx =
         "androidx.fragment:fragment-ktx:${Versions.fragment_ktx_version}"
 
@@ -43,14 +43,14 @@ object AppDependencies {
     private const val leakcanary =
         "com.squareup.leakcanary:leakcanary-android:${Versions.leakcanary_version}"
 
-    //Serialization
+    // Serialization
     private const val serialization =
         "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization_version}"
 
-    //Timber
+    // Timber
     private const val timber = "com.jakewharton.timber:timber:${Versions.timber_version}"
 
-    //Dagger - Hilt
+    // Dagger - Hilt
     private const val hiltAndroid = "com.google.dagger:hilt-android:${Versions.hilt_version}"
     private const val hiltAndroidCompiler =
         "com.google.dagger:hilt-android-compiler:${Versions.hilt_version}"
@@ -65,10 +65,10 @@ object AppDependencies {
     private const val converterSerialization =
         "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.serialization_converter_version}"
 
-    //KTLint
+    // KTLint
     const val ktlint = "com.pinterest:ktlint:${Versions.ktlint_version}"
 
-    //Test libs
+    // Test libs
     private const val junit = "junit:junit:${Versions.junit}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
     private const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"

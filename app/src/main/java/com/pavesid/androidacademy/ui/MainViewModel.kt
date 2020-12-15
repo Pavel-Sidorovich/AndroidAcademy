@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pavesid.androidacademy.data.Movie
 import com.pavesid.androidacademy.repositories.MoviesRepository
-import com.pavesid.androidacademy.utils.extensions.Resource
+import com.pavesid.androidacademy.utils.Resource
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

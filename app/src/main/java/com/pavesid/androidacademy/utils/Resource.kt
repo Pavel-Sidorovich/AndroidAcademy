@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.utils.extensions
+package com.pavesid.androidacademy.utils
 
 data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
 

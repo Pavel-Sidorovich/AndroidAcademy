@@ -1,6 +1,5 @@
 package com.pavesid.androidacademy.ui.details
 
-import android.content.res.Configuration
 import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -14,7 +13,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.Surface
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
@@ -189,11 +187,6 @@ class MoviesDetailsFragment @Inject constructor() :
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            binding.toolbar.setPadding(resources.getDimension(R.dimen.spacing_extra_extra_large_48).toInt(), 0, 0, 0)
-        } else {
-            binding.toolbar.setPadding(0, 0, 0, 0)
-        }
     }
 
     private fun initMovie() {
@@ -254,30 +247,6 @@ class MoviesDetailsFragment @Inject constructor() :
                 addItemDecoration(castItemDecoration)
             }
         }
-
-        val param = binding.scrollView.layoutParams as ViewGroup.MarginLayoutParams
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            binding.scrollView.setPadding(
-                resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
-                0,
-                resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
-                0
-            )
-            param.setMargins(
-                -resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
-                0,
-                -resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
-                0
-            )
-        } else {
-            param.setMargins(
-                0,
-                0,
-                0,
-                0
-            )
-        }
-        binding.scrollView.layoutParams = param
     }
 
     companion object {

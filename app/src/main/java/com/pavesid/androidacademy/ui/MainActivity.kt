@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         isDarkTheme = prefs.getBoolean(THEME, false)
-        changeTheme()
+        savedInstanceState ?: changeTheme()
 
         val rootFragment = MoviesFragment()
 
@@ -130,7 +130,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeTheme(view: View? = null) {
-        view?.let {
+        delegate.localNightMode =
+            if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        if (view != null) {
             val windowBitmap = Bitmap.createBitmap(
                 window.decorView.width,
                 window.decorView.height,
@@ -140,12 +142,12 @@ class MainActivity : AppCompatActivity() {
             window.decorView.draw(canvas)
 
             val location = IntArray(2)
-            it.getLocationOnScreen(location)
+            view.getLocationOnScreen(location)
             prefs.edit().putString(App.SCREEN, CompressBitmap.compressToString(windowBitmap))
                 .apply()
             val intent = Intent(this, ScreenActivity::class.java).apply {
-                putExtra(App.POS_X, location[0] + it.width / 2)
-                putExtra(App.POS_Y, location[1] + it.width / 2)
+                putExtra(App.POS_X, location[0] + view.width / 2)
+                putExtra(App.POS_Y, location[1] + view.width / 2)
                 putExtra(
                     App.RADIUS,
                     hypot(
@@ -157,9 +159,9 @@ class MainActivity : AppCompatActivity() {
             }
             overridePendingTransition(0, 0)
             startActivity(intent)
+        } else {
+            recreate()
         }
-        delegate.localNightMode =
-            if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
     }
 
     fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {

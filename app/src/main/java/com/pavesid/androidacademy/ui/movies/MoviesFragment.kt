@@ -1,6 +1,5 @@
 package com.pavesid.androidacademy.ui.movies
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -64,10 +63,6 @@ class MoviesFragment @Inject constructor(
         }
 
         binding.toolbar.inflateMenu(R.menu.menu)
-
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            binding.toolbar.setPadding(0, 0, resources.getDimension(R.dimen.spacing_extra_extra_large_48).toInt(), 0)
-        }
     }
 
     private fun initView() {

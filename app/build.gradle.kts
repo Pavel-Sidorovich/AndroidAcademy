@@ -30,9 +30,6 @@ android {
                 AppConfig.proguardConsumerRules
             )
         }
-        getByName("debug") {
-            isTestCoverageEnabled = true
-        }
     }
 
     compileOptions {

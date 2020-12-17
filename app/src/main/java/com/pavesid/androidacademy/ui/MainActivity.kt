@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         val rootFragment = MoviesFragment()
 
         savedInstanceState ?: supportFragmentManager.open {
-            add(R.id.container, rootFragment, null)
+            add(R.id.container, rootFragment, TAG)
         }
     }
 
@@ -67,7 +67,8 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.theme -> {
-                if (!detailsIsOpen) {
+                if (!themeIsChanging && !detailsIsOpen) {
+                    themeIsChanging = true
                     isDarkTheme = !isDarkTheme
                     prefs.edit().putBoolean(THEME, isDarkTheme).apply()
                     changeThemeWithAnimation(findViewById(R.id.theme))
@@ -104,37 +105,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changeThemeWithAnimation(view: View) {
-        if (!themeIsChanging) {
-            themeIsChanging = true
-            delegate.localNightMode =
-                if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-            val windowBitmap = Bitmap.createBitmap(
-                window.decorView.width,
-                window.decorView.height,
-                Bitmap.Config.ARGB_8888
-            )
-            val canvas = Canvas(windowBitmap!!)
-            window.decorView.draw(canvas)
+        delegate.localNightMode =
+            if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        val windowBitmap = Bitmap.createBitmap(
+            window.decorView.width,
+            window.decorView.height,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(windowBitmap!!)
+        window.decorView.draw(canvas)
 
-            binding.screen.setImageBitmap(windowBitmap)
+        binding.screen.setImageBitmap(windowBitmap)
 
-            val location = IntArray(2)
-            view.getLocationOnScreen(location)
+        val location = IntArray(2)
+        view.getLocationOnScreen(location)
 
-            binding.screen.scaleType = ImageView.ScaleType.MATRIX
-            binding.screen.visibility = View.VISIBLE
+        binding.screen.scaleType = ImageView.ScaleType.MATRIX
+        binding.screen.visibility = View.VISIBLE
+        supportFragmentManager.findFragmentByTag(TAG)?.let {
             supportFragmentManager.open {
-                replace(R.id.container, MoviesFragment(), null)
+                detach(it)
+                attach(it)
             }
-            binding.screen.startCircularReveal(
-                location[0] + view.width / 2,
-                location[1] + view.width / 2,
-                hypot(
-                    window.decorView.width.toDouble(),
-                    window.decorView.height.toDouble()
-                ).toFloat()
-            )
         }
+        binding.screen.startCircularReveal(
+            location[0] + view.width / 2,
+            location[1] + view.width / 2,
+            hypot(
+                window.decorView.width.toDouble(),
+                window.decorView.height.toDouble()
+            ).toFloat()
+        )
     }
 
     fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {
@@ -168,5 +169,6 @@ class MainActivity : AppCompatActivity() {
 
     private companion object {
         const val THEME = "switchTheme"
+        private val TAG = "Movies"
     }
 }

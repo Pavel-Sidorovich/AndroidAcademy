@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.ui.screenshot
+package com.pavesid.androidacademy.ui.custom
 
 import android.graphics.PointF
 import android.view.animation.Interpolator

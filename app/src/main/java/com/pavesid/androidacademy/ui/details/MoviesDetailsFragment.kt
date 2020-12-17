@@ -115,8 +115,6 @@ class MoviesDetailsFragment @Inject constructor() :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        view.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
-
         initActionBar()
         initView()
 

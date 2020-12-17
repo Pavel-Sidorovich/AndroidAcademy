@@ -33,12 +33,6 @@ class MoviesFragment @Inject constructor(
 
     private val mainActivity by lazy { activity as MainActivity }
 
-//    private val moviesAdapter by lazy {
-//        MoviesAdapter { movie, cX, cY ->
-//            mainActivity.changeFragment(movie, cX, cY)
-//        }
-//    }
-
     private lateinit var moviesAdapter: MoviesAdapter
 
     private val callback by lazy { MoviesItemTouchHelper(moviesAdapter) }

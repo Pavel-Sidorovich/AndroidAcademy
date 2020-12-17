@@ -15,9 +15,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
+import com.pavesid.androidacademy.ui.custom.CubicBezierInterpolator
 import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
-import com.pavesid.androidacademy.ui.screenshot.CubicBezierInterpolator
 import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
 import com.pavesid.androidacademy.utils.extensions.exitCircularReveal
 import com.pavesid.androidacademy.utils.extensions.exitCircularRevealToLeft
@@ -169,6 +169,6 @@ class MainActivity : AppCompatActivity() {
 
     private companion object {
         const val THEME = "switchTheme"
-        private val TAG = "Movies"
+        private const val TAG = "Movies"
     }
 }

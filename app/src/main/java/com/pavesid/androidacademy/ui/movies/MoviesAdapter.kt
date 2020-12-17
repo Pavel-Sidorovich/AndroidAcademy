@@ -2,7 +2,6 @@ package com.pavesid.androidacademy.ui.movies
 
 import android.os.Parcelable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -12,6 +11,7 @@ import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.Movie
 import com.pavesid.androidacademy.databinding.MovieItemBinding
+import com.pavesid.androidacademy.utils.extensions.setSafeOnClickListener
 import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
 import java.util.Collections
 
@@ -68,16 +68,9 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
     class MoviesViewHolder(
         private val binding: MovieItemBinding,
         private val listener: (Parcelable, Int, Int) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
-
-        private var movie: Movie? = null
-
-        init {
-            binding.root.setOnClickListener(this)
-        }
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: Movie) {
-            this.movie = movie
             binding.apply {
                 movieRectanglePg.text = itemView.context.getString(R.string.pg, movie.minimumAge)
                 movieOrig.load(movie.poster) {
@@ -95,13 +88,11 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
                 movieName.text = movie.title
                 movieName.setShaderForGradient()
             }
-        }
 
-        override fun onClick(view: View) {
-            val cX = (view.left + view.right) / 2
-            val cY = (view.top + view.bottom) / 2
-            movie?.let {
-                listener(it, cX, cY)
+            binding.root.setSafeOnClickListener { view ->
+                val cX = (view.left + view.right) / 2
+                val cY = (view.top + view.bottom) / 2
+                listener(movie, cX, cY)
             }
         }
     }

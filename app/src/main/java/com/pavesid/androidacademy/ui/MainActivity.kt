@@ -65,11 +65,10 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.theme -> {
-                if (!themeIsChanging) {
-                    themeIsChanging = true
+                if (!detailsIsOpen) {
                     isDarkTheme = !isDarkTheme
                     prefs.edit().putBoolean(THEME, isDarkTheme).apply()
-                    changeThemeWithAnim(findViewById(R.id.theme))
+                    changeThemeWithAnimation(findViewById(R.id.theme))
                 }
                 true
             }
@@ -102,45 +101,46 @@ class MainActivity : AppCompatActivity() {
         recreate()
     }
 
-    private fun changeThemeWithAnim(view: View) {
-        delegate.localNightMode =
-            if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-        val windowBitmap = Bitmap.createBitmap(
-            window.decorView.width,
-            window.decorView.height,
-            Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(windowBitmap!!)
-        window.decorView.draw(canvas)
+    private fun changeThemeWithAnimation(view: View) {
+        if (!themeIsChanging) {
+            themeIsChanging = true
+            delegate.localNightMode =
+                if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            val windowBitmap = Bitmap.createBitmap(
+                window.decorView.width,
+                window.decorView.height,
+                Bitmap.Config.ARGB_8888
+            )
+            val canvas = Canvas(windowBitmap!!)
+            window.decorView.draw(canvas)
 
-        binding.screen.setImageBitmap(windowBitmap)
+            binding.screen.setImageBitmap(windowBitmap)
 
-        val location = IntArray(2)
-        view.getLocationOnScreen(location)
+            val location = IntArray(2)
+            view.getLocationOnScreen(location)
 
-        binding.screen.scaleType = ImageView.ScaleType.MATRIX
-        binding.screen.visibility = View.VISIBLE
-        supportFragmentManager.open {
-            replace(R.id.container, MoviesFragment(), null)
+            binding.screen.scaleType = ImageView.ScaleType.MATRIX
+            binding.screen.visibility = View.VISIBLE
+            supportFragmentManager.open {
+                replace(R.id.container, MoviesFragment(), null)
+            }
+            binding.screen.startCircularReveal(
+                location[0] + view.width / 2,
+                location[1] + view.width / 2,
+                hypot(
+                    window.decorView.width.toDouble(),
+                    window.decorView.height.toDouble()
+                ).toFloat()
+            )
         }
-        binding.screen.startCircularReveal(
-            location[0] + view.width / 2,
-            location[1] + view.width / 2,
-            hypot(
-                window.decorView.width.toDouble(),
-                window.decorView.height.toDouble()
-            ).toFloat()
-        )
     }
 
     fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {
-        if (!detailsIsOpen) {
-            detailsIsOpen = true
-            val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
-            supportFragmentManager.open {
-                add(R.id.container, detailFragment, null)
-                addToBackStack(null)
-            }
+        detailsIsOpen = true
+        val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
+        supportFragmentManager.open {
+            add(R.id.container, detailFragment, null)
+            addToBackStack(null)
         }
     }
 

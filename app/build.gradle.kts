@@ -2,10 +2,13 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+//    id("plugins.jacoco-report")
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("kotlin-android")
+//    id("jacoco")
+    jacoco
 }
 
 android {
@@ -46,6 +49,20 @@ android {
     viewBinding {
         android.buildFeatures.viewBinding = true
     }
+
+//    jacoco {
+//        buildToolsVersion("0.8.5")
+//    }
+//
+//    testOptions {
+//        unitTests.isIncludeAndroidResources = true
+//        unitTests.isReturnDefaultValues = true
+//    }
+
+//    jacoco {
+//        buildToolsVersion = "0.8.5"
+//        outputDir = "$buildDir/customJacocoReportDir"
+//    }
 }
 
 dependencies {
@@ -58,6 +75,8 @@ dependencies {
 
     // Kapt
     kapt(AppDependencies.kaptLibraries)
+
+    implementation("org.jacoco:org.jacoco.core:0.8.5")
 
     // Test libs
     testImplementation(AppDependencies.testLibraries)
@@ -75,6 +94,7 @@ fun Project.getKtlintConfiguration(): Configuration {
     }
 }
 
+val outputDirJacoco = "${project.buildDir}/reports/jacoco"
 val outputDir = "${project.buildDir}/reports/ktlint/"
 val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
 

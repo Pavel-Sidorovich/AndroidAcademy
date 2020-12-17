@@ -13,9 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidAcademy">
         <activity
-            android:name=".ui.screenshot.ScreenActivity"
-            android:theme="@style/Theme.AndroidAcademy.Transparent" />
-        <activity
             android:name=".ui.MainActivity"
             android:configChanges="uiMode">
             <intent-filter>

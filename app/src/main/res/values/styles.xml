@@ -119,13 +119,4 @@
 	<style name="MyAppTheme.PopupOverlay" parent="AppTheme.PopupOverlay">
 		<item name="android:tint">?attr/colorPrimaryBW</item>
 	</style>
-
-	<style name="Theme.AndroidAcademy.Transparent" parent="Theme.AndroidAcademy">
-		<item name="android:windowActionBar">false</item>
-		<item name="android:windowNoTitle">true</item>
-		<item name="android:windowIsTranslucent">true</item>
-		<item name="android:windowBackground">@android:color/transparent</item>
-		<item name="android:windowContentOverlay">@null</item>
-		<item name="android:statusBarColor">@android:color/transparent</item>
-	</style>
 </resources>

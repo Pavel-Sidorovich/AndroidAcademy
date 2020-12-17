@@ -1,9 +1,6 @@
 package com.pavesid.androidacademy.ui
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.animation.Animator
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -11,17 +8,16 @@ import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewAnimationUtils
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
-import com.pavesid.androidacademy.App
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
 import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
-import com.pavesid.androidacademy.ui.screenshot.ScreenActivity
-import com.pavesid.androidacademy.utils.CompressBitmap
+import com.pavesid.androidacademy.ui.screenshot.CubicBezierInterpolator
 import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
 import com.pavesid.androidacademy.utils.extensions.exitCircularReveal
 import com.pavesid.androidacademy.utils.extensions.exitCircularRevealToLeft
@@ -40,22 +36,6 @@ class MainActivity : AppCompatActivity() {
 
     private var themeIsChanging = false
 
-    private val initScreenReceiver by lazy {
-        object : BroadcastReceiver() {
-            override fun onReceive(p0: Context?, p1: Intent?) {
-                recreate()
-            }
-        }
-    }
-
-    private val closeScreenReceiver by lazy {
-        object : BroadcastReceiver() {
-            override fun onReceive(p0: Context?, p1: Intent?) {
-                themeIsChanging = false
-            }
-        }
-    }
-
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,19 +50,6 @@ class MainActivity : AppCompatActivity() {
 
         savedInstanceState ?: supportFragmentManager.open {
             add(R.id.container, rootFragment, null)
-        }
-
-        LocalBroadcastManager.getInstance(this).apply {
-            registerReceiver(initScreenReceiver, IntentFilter(App.INIT))
-            registerReceiver(closeScreenReceiver, IntentFilter(App.FINISH))
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        LocalBroadcastManager.getInstance(this).apply {
-            unregisterReceiver(initScreenReceiver)
-            unregisterReceiver(closeScreenReceiver)
         }
     }
 
@@ -102,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                     themeIsChanging = true
                     isDarkTheme = !isDarkTheme
                     prefs.edit().putBoolean(THEME, isDarkTheme).apply()
-                    changeTheme(findViewById(R.id.theme))
+                    changeThemeWithAnim(findViewById(R.id.theme))
                 }
                 true
             }
@@ -129,39 +96,41 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeTheme(view: View? = null) {
+    private fun changeTheme() {
         delegate.localNightMode =
             if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-        if (view != null) {
-            val windowBitmap = Bitmap.createBitmap(
-                window.decorView.width,
-                window.decorView.height,
-                Bitmap.Config.ARGB_8888
-            )
-            val canvas = Canvas(windowBitmap)
-            window.decorView.draw(canvas)
+        recreate()
+    }
 
-            val location = IntArray(2)
-            view.getLocationOnScreen(location)
-            prefs.edit().putString(App.SCREEN, CompressBitmap.compressToString(windowBitmap))
-                .apply()
-            val intent = Intent(this, ScreenActivity::class.java).apply {
-                putExtra(App.POS_X, location[0] + view.width / 2)
-                putExtra(App.POS_Y, location[1] + view.width / 2)
-                putExtra(
-                    App.RADIUS,
-                    hypot(
-                        window.decorView.width.toDouble(),
-                        window.decorView.height.toDouble()
-                    ).toFloat()
-                )
-                addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            }
-            overridePendingTransition(0, 0)
-            startActivity(intent)
-        } else {
-            recreate()
+    private fun changeThemeWithAnim(view: View) {
+        delegate.localNightMode =
+            if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        val windowBitmap = Bitmap.createBitmap(
+            window.decorView.width,
+            window.decorView.height,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(windowBitmap!!)
+        window.decorView.draw(canvas)
+
+        binding.screen.setImageBitmap(windowBitmap)
+
+        val location = IntArray(2)
+        view.getLocationOnScreen(location)
+
+        binding.screen.scaleType = ImageView.ScaleType.MATRIX
+        binding.screen.visibility = View.VISIBLE
+        supportFragmentManager.open {
+            replace(R.id.container, MoviesFragment(), null)
         }
+        binding.screen.startCircularReveal(
+            location[0] + view.width / 2,
+            location[1] + view.width / 2,
+            hypot(
+                window.decorView.width.toDouble(),
+                window.decorView.height.toDouble()
+            ).toFloat()
+        )
     }
 
     fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {
@@ -172,6 +141,26 @@ class MainActivity : AppCompatActivity() {
                 add(R.id.container, detailFragment, null)
                 addToBackStack(null)
             }
+        }
+    }
+
+    fun ImageView.startCircularReveal(startX: Int, startY: Int, startRadius: Float) {
+        ViewAnimationUtils.createCircularReveal(this, startX, startY, startRadius, 0f).apply {
+            duration = 1000
+            interpolator = CubicBezierInterpolator.EASE_BOTH
+            val animationListener = object : Animator.AnimatorListener {
+                override fun onAnimationEnd(animation: Animator?) {
+                    this@startCircularReveal.setImageDrawable(null)
+                    this@startCircularReveal.visibility = View.GONE
+                    themeIsChanging = false
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {}
+                override fun onAnimationRepeat(animation: Animator?) {}
+                override fun onAnimationStart(animation: Animator?) {}
+            }
+            addListener(animationListener)
+            start()
         }
     }
 

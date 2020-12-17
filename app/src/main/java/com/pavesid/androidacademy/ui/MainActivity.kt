@@ -1,6 +1,7 @@
 package com.pavesid.androidacademy.ui
 
 import android.animation.Animator
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -12,7 +13,6 @@ import android.view.ViewAnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.preference.PreferenceManager
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
 import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
@@ -23,18 +23,20 @@ import com.pavesid.androidacademy.utils.extensions.exitCircularReveal
 import com.pavesid.androidacademy.utils.extensions.exitCircularRevealToLeft
 import com.pavesid.androidacademy.utils.extensions.open
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlin.math.hypot
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    private val prefs by lazy { PreferenceManager.getDefaultSharedPreferences(applicationContext) }
 
     private var isDarkTheme = false
 
     private var detailsIsOpen = false
 
     private var themeIsChanging = false
+
+    @Inject
+    lateinit var prefs: SharedPreferences
 
     private lateinit var binding: ActivityMainBinding
 

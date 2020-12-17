@@ -2,13 +2,10 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-//    id("plugins.jacoco-report")
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("kotlin-android")
-//    id("jacoco")
-    jacoco
 }
 
 android {
@@ -33,6 +30,9 @@ android {
                 AppConfig.proguardConsumerRules
             )
         }
+        getByName("debug") {
+            isTestCoverageEnabled = true
+        }
     }
 
     compileOptions {
@@ -50,19 +50,14 @@ android {
         android.buildFeatures.viewBinding = true
     }
 
-//    jacoco {
-//        buildToolsVersion("0.8.5")
-//    }
-//
-//    testOptions {
-//        unitTests.isIncludeAndroidResources = true
-//        unitTests.isReturnDefaultValues = true
-//    }
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
 
-//    jacoco {
-//        buildToolsVersion = "0.8.5"
-//        outputDir = "$buildDir/customJacocoReportDir"
-//    }
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {

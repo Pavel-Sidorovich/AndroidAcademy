@@ -46,15 +46,6 @@ android {
     viewBinding {
         android.buildFeatures.viewBinding = true
     }
-
-    tasks.withType<Test> {
-        useJUnitPlatform()
-    }
-
-    testOptions {
-        unitTests.isIncludeAndroidResources = true
-        unitTests.isReturnDefaultValues = true
-    }
 }
 
 dependencies {

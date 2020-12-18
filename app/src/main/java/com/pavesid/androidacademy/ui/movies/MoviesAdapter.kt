@@ -35,17 +35,16 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
         set(value) = differ.submitList(value)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder = if (viewType == 1) {
-            MoviesViewHolderV1(
-                MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-                listener = listener
-            )
-        } else {
-            MoviesViewHolderV2(
-                MovieItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false),
-                listener = listener
-            )
-        }
-
+        MoviesViewHolderV1(
+            MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            listener = listener
+        )
+    } else {
+        MoviesViewHolderV2(
+            MovieItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false),
+            listener = listener
+        )
+    }
 
     override fun getItemViewType(position: Int): Int {
         return movies[position].id % 2

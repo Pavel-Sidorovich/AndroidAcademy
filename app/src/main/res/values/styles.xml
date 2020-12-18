@@ -95,7 +95,6 @@
     <style name="MovieName" parent="TextSize14">
         <item name="android:textColor">?attr/colorText</item>
         <item name="android:gravity">center_vertical|start</item>
-        <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:lineSpacingExtra">4sp</item>
         <item name="android:fontFamily">sans-serif-black</item>

@@ -2,6 +2,7 @@ package com.pavesid.androidacademy.ui.movies
 
 import android.os.Parcelable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +11,7 @@ import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.Movie
+import com.pavesid.androidacademy.databinding.MovieItem2Binding
 import com.pavesid.androidacademy.databinding.MovieItemBinding
 import com.pavesid.androidacademy.utils.extensions.setSafeOnClickListener
 import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
@@ -32,11 +34,22 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder =
-        MoviesViewHolder(
-            MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            listener = listener
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder = if (viewType == 1) {
+            MoviesViewHolderV1(
+                MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                listener = listener
+            )
+        } else {
+            MoviesViewHolderV2(
+                MovieItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false),
+                listener = listener
+            )
+        }
+
+
+    override fun getItemViewType(position: Int): Int {
+        return movies[position].id % 2
+    }
 
     override fun getItemCount(): Int = movies.size
 
@@ -65,12 +78,12 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
         movies = mutableMovies
     }
 
-    class MoviesViewHolder(
+    class MoviesViewHolderV1(
         private val binding: MovieItemBinding,
         private val listener: (Parcelable, Int, Int) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root) {
+    ) : MoviesViewHolder(binding.root) {
 
-        fun bind(movie: Movie) {
+        override fun bind(movie: Movie) {
             binding.apply {
                 movieRectanglePg.text = itemView.context.getString(R.string.pg, movie.minimumAge)
                 movieOrig.load(movie.poster) {
@@ -95,6 +108,42 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
                 listener(movie, cX, cY)
             }
         }
+    }
+
+    class MoviesViewHolderV2(
+        private val binding: MovieItem2Binding,
+        private val listener: (Parcelable, Int, Int) -> Unit
+    ) : MoviesViewHolder(binding.root) {
+
+        override fun bind(movie: Movie) {
+            binding.apply {
+                movieRectanglePg.text = itemView.context.getString(R.string.pg, movie.minimumAge)
+                movieOrig.load(movie.poster) {
+                    crossfade(true)
+                    transformations(RoundedCornersTransformation(0f, 0f, 14f, 14f))
+                }
+                movieTag.text = movie.genres.take(MAX_GENRE).joinToString { it.name }
+                movieRating.rating = movie.ratings / 2
+                movieReviews.text = itemView.context.resources.getQuantityString(
+                    R.plurals.review,
+                    movie.numberOfRatings,
+                    movie.numberOfRatings
+                )
+                movieDuration.text = itemView.context.getString(R.string.duration, movie.runtime)
+                movieName.text = movie.title
+                movieName.setShaderForGradient()
+            }
+
+            binding.root.setSafeOnClickListener { view ->
+                val cX = (view.left + view.right) / 2
+                val cY = (view.top + view.bottom) / 2
+                listener(movie, cX, cY)
+            }
+        }
+    }
+
+    abstract class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        abstract fun bind(movie: Movie)
     }
 
     private companion object {

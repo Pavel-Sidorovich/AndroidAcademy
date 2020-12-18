@@ -5,8 +5,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.ui.MainActivity
@@ -70,8 +70,7 @@ class MoviesFragment @Inject constructor(
 
         binding.moviesRecycler.apply {
             setHasFixedSize(true)
-            layoutManager =
-                GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
+            layoutManager = StaggeredGridLayoutManager(resources.getInteger(R.integer.grid_count), StaggeredGridLayoutManager.VERTICAL) //GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
             adapter = moviesAdapter
 
             addItemDecoration(moviesItemDecoration)

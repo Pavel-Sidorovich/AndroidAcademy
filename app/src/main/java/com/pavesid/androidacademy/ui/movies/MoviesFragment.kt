@@ -70,7 +70,7 @@ class MoviesFragment @Inject constructor(
 
         binding.moviesRecycler.apply {
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))// StaggeredGridLayoutManager(resources.getInteger(R.integer.grid_count), StaggeredGridLayoutManager.VERTICAL) // GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
+            layoutManager = GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count)) // StaggeredGridLayoutManager(resources.getInteger(R.integer.grid_count), StaggeredGridLayoutManager.VERTICAL) // GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
             adapter = moviesAdapter
 
             addItemDecoration(moviesItemDecoration)

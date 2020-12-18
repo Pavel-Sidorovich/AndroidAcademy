@@ -12,7 +12,8 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin_version}")
         classpath("org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin_version}")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt_version}")
-
+        classpath("com.google.gms:google-services:${Versions.google_services_version}")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlytics_versions}")
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

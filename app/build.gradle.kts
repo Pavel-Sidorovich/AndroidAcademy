@@ -6,6 +6,8 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("kotlin-android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -53,13 +55,13 @@ dependencies {
     // std lib
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
+    implementation(platform("com.google.firebase:firebase-bom:${Versions.firebase_bom_version}"))
+
     // App libs
     implementation(AppDependencies.appLibraries)
 
     // Kapt
     kapt(AppDependencies.kaptLibraries)
-
-    implementation("org.jacoco:org.jacoco.core:0.8.5")
 
     // Test libs
     testImplementation(AppDependencies.testLibraries)

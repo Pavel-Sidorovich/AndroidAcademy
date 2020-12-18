@@ -23,6 +23,9 @@ object Versions {
     const val serialization_converter_version = "0.8.0"
     const val local_broadcast_manager_version = "1.0.0"
     const val kt_lint_version = "0.40.0"
+    const val google_services_version = "4.3.4"
+    const val firebase_bom_version = "26.1.1"
+    const val crashlytics_versions = "2.4.1"
 
     // Test
     const val junit = "4.13.1"

@@ -73,6 +73,10 @@ object AppDependencies {
     private const val localBroadcastManager =
         "androidx.localbroadcastmanager:localbroadcastmanager:${Versions.local_broadcast_manager_version}"
 
+    // Firebase
+    private const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
+    private const val firebase_analytics = "com.google.firebase:firebase-analytics-ktx"
+
     // KTLint
     const val ktlint = "com.pinterest:ktlint:${Versions.kt_lint_version}"
 
@@ -105,6 +109,8 @@ object AppDependencies {
         add(converterSerialization)
         add(localBroadcastManager)
         add(preferenceKtx)
+        add(firebase_crashlytics)
+        add(firebase_analytics)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {

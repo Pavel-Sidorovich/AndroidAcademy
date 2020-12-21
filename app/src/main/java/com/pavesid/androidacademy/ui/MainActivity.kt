@@ -1,6 +1,5 @@
 package com.pavesid.androidacademy.ui
 
-import android.animation.Animator
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -9,19 +8,19 @@ import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewAnimationUtils
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
-import com.pavesid.androidacademy.ui.custom.CubicBezierInterpolator
 import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
 import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
 import com.pavesid.androidacademy.utils.extensions.exitCircularReveal
 import com.pavesid.androidacademy.utils.extensions.exitCircularRevealToLeft
 import com.pavesid.androidacademy.utils.extensions.open
+import com.pavesid.androidacademy.utils.extensions.setSafeOnMenuItemClickListener
+import com.pavesid.androidacademy.utils.extensions.startCircularReveal
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.hypot
@@ -30,11 +29,6 @@ import kotlin.math.hypot
 class MainActivity : AppCompatActivity() {
 
     private var isDarkTheme = false
-
-    private var detailsIsOpen = false
-
-    private var themeIsChanging = false
-
     @Inject
     lateinit var prefs: SharedPreferences
 
@@ -57,6 +51,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
+        menu?.findItem(R.id.theme)?.setSafeOnMenuItemClickListener {
+        }
         return true
     }
 
@@ -67,12 +63,9 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.theme -> {
-                if (!themeIsChanging && !detailsIsOpen) {
-                    themeIsChanging = true
-                    isDarkTheme = !isDarkTheme
-                    prefs.edit().putBoolean(THEME, isDarkTheme).apply()
-                    changeThemeWithAnimation(findViewById(R.id.theme))
-                }
+                isDarkTheme = !isDarkTheme
+                prefs.edit().putBoolean(THEME, isDarkTheme).apply()
+                changeThemeWithAnimation(findViewById(R.id.theme))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -82,7 +75,6 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         with(supportFragmentManager.findFragmentById(R.id.container)) {
             if ((this as? ExitWithAnimation)?.isToBeExitedWithAnimation() == true) {
-                detailsIsOpen = false
                 if (this.posX == null || this.posY == null) {
                     this.view?.exitCircularRevealToLeft {
                         super.onBackPressed()
@@ -139,31 +131,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {
-        detailsIsOpen = true
         val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
         supportFragmentManager.open {
             add(R.id.container, detailFragment, null)
             addToBackStack(null)
-        }
-    }
-
-    fun ImageView.startCircularReveal(startX: Int, startY: Int, startRadius: Float) {
-        ViewAnimationUtils.createCircularReveal(this, startX, startY, startRadius, 0f).apply {
-            duration = 1000
-            interpolator = CubicBezierInterpolator.EASE_BOTH
-            val animationListener = object : Animator.AnimatorListener {
-                override fun onAnimationEnd(animation: Animator?) {
-                    this@startCircularReveal.setImageDrawable(null)
-                    this@startCircularReveal.visibility = View.GONE
-                    themeIsChanging = false
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {}
-                override fun onAnimationRepeat(animation: Animator?) {}
-                override fun onAnimationStart(animation: Animator?) {}
-            }
-            addListener(animationListener)
-            start()
         }
     }
 

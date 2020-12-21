@@ -132,9 +132,9 @@ interface ExitWithAnimation {
 /**
  * Prevent user from doing multiple clicks on a view.
  */
-fun View.setSafeOnClickListener(onSafeClick: (View) -> Unit) {
+fun View.setSafeOnClickListener(onSafeClick: () -> Unit) {
     val safeClickListener = SafeClickListener {
-        onSafeClick(it)
+        onSafeClick()
     }
     setOnClickListener(safeClickListener)
 }

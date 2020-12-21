@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
+import com.pavesid.androidacademy.ui.lottie.LottieFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
 import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
 import com.pavesid.androidacademy.utils.extensions.exitCircularReveal
@@ -17,10 +18,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_AndroidAcademy)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val rootFragment = MoviesFragment()
+        val rootFragment = LottieFragment(null)
 
         savedInstanceState ?: supportFragmentManager.open {
             add(R.id.container, rootFragment, null)
@@ -54,11 +57,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {
-        val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
-        supportFragmentManager.open {
-            add(R.id.container, detailFragment, null)
-            addToBackStack(null)
+    fun changeFragment(toMovies: Boolean = false, parcelable: Parcelable? = null, cX: Int = 0, cY: Int = 0) {
+        if (toMovies) {
+            supportFragmentManager.open {
+                replace(R.id.container, MoviesFragment.newInstance(), null)
+            }
+        } else {
+            val detailFragment = MoviesDetailsFragment.newInstance(parcelable!!, cX, cY)
+            supportFragmentManager.open {
+                add(R.id.container, detailFragment, null)
+                addToBackStack(null)
+            }
         }
     }
 }

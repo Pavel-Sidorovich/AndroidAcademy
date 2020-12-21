@@ -68,6 +68,9 @@ object AppDependencies {
     // KTLint
     const val ktlint = "com.pinterest:ktlint:${Versions.ktlint_version}"
 
+    // Lottie
+    const val lottie = "com.airbnb.android:lottie:${Versions.lottie_version}"
+
     // Test libs
     private const val junit = "junit:junit:${Versions.junit}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
@@ -95,6 +98,7 @@ object AppDependencies {
         add(hiltLifecycleViewmodel)
         add(retrofit2)
         add(converterSerialization)
+        add(lottie)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {

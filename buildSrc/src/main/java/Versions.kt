@@ -21,6 +21,7 @@ object Versions {
     const val retrofit_version = "2.9.0"
     const val serialization_converter_version = "0.8.0"
     const val ktlint_version = "0.40.0"
+    const val lottie_version = "3.5.0"
 
     // Test
     const val junit = "4.13.1"

@@ -17,7 +17,7 @@ import com.pavesid.androidacademy.utils.viewBinding
 import javax.inject.Inject
 
 class MoviesFragment @Inject constructor(
-    var viewModel: MoviesViewModel?
+    private var viewModel: MoviesViewModel?
 ) : Fragment(R.layout.fragment_movies) {
 
     constructor() : this(null)
@@ -34,7 +34,7 @@ class MoviesFragment @Inject constructor(
 
     private val moviesAdapter by lazy {
         MoviesAdapter { movie, cX, cY ->
-            mainActivity.changeFragment(movie, cX, cY)
+            mainActivity.changeFragment(false, movie, cX, cY)
         }
     }
 
@@ -98,5 +98,9 @@ class MoviesFragment @Inject constructor(
                 }
             }
         )
+    }
+
+    companion object {
+        fun newInstance() = MoviesFragment()
     }
 }

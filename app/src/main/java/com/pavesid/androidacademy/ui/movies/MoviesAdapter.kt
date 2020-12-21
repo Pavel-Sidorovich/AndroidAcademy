@@ -18,14 +18,14 @@ import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
 import java.util.Collections
 
 internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Unit) :
-        RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(), ItemTouchHelperAdapter {
+    RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(), ItemTouchHelperAdapter {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
-                oldItem.id == newItem.id
+            oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
-                oldItem.hashCode() == newItem.hashCode()
+            oldItem.hashCode() == newItem.hashCode()
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
@@ -36,13 +36,13 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder = if (viewType == 1) {
         MoviesViewHolderV1(
-                MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-                listener = listener
+            MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            listener = listener
         )
     } else {
         MoviesViewHolderV2(
-                MovieItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false),
-                listener = listener
+            MovieItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false),
+            listener = listener
         )
     }
 
@@ -53,7 +53,7 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
     override fun getItemCount(): Int = movies.size
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) =
-            holder.bind(movie = movies[position])
+        holder.bind(movie = movies[position])
 
     override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
         val mutableMovies = movies.toMutableList()
@@ -78,8 +78,8 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
     }
 
     class MoviesViewHolderV1(
-            private val binding: MovieItemBinding,
-            private val listener: (Parcelable, Int, Int) -> Unit
+        private val binding: MovieItemBinding,
+        private val listener: (Parcelable, Int, Int) -> Unit
     ) : MoviesViewHolder(binding.root) {
 
         override fun bind(movie: Movie) {
@@ -92,9 +92,9 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
                 movieTag.text = movie.genres.take(MAX_GENRE).joinToString { it.name }
                 movieRating.rating = movie.ratings / 2
                 movieReviews.text = itemView.context.resources.getQuantityString(
-                        R.plurals.review,
-                        movie.numberOfRatings,
-                        movie.numberOfRatings
+                    R.plurals.review,
+                    movie.numberOfRatings,
+                    movie.numberOfRatings
                 )
                 movieDuration.text = itemView.context.getString(R.string.duration, movie.runtime)
                 movieName.text = movie.title
@@ -110,8 +110,8 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
     }
 
     class MoviesViewHolderV2(
-            private val binding: MovieItem2Binding,
-            private val listener: (Parcelable, Int, Int) -> Unit
+        private val binding: MovieItem2Binding,
+        private val listener: (Parcelable, Int, Int) -> Unit
     ) : MoviesViewHolder(binding.root) {
 
         override fun bind(movie: Movie) {
@@ -124,9 +124,9 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
                 movieTag.text = movie.genres.take(MAX_GENRE).joinToString { it.name }
                 movieRating.rating = movie.ratings / 2
                 movieReviews.text = itemView.context.resources.getQuantityString(
-                        R.plurals.review,
-                        movie.numberOfRatings,
-                        movie.numberOfRatings
+                    R.plurals.review,
+                    movie.numberOfRatings,
+                    movie.numberOfRatings
                 )
                 movieDuration.text = itemView.context.getString(R.string.duration, movie.runtime)
                 movieName.text = movie.title

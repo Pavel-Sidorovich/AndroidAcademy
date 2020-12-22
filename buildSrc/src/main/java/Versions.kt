@@ -23,7 +23,10 @@ object Versions {
     const val ktlint_version = "0.40.0"
 
     // Test
-    const val junit = "4.13.1"
-    const val extJunit = "1.1.2"
-    const val espresso = "3.3.0"
+    const val junit_version = "4.13.1"
+    const val extJunit_version = "1.1.2"
+    const val espresso_version = "3.3.0"
+    const val coroutines_test_version = "1.4.2"
+    const val core_testing_version = "2.1.0"
+    const val mockito_core_version = "3.6.28"
 }

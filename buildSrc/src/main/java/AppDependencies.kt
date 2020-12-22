@@ -69,9 +69,14 @@ object AppDependencies {
     const val ktlint = "com.pinterest:ktlint:${Versions.ktlint_version}"
 
     // Test libs
-    private const val junit = "junit:junit:${Versions.junit}"
-    private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
-    private const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
+    private const val junit = "junit:junit:${Versions.junit_version}"
+    private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit_version}"
+    private const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso_version}"
+
+
+    private const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines_test_version}"
+    private const val core_testing = "androidx.arch.core:core-testing:${Versions.core_testing_version}"
+    private const val mockito_core = "org.mockito:mockito-core:${Versions.mockito_core_version}"
 
     val appLibraries = arrayListOf<String>().apply {
         add(kotlinStdLib)
@@ -109,6 +114,9 @@ object AppDependencies {
 
     val testLibraries = arrayListOf<String>().apply {
         add(junit)
+        add(coroutines_test)
+        add(core_testing)
+        add(mockito_core)
     }
 }
 

@@ -6,8 +6,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
-import com.pavesid.androidacademy.ui.lottie.LottieFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
+import com.pavesid.androidacademy.ui.splash.SplashScreenFragment
 import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
 import com.pavesid.androidacademy.utils.extensions.exitCircularReveal
 import com.pavesid.androidacademy.utils.extensions.exitCircularRevealToLeft
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val rootFragment = LottieFragment(null)
+        val rootFragment = SplashScreenFragment()
 
         savedInstanceState ?: supportFragmentManager.open {
             add(R.id.container, rootFragment, null)

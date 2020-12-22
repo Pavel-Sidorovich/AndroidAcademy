@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.ui.lottie
+package com.pavesid.androidacademy.ui.splash
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -8,25 +8,21 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.pavesid.androidacademy.R
-import com.pavesid.androidacademy.databinding.FragmentLottieBinding
+import com.pavesid.androidacademy.databinding.FragmentSplashScreenBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.ui.MoviesViewModel
 import com.pavesid.androidacademy.utils.viewBinding
-import javax.inject.Inject
 
-class LottieFragment @Inject constructor(
-    private var viewModel: MoviesViewModel?
-) : Fragment(R.layout.fragment_lottie) {
-
-    constructor() : this(null)
+class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 
     private val mainActivity by lazy { activity as MainActivity }
 
-    private val binding by viewBinding(FragmentLottieBinding::bind)
+    private val binding by viewBinding(FragmentSplashScreenBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = viewModel ?: ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
+
+        ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
 
         savedInstanceState ?: binding.animation.apply {
             playAnimation()
@@ -51,6 +47,6 @@ class LottieFragment @Inject constructor(
 
     companion object {
         @JvmStatic
-        fun newInstance(): LottieFragment = LottieFragment()
+        fun newInstance(): SplashScreenFragment = SplashScreenFragment()
     }
 }

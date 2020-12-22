@@ -14,14 +14,9 @@ import com.pavesid.androidacademy.ui.MoviesViewModel
 import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.utils.extensions.getColorFromAttr
 import com.pavesid.androidacademy.utils.viewBinding
-import javax.inject.Inject
 import timber.log.Timber
 
-class MoviesFragment @Inject constructor(
-    var viewModel: MoviesViewModel?
-) : Fragment(R.layout.fragment_movies) {
-
-    constructor() : this(null)
+class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     private val binding: FragmentMoviesBinding by viewBinding(FragmentMoviesBinding::bind)
 
@@ -44,9 +39,10 @@ class MoviesFragment @Inject constructor(
         )
     }
 
+    private val viewModel by lazy { ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java) }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = viewModel ?: ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
 
         initActionBar()
         initView()
@@ -81,7 +77,7 @@ class MoviesFragment @Inject constructor(
     }
 
     private fun subscribeToObservers() {
-        viewModel?.movies?.observe(
+        viewModel.movies.observe(
             viewLifecycleOwner,
             { resource ->
                 when (resource.status) {

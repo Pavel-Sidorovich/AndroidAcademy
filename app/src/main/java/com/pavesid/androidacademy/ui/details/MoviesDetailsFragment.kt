@@ -40,7 +40,7 @@ import kotlin.math.sqrt
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class MoviesDetailsFragment @Inject constructor() :
+class MoviesDetailsFragment :
     Fragment(R.layout.fragment_movies_details),
     ExitWithAnimation {
 

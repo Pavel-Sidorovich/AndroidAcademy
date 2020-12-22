@@ -87,7 +87,6 @@ class MoviesDetailsFragment @Inject constructor() :
 
         override fun onSensorChanged(event: SensorEvent) {
 
-
             var angleTemp = 0
 
             when (event.sensor.type) {

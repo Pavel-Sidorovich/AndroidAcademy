@@ -38,7 +38,6 @@ object CalculationAngle {
         }
     }
 
-
     private const val ANGLE_DIVIDER = 5
     private const val MAX_ANGLE = 10
 }

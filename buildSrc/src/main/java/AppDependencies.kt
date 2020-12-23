@@ -9,7 +9,7 @@ object AppDependencies {
     private const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat_version}"
     private const val coreKtx = "androidx.core:core-ktx:${Versions.core_ktx_version}"
     private const val constraintLayout =
-        "androidx.constraintlayout:constraintlayout:${Versions.constraintlayout_version}"
+        "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout_version}"
     private const val material = "com.google.android.material:material:${Versions.material_version}"
 
     // Coil
@@ -19,7 +19,7 @@ object AppDependencies {
 
     // RatingBar
     private const val ratingBar =
-        "me.zhanghai.android.materialratingbar:library:${Versions.ratingbar_version}"
+        "me.zhanghai.android.materialratingbar:library:${Versions.rating_bar_version}"
 
     // Coroutines
     private const val coroutinesCore =
@@ -39,9 +39,13 @@ object AppDependencies {
     private const val fragmentKtx =
         "androidx.fragment:fragment-ktx:${Versions.fragment_ktx_version}"
 
+    // Preference KTX
+    private const val preferenceKtx =
+        "androidx.preference:preference-ktx:${Versions.preference_ktx_version}"
+
     // LeakCanary
     private const val leakcanary =
-        "com.squareup.leakcanary:leakcanary-android:${Versions.leakcanary_version}"
+        "com.squareup.leakcanary:leakcanary-android:${Versions.leak_canary_version}"
 
     // Serialization
     private const val serialization =
@@ -55,7 +59,7 @@ object AppDependencies {
     private const val hiltAndroidCompiler =
         "com.google.dagger:hilt-android-compiler:${Versions.hilt_version}"
 
-    private const val hiltLifecycleViewmodel =
+    private const val hiltLifecycleViewModel =
         "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_compiler_version}"
     private const val hiltCompiler =
         "androidx.hilt:hilt-compiler:${Versions.hilt_compiler_version}"
@@ -65,8 +69,16 @@ object AppDependencies {
     private const val converterSerialization =
         "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.serialization_converter_version}"
 
+    // LocalBroadcastManager
+    private const val localBroadcastManager =
+        "androidx.localbroadcastmanager:localbroadcastmanager:${Versions.local_broadcast_manager_version}"
+
+    // Firebase
+    private const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
+    private const val firebase_analytics = "com.google.firebase:firebase-analytics-ktx"
+
     // KTLint
-    const val ktlint = "com.pinterest:ktlint:${Versions.ktlint_version}"
+    const val ktlint = "com.pinterest:ktlint:${Versions.kt_lint_version}"
 
     // Test libs
     private const val junit = "junit:junit:${Versions.junit}"
@@ -92,9 +104,13 @@ object AppDependencies {
         add(serialization)
         add(timber)
         add(hiltAndroid)
-        add(hiltLifecycleViewmodel)
+        add(hiltLifecycleViewModel)
         add(retrofit2)
         add(converterSerialization)
+        add(localBroadcastManager)
+        add(preferenceKtx)
+        add(firebase_crashlytics)
+        add(firebase_analytics)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {

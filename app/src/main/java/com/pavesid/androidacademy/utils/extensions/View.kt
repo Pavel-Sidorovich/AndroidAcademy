@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.animation.DecelerateInterpolator
+import com.pavesid.androidacademy.utils.SafeClickListener
 import kotlin.math.hypot
 import android.view.View.OnLayoutChangeListener as OnLayoutChangeListener1
 
@@ -126,4 +127,14 @@ interface ExitWithAnimation {
      * Must return true if required to exit with circular reveal animation
      */
     fun isToBeExitedWithAnimation(): Boolean
+}
+
+/**
+ * Prevent user from doing multiple clicks on a view.
+ */
+fun View.setSafeOnClickListener(onSafeClick: () -> Unit) {
+    val safeClickListener = SafeClickListener {
+        onSafeClick()
+    }
+    setOnClickListener(safeClickListener)
 }

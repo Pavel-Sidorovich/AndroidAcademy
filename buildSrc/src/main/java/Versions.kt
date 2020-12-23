@@ -30,4 +30,5 @@ object Versions {
     const val core_testing_version = "2.1.0"
     const val mockito_core_version = "3.6.28"
     const val truth_version = "1.1"
+    const val mockk_version = "1.10.3-jdk8"
 }

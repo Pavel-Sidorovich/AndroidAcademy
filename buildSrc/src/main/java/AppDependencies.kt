@@ -72,6 +72,7 @@ object AppDependencies {
     private const val junit = "junit:junit:${Versions.junit_version}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit_version}"
     private const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso_version}"
+    private const val truth = "com.google.truth:truth:${Versions.truth_version}"
 
 
     private const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines_test_version}"
@@ -117,6 +118,7 @@ object AppDependencies {
         add(coroutines_test)
         add(core_testing)
         add(mockito_core)
+        add(truth)
     }
 }
 

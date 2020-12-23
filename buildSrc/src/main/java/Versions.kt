@@ -29,4 +29,5 @@ object Versions {
     const val coroutines_test_version = "1.4.2"
     const val core_testing_version = "2.1.0"
     const val mockito_core_version = "3.6.28"
+    const val truth_version = "1.1"
 }

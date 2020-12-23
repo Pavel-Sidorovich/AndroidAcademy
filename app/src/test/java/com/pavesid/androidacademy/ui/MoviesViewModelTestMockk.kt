@@ -44,35 +44,35 @@ class MoviesViewModelTestMockk {
 
     @Test
     fun `response is success Mockk`() {
-            coEvery {
-                repositoryMockito.getMovies()
-            } answers {
-                emptyList()
-            }
-            val viewModel = MoviesViewModel(repositoryMockito, coroutineDispatcher)
-            viewModel.movies.observeForever(moviesObserverMockito)
-            coVerify { repositoryMockito.getMovies() }
-            verify {
-                moviesObserverMockito.onChanged(Resource.success(emptyList()))
-            }
-            viewModel.movies.removeObserver(moviesObserverMockito)
+        coEvery {
+            repositoryMockito.getMovies()
+        } answers {
+            emptyList()
+        }
+        val viewModel = MoviesViewModel(repositoryMockito, coroutineDispatcher)
+        viewModel.movies.observeForever(moviesObserverMockito)
+        coVerify { repositoryMockito.getMovies() }
+        verify {
+            moviesObserverMockito.onChanged(Resource.success(emptyList()))
+        }
+        viewModel.movies.removeObserver(moviesObserverMockito)
     }
 
     @Test
     fun `response is error Mockk`() {
-            val message = "Error"
+        val message = "Error"
 
-            coEvery {
-                repositoryMockito.getMovies()
-            } answers {
-                throw java.lang.RuntimeException(message)
-            }
-            val viewModel = MoviesViewModel(repositoryMockito, coroutineDispatcher)
-            viewModel.movies.observeForever(moviesObserverMockito)
-            coVerify { repositoryMockito.getMovies() }
-            verify {
-                moviesObserverMockito.onChanged(Resource.error(message, null))
-            }
-            viewModel.movies.removeObserver(moviesObserverMockito)
+        coEvery {
+            repositoryMockito.getMovies()
+        } answers {
+            throw java.lang.RuntimeException(message)
         }
+        val viewModel = MoviesViewModel(repositoryMockito, coroutineDispatcher)
+        viewModel.movies.observeForever(moviesObserverMockito)
+        coVerify { repositoryMockito.getMovies() }
+        verify {
+            moviesObserverMockito.onChanged(Resource.error(message, null))
+        }
+        viewModel.movies.removeObserver(moviesObserverMockito)
+    }
 }

@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="?attr/colorBackground"
-	android:fitsSystemWindows="false"
+	android:fitsSystemWindows="true"
 	tools:context=".ui.movies.MoviesFragment">
 
 	<com.google.android.material.appbar.AppBarLayout
@@ -23,7 +23,7 @@
 			android:id="@+id/toolbar"
 			android:layout_width="match_parent"
 			android:layout_height="?attr/actionBarSize"
-			android:fitsSystemWindows="false"
+			android:fitsSystemWindows="true"
 			android:theme="@style/AppTheme.PopupOverlay"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"

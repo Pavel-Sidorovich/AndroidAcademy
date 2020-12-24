@@ -11,4 +11,5 @@
     <attr name="colorStartBackground" format="reference" />
     <attr name="colorMiddleTextView" format="reference" />
     <attr name="colorEndBackground" format="reference" />
+    <attr name="colorTransparent" format="reference" />
 </resources>

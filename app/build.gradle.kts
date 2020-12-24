@@ -5,6 +5,9 @@ plugins {
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("kotlin-android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -52,6 +55,8 @@ dependencies {
     // std lib
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
+    implementation(platform("com.google.firebase:firebase-bom:${Versions.firebase_bom_version}"))
+
     // App libs
     implementation(AppDependencies.appLibraries)
 
@@ -74,6 +79,7 @@ fun Project.getKtlintConfiguration(): Configuration {
     }
 }
 
+val outputDirJacoco = "${project.buildDir}/reports/jacoco"
 val outputDir = "${project.buildDir}/reports/ktlint/"
 val inputFiles = project.fileTree(mapOf("dir" to "src", "include" to "**/*.kt"))
 

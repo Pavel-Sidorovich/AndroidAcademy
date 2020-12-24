@@ -4,6 +4,6 @@
         android:centerColor="?attr/colorTransparent"
         android:startColor="?attr/colorTransparent"
         android:endColor="?attr/colorBackground"
-        android:angle="270"
+        android:angle="90"
         />
 </shape>

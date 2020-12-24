@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "839157019771",
+    "project_id": "androidacademy-eafd2",
+    "storage_bucket": "androidacademy-eafd2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839157019771:android:abcf660c726736c38a5ede",
+        "android_client_info": {
+          "package_name": "com.pavesid.androidacademy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839157019771-75fnhthl7n04n1ik245rjvubu3mc82bf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEkyl1KGq4jusvTC2vQ2TVVxYU71eLfCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839157019771-75fnhthl7n04n1ik245rjvubu3mc82bf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

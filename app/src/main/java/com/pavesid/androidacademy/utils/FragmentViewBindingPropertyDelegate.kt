@@ -45,7 +45,7 @@ class FragmentViewBindingPropertyDelegate<T : ViewBinding>(
                     val viewLifecycleObserver = object : DefaultLifecycleObserver {
                         override fun onDestroy(owner: LifecycleOwner) {
                             viewLifecycleOwner.lifecycle.removeObserver(this)
-                            mainHandler.post { binding = null }
+                            binding = null
                         }
                     }
 

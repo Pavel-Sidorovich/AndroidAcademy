@@ -1,6 +1,5 @@
 package com.pavesid.androidacademy.ui.details
 
-import android.content.res.Configuration
 import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -10,8 +9,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.Display
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.Surface
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
@@ -36,7 +37,7 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class MoviesDetailsFragment @Inject constructor() :
+class MoviesDetailsFragment :
     Fragment(R.layout.fragment_movies_details),
     ExitWithAnimation {
 
@@ -121,6 +122,11 @@ class MoviesDetailsFragment @Inject constructor() :
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.findItem(R.id.theme).isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun onStart() {
         super.onStart()
         mainActivity.window.statusBarColor = Color.TRANSPARENT
@@ -130,6 +136,7 @@ class MoviesDetailsFragment @Inject constructor() :
     override fun onStop() {
         super.onStop()
         sensorManager.unregisterListener(eventListener)
+        mainActivity.setSupportActionBar(null)
     }
 
     override var posX: Int? = null
@@ -209,30 +216,6 @@ class MoviesDetailsFragment @Inject constructor() :
                 addItemDecoration(castItemDecoration)
             }
         }
-
-        val param = binding.scrollView.layoutParams as ViewGroup.MarginLayoutParams
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            binding.scrollView.setPadding(
-                resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
-                0,
-                resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
-                0
-            )
-            param.setMargins(
-                -resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
-                0,
-                -resources.getDimensionPixelSize(R.dimen.spacing_extra_large_36),
-                0
-            )
-        } else {
-            param.setMargins(
-                0,
-                0,
-                0,
-                0
-            )
-        }
-        binding.scrollView.layoutParams = param
     }
 
     companion object {

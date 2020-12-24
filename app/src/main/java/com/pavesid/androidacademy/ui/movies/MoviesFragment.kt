@@ -14,13 +14,9 @@ import com.pavesid.androidacademy.ui.MoviesViewModel
 import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.utils.extensions.getColorFromAttr
 import com.pavesid.androidacademy.utils.viewBinding
-import javax.inject.Inject
+import timber.log.Timber
 
-class MoviesFragment @Inject constructor(
-    var viewModel: MoviesViewModel?
-) : Fragment(R.layout.fragment_movies) {
-
-    constructor() : this(null)
+class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     private val binding: FragmentMoviesBinding by viewBinding(FragmentMoviesBinding::bind)
 
@@ -32,11 +28,7 @@ class MoviesFragment @Inject constructor(
 
     private val mainActivity by lazy { activity as MainActivity }
 
-    private val moviesAdapter by lazy {
-        MoviesAdapter { movie, cX, cY ->
-            mainActivity.changeFragment(movie, cX, cY)
-        }
-    }
+    private lateinit var moviesAdapter: MoviesAdapter
 
     private val callback by lazy { MoviesItemTouchHelper(moviesAdapter) }
 
@@ -47,9 +39,10 @@ class MoviesFragment @Inject constructor(
         )
     }
 
+    private val viewModel by lazy { ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java) }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = viewModel ?: ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
 
         initActionBar()
         initView()
@@ -61,14 +54,19 @@ class MoviesFragment @Inject constructor(
             setSupportActionBar(binding.toolbar)
             title = ""
         }
+
+        binding.toolbar.inflateMenu(R.menu.menu)
     }
 
     private fun initView() {
 
+        moviesAdapter = MoviesAdapter { movie, cX, cY ->
+            mainActivity.changeFragment(false, movie, cX, cY)
+        }
+
         binding.moviesRecycler.apply {
             setHasFixedSize(true)
-            layoutManager =
-                GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
+            layoutManager = GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
             adapter = moviesAdapter
 
             addItemDecoration(moviesItemDecoration)
@@ -79,12 +77,13 @@ class MoviesFragment @Inject constructor(
     }
 
     private fun subscribeToObservers() {
-        viewModel?.movies?.observe(
+        viewModel.movies.observe(
             viewLifecycleOwner,
             { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
                         binding.progress.visibility = View.GONE
+                        Timber.d(binding.progress.toString())
                         resource.data?.let { movies ->
                             moviesAdapter.movies = movies
                         }
@@ -98,5 +97,9 @@ class MoviesFragment @Inject constructor(
                 }
             }
         )
+    }
+
+    companion object {
+        fun newInstance() = MoviesFragment()
     }
 }

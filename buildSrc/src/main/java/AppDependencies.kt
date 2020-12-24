@@ -69,10 +69,6 @@ object AppDependencies {
     private const val converterSerialization =
         "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.serialization_converter_version}"
 
-    // LocalBroadcastManager
-    private const val localBroadcastManager =
-        "androidx.localbroadcastmanager:localbroadcastmanager:${Versions.local_broadcast_manager_version}"
-
     // Firebase
     private const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
     private const val firebase_analytics = "com.google.firebase:firebase-analytics-ktx"
@@ -111,7 +107,6 @@ object AppDependencies {
         add(retrofit2)
         add(converterSerialization)
         add(lottie)
-        add(localBroadcastManager)
         add(preferenceKtx)
         add(firebase_crashlytics)
         add(firebase_analytics)

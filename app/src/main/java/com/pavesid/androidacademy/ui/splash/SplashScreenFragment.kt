@@ -19,12 +19,17 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 
     private val binding by viewBinding(FragmentSplashScreenBinding::bind)
 
+    private var animateProgress = 0f
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        animateProgress = savedInstanceState?.getFloat(PROGRESS) ?: animateProgress
+
         ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
 
-        savedInstanceState ?: binding.animation.apply {
+        binding.animation.apply {
+            setMinProgress(animateProgress)
             playAnimation()
             addAnimatorListener(object : AnimatorListenerAdapter() {
 
@@ -32,6 +37,10 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
                     mainActivity.changeFragment(true)
                 }
             })
+            addAnimatorUpdateListener { animator ->
+                val progress = animator.animatedValue as Float
+                animateProgress = progress
+            }
         }
     }
 
@@ -40,13 +49,24 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
         mainActivity.window.statusBarColor = Color.TRANSPARENT
     }
 
-    override fun onPause() {
-        super.onPause()
-        mainActivity.changeFragment(true)
+    override fun onStop() {
+        super.onStop()
+        binding.animation.apply {
+            pauseAnimation()
+            removeAllAnimatorListeners()
+            removeAllUpdateListeners()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putFloat(PROGRESS, animateProgress)
+        super.onSaveInstanceState(outState)
     }
 
     companion object {
         @JvmStatic
         fun newInstance(): SplashScreenFragment = SplashScreenFragment()
+
+        private const val PROGRESS = "lottie_progress"
     }
 }

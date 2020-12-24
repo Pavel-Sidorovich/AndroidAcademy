@@ -93,11 +93,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     fun changeFragment(toMovies: Boolean = false, parcelable: Parcelable? = null, cX: Int = 0, cY: Int = 0) {
         if (toMovies) {
             supportFragmentManager.open {
-                replace(R.id.container, MoviesFragment.newInstance(), null)
+                replace(R.id.container, MoviesFragment.newInstance(), TAG)
             }
         } else {
             val detailFragment = MoviesDetailsFragment.newInstance(parcelable!!, cX, cY)
@@ -105,6 +104,7 @@ class MainActivity : AppCompatActivity() {
                 add(R.id.container, detailFragment, null)
                 addToBackStack(null)
             }
+        }
     }
 
     private fun changeTheme() {

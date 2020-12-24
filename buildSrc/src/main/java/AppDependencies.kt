@@ -4,6 +4,7 @@ object AppDependencies {
 
     // Stdlib
     private const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin_version}"
+    private const val kotlinStdLibJdk = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin_version}"
 
     // Android UI
     private const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat_version}"
@@ -93,6 +94,7 @@ object AppDependencies {
 
     val appLibraries = arrayListOf<String>().apply {
         add(kotlinStdLib)
+        add(kotlinStdLibJdk)
         add(coreKtx)
         add(appcompat)
         add(constraintLayout)

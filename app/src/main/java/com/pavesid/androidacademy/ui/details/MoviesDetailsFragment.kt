@@ -11,7 +11,6 @@ import android.os.Parcelable
 import android.view.Display
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.Surface
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation

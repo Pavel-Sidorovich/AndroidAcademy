@@ -4,10 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.pavesid.androidacademy.MainCoroutineRule
 import com.pavesid.androidacademy.data.Movie
-import com.pavesid.androidacademy.repositories.MoviesRepository
+import com.pavesid.androidacademy.repositories.MoviesRemoteRepositoryTest
 import com.pavesid.androidacademy.utils.Resource
-import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -27,31 +25,26 @@ class MoviesViewModelTestMockk {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-    var coroutineDispatcher = TestCoroutineDispatcher()
+    private val coroutineDispatcher = TestCoroutineDispatcher()
 
-    @MockK
-    lateinit var repositoryMockito: MoviesRepository
+    private val repository = MoviesRemoteRepositoryTest()
 
     @MockK
     lateinit var moviesObserverMockito: Observer<Resource<List<Movie>>>
 
     @Before
     fun before() {
-        repositoryMockito = mockk()
         moviesObserverMockito = mockk()
         every { moviesObserverMockito.onChanged(any()) } answers {}
     }
 
     @Test
     fun `response is success Mockk`() {
-        coEvery {
-            repositoryMockito.getMovies()
-        } answers {
-            emptyList()
-        }
-        val viewModel = MoviesViewModel(repositoryMockito, coroutineDispatcher)
+        repository.setShouldReturnNetworkError(false)
+
+        val viewModel = MoviesViewModel(repository, coroutineDispatcher)
         viewModel.movies.observeForever(moviesObserverMockito)
-        coVerify { repositoryMockito.getMovies() }
+
         verify {
             moviesObserverMockito.onChanged(Resource.success(emptyList()))
         }
@@ -61,18 +54,15 @@ class MoviesViewModelTestMockk {
     @Test
     fun `response is error Mockk`() {
         val message = "Error"
+        repository.setShouldReturnNetworkError(true)
 
-        coEvery {
-            repositoryMockito.getMovies()
-        } answers {
-            throw java.lang.RuntimeException(message)
-        }
-        val viewModel = MoviesViewModel(repositoryMockito, coroutineDispatcher)
+        val viewModel = MoviesViewModel(repository, coroutineDispatcher)
         viewModel.movies.observeForever(moviesObserverMockito)
-        coVerify { repositoryMockito.getMovies() }
+
         verify {
             moviesObserverMockito.onChanged(Resource.error(message, null))
         }
+
         viewModel.movies.removeObserver(moviesObserverMockito)
     }
 }

@@ -10,7 +10,6 @@ import com.pavesid.androidacademy.repositories.MoviesRepository
 import com.pavesid.androidacademy.utils.Resource
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -28,7 +27,6 @@ class MoviesViewModel @ViewModelInject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            delay(2000)
             _movies.postValue(Resource.loading(null))
             _movies.postValue(Resource.success(repository.getMovies()))
         }

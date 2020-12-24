@@ -15,6 +15,7 @@ import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
 import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
+import com.pavesid.androidacademy.ui.splash.SplashScreenFragment
 import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
 import com.pavesid.androidacademy.utils.extensions.exitCircularReveal
 import com.pavesid.androidacademy.utils.extensions.exitCircularRevealToLeft
@@ -35,6 +36,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_AndroidAcademy)
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -42,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         isDarkTheme = prefs.getBoolean(THEME, false)
         savedInstanceState ?: changeTheme()
 
-        val rootFragment = MoviesFragment()
+        val rootFragment = SplashScreenFragment()
 
         savedInstanceState ?: supportFragmentManager.open {
             add(R.id.container, rootFragment, TAG)
@@ -90,6 +93,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun changeFragment(toMovies: Boolean = false, parcelable: Parcelable? = null, cX: Int = 0, cY: Int = 0) {
+        if (toMovies) {
+            supportFragmentManager.open {
+                replace(R.id.container, MoviesFragment.newInstance(), TAG)
+            }
+        } else {
+            val detailFragment = MoviesDetailsFragment.newInstance(parcelable!!, cX, cY)
+            supportFragmentManager.open {
+                add(R.id.container, detailFragment, null)
+                addToBackStack(null)
+            }
+        }
+    }
+
     private fun changeTheme() {
         delegate.localNightMode =
             if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
@@ -128,14 +145,6 @@ class MainActivity : AppCompatActivity() {
                 window.decorView.height.toDouble()
             ).toFloat()
         )
-    }
-
-    fun changeFragment(parcelable: Parcelable, cX: Int, cY: Int) {
-        val detailFragment = MoviesDetailsFragment.newInstance(parcelable, cX, cY)
-        supportFragmentManager.open {
-            add(R.id.container, detailFragment, null)
-            addToBackStack(null)
-        }
     }
 
     private companion object {

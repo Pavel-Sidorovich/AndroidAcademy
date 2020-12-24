@@ -21,7 +21,7 @@ object Versions {
     const val hilt_compiler_version = "1.0.0-alpha02"
     const val retrofit_version = "2.9.0"
     const val serialization_converter_version = "0.8.0"
-    const val local_broadcast_manager_version = "1.0.0"
+    const val lottie_version = "3.5.0"
     const val kt_lint_version = "0.40.0"
     const val google_services_version = "4.3.4"
     const val firebase_bom_version = "26.1.1"

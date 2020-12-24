@@ -61,7 +61,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
     private fun initView() {
 
         moviesAdapter = MoviesAdapter { movie, cX, cY ->
-            mainActivity.changeFragment(movie, cX, cY)
+            mainActivity.changeFragment(false, movie, cX, cY)
         }
 
         binding.moviesRecycler.apply {
@@ -97,5 +97,9 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
                 }
             }
         )
+    }
+
+    companion object {
+        fun newInstance() = MoviesFragment()
     }
 }

@@ -116,7 +116,13 @@
 
 	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
 
-	<style name="MyAppTheme.PopupOverlay" parent="AppTheme.PopupOverlay">
-		<item name="android:tint">?attr/colorPrimaryBW</item>
-	</style>
+    <style name="MyAppTheme.PopupOverlay" parent="AppTheme.PopupOverlay">
+        <item name="android:tint">?attr/colorPrimaryBW</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/ic_splash</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
 </resources>

@@ -46,25 +46,22 @@
 	    style="@style/DetailsPG"
 	    android:layout_width="@dimen/movie_rectangle_size_24"
 	    android:layout_height="@dimen/movie_rectangle_size_24"
-	    android:layout_marginTop="@dimen/spacing_small_8"
 	    android:minWidth="@dimen/movie_rectangle_min_size_24"
 	    android:layout_marginStart="@dimen/spacing_small_8"
 	    android:minHeight="@dimen/movie_rectangle_min_size_24"
 	    android:background="@drawable/rectangle"
 	    app:layout_constraintStart_toStartOf="parent"
-	    app:layout_constraintTop_toTopOf="parent"
+	    app:layout_constraintTop_toTopOf="@id/movie_like_box"
+		app:layout_constraintBottom_toBottomOf="@id/movie_like_box"
 	    tools:text="@string/pg"
 		android:textIsSelectable="true" />
 
 	<xyz.hanks.library.bang.SmallBangView
 		android:id="@+id/movie_like_box"
-		android:layout_width="0dp"
-		android:layout_height="0dp"
-		app:layout_constraintDimensionRatio="1:1"
-		android:layout_marginEnd="@dimen/spacing_small_8"
-		app:layout_constraintBottom_toBottomOf="@+id/movie_rectangle_pg"
+		android:layout_width="@dimen/movie_bang_size"
+		android:layout_height="@dimen/movie_bang_size"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toTopOf="@+id/movie_rectangle_pg">
+		app:layout_constraintTop_toTopOf="@+id/movie_orig">
 
 		<ImageView
 			android:layout_width="wrap_content"

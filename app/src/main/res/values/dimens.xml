@@ -26,4 +26,5 @@
 	<dimen name="cast_elevation">2dp</dimen>
 	<dimen name="appbar_elevation">4dp</dimen>
 	<dimen name="movie_elevation">2dp</dimen>
+    <dimen name="movie_bang_size">48dp</dimen>
 </resources>

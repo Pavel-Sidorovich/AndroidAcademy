@@ -86,6 +86,9 @@ object AppDependencies {
     // Kotlin Extensions and Coroutines support for Room
     private const val roomKtx = "androidx.room:room-ktx:${Versions.room_version}"
 
+    // SmallBang
+    private const val bang = "pub.hanks:smallbang:${Versions.bang_version}"
+
     // Test libs
     private const val junit = "junit:junit:${Versions.junit}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
@@ -116,6 +119,7 @@ object AppDependencies {
         add(lottie)
         add(roomRuntime)
         add(roomKtx)
+        add(bang)
         add(preferenceKtx)
         add(firebase_crashlytics)
         add(firebase_analytics)

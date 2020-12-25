@@ -60,13 +60,19 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     private fun initView() {
 
-        moviesAdapter = MoviesAdapter { movie, cX, cY ->
-            mainActivity.changeFragment(false, movie, cX, cY)
-        }
+        moviesAdapter = MoviesAdapter(
+            { movie ->
+                viewModel.updateMovies(movie = movie)
+            },
+            { movie, cX, cY ->
+                mainActivity.changeFragment(false, movie, cX, cY)
+            }
+        )
 
         binding.moviesRecycler.apply {
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
+            layoutManager =
+                GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
             adapter = moviesAdapter
 
             addItemDecoration(moviesItemDecoration)

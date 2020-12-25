@@ -17,7 +17,10 @@ import com.pavesid.androidacademy.utils.extensions.setSafeOnClickListener
 import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
 import java.util.Collections
 
-internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Unit) :
+internal class MoviesAdapter(
+    private val likeListener: (Movie) -> Unit,
+    private val listener: (Parcelable, Int, Int) -> Unit
+) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(), ItemTouchHelperAdapter {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
@@ -34,17 +37,20 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder = if (viewType == 1) {
-        MoviesViewHolderV1(
-            MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            listener = listener
-        )
-    } else {
-        MoviesViewHolderV2(
-            MovieItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false),
-            listener = listener
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder =
+        if (viewType == 1) {
+            MoviesViewHolderV1(
+                MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                listener = listener,
+                likeListener = likeListener
+            )
+        } else {
+            MoviesViewHolderV2(
+                MovieItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false),
+                listener = listener,
+                likeListener = likeListener
+            )
+        }
 
     override fun getItemViewType(position: Int): Int {
         return movies[position].id % 2
@@ -77,9 +83,10 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
         movies = mutableMovies
     }
 
-    class MoviesViewHolderV1(
+    inner class MoviesViewHolderV1(
         private val binding: MovieItemBinding,
-        private val listener: (Parcelable, Int, Int) -> Unit
+        private val listener: (Parcelable, Int, Int) -> Unit,
+        private val likeListener: (Movie) -> Unit
     ) : MoviesViewHolder(binding.root) {
 
         override fun bind(movie: Movie) {
@@ -99,6 +106,18 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
                 movieDuration.text = itemView.context.getString(R.string.duration, movie.runtime)
                 movieName.text = movie.title
                 movieName.setShaderForGradient()
+                movieLikeBox.apply {
+                    isSelected = movie.liked
+                    setOnClickListener {
+                        if (movieLikeBox.isSelected) {
+                            movieLikeBox.isSelected = false
+                        } else {
+                            movieLikeBox.isSelected = true
+                            movieLikeBox.likeAnimation()
+                        }
+                        likeListener.invoke(movie)
+                    }
+                }
             }
 
             binding.root.setSafeOnClickListener {
@@ -109,9 +128,10 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
         }
     }
 
-    class MoviesViewHolderV2(
+    inner class MoviesViewHolderV2(
         private val binding: MovieItem2Binding,
-        private val listener: (Parcelable, Int, Int) -> Unit
+        private val listener: (Parcelable, Int, Int) -> Unit,
+        private val likeListener: (Movie) -> Unit
     ) : MoviesViewHolder(binding.root) {
 
         override fun bind(movie: Movie) {
@@ -131,6 +151,18 @@ internal class MoviesAdapter(private val listener: (Parcelable, Int, Int) -> Uni
                 movieDuration.text = itemView.context.getString(R.string.duration, movie.runtime)
                 movieName.text = movie.title
                 movieName.setShaderForGradient()
+                movieLikeBox.apply {
+                    isSelected = movie.liked
+                    setOnClickListener {
+                        if (movieLikeBox.isSelected) {
+                            movieLikeBox.isSelected = false
+                        } else {
+                            movieLikeBox.isSelected = true
+                            movieLikeBox.likeAnimation()
+                        }
+                        likeListener.invoke(movie)
+                    }
+                }
             }
 
             binding.root.setSafeOnClickListener {

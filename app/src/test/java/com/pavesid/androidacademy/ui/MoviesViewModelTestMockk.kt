@@ -39,7 +39,7 @@ class MoviesViewModelTestMockk {
     }
 
     @Test
-    fun `response is success Mockk`() {
+    fun `should return response is success when repository return data`() {
         repository.setShouldReturnNetworkError(false)
 
         val viewModel = MoviesViewModel(repository, coroutineDispatcher)
@@ -52,7 +52,7 @@ class MoviesViewModelTestMockk {
     }
 
     @Test
-    fun `response is error Mockk`() {
+    fun `should return response is error when repository throw exception`() {
         val message = "Error"
         repository.setShouldReturnNetworkError(true)
 

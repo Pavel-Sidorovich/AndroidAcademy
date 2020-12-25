@@ -35,6 +35,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
+@SuppressWarnings("deprecation")
 @AndroidEntryPoint
 class MoviesDetailsFragment :
     Fragment(R.layout.fragment_movies_details),

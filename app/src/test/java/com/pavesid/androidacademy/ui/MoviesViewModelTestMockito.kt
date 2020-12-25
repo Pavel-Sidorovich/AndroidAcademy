@@ -34,7 +34,7 @@ class MoviesViewModelTestMockito {
     private lateinit var moviesObserverMockito: Observer<Resource<List<Movie>>>
 
     @Test
-    fun `response is success Mockito`() {
+    fun `should return response is success when repository return data`() {
         runBlockingTest {
             repository.setShouldReturnNetworkError(false)
 
@@ -48,7 +48,7 @@ class MoviesViewModelTestMockito {
     }
 
     @Test
-    fun `response is error Mockito`() {
+    fun `should return response is error when repository throw exception`() {
         runBlockingTest {
             repository.setShouldReturnNetworkError(true)
 

@@ -9,4 +9,7 @@ import kotlinx.serialization.Serializable
 data class Genre(
     val id: Int,
     val name: String
-) : Parcelable
+) : Parcelable {
+
+    constructor() : this(0, "")
+}

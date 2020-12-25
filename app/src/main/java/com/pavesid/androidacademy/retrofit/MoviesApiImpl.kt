@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.repositories
+package com.pavesid.androidacademy.retrofit
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.pavesid.androidacademy.data.Actor

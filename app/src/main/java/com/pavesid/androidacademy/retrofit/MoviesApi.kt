@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.repositories
+package com.pavesid.androidacademy.retrofit
 
 import com.pavesid.androidacademy.data.Actor
 import com.pavesid.androidacademy.data.Genre

@@ -1,27 +1,26 @@
 package com.pavesid.androidacademy.data
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.pavesid.androidacademy.db.Converters
 import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
 @Parcelize
-@Serializable
+@Entity(tableName = "movie_items")
+@TypeConverters(Converters::class)
 data class Movie(
+    @PrimaryKey
     val id: Int,
     val title: String,
     val overview: String,
-    @SerialName("poster_path")
     val poster: String,
-    @SerialName("backdrop_path")
     val backdrop: String,
-    @SerialName("vote_average")
     val ratings: Float,
-    @SerialName("vote_count")
     val numberOfRatings: Int,
     val minimumAge: Int,
     val runtime: Int,
-    @SerialName("genre_ids")
     val genres: List<Genre>,
     val actors: List<Actor>
 ) : Parcelable

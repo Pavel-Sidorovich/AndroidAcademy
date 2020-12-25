@@ -12,4 +12,7 @@ data class Actor(
     val name: String,
     @SerialName("profile_path")
     val picture: String
-) : Parcelable
+) : Parcelable {
+
+    constructor() : this(0, "", "")
+}

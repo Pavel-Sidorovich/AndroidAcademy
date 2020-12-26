@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.pavesid.androidacademy.App.Companion.THEME
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
 import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
@@ -45,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         isDarkTheme = prefs.getBoolean(THEME, false)
-        savedInstanceState ?: changeTheme()
 
         val rootFragment = if (prefs.getBoolean(ANIMATION, false)) {
             MoviesFragment.newInstance()
@@ -123,12 +123,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeTheme() {
-        delegate.localNightMode =
-            if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-        recreate()
-    }
-
     private fun changeThemeWithAnimation(view: View) {
         delegate.localNightMode =
             if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
@@ -164,7 +158,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private companion object {
-        private const val THEME = "switchTheme"
         private const val TAG = "Movies"
         private const val ANIMATION = "animationPlayed"
     }

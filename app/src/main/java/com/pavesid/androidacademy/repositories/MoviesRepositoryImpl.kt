@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
-class MoviesRemoteRepository @Inject constructor(
+class MoviesRepositoryImpl @Inject constructor(
     private val moviesDao: MoviesDao
 ) : MoviesRepository {
 

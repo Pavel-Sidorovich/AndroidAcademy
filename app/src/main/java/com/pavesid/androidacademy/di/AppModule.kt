@@ -6,8 +6,8 @@ import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.pavesid.androidacademy.db.MoviesDao
 import com.pavesid.androidacademy.db.MoviesDatabase
-import com.pavesid.androidacademy.repositories.MoviesRemoteRepository
 import com.pavesid.androidacademy.repositories.MoviesRepository
+import com.pavesid.androidacademy.repositories.MoviesRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,7 +43,7 @@ object AppModule {
     @Provides
     fun providesShoppingRepository(
         dao: MoviesDao
-    ) = MoviesRemoteRepository(dao) as MoviesRepository
+    ) = MoviesRepositoryImpl(dao) as MoviesRepository
 
     private const val DATABASE_NAME = "movies_db"
 }

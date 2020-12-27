@@ -46,6 +46,7 @@ class FragmentViewBindingPropertyDelegate<T : ViewBinding>(
                         override fun onDestroy(owner: LifecycleOwner) {
                             viewLifecycleOwner.lifecycle.removeObserver(this)
                             binding = null
+                            super.onDestroy(owner)
                         }
                     }
 
@@ -57,6 +58,7 @@ class FragmentViewBindingPropertyDelegate<T : ViewBinding>(
         override fun onDestroy(owner: LifecycleOwner) {
             owner.lifecycle.removeObserver(this)
             mainHandler.post { binding = null }
+            super.onDestroy(owner)
         }
     }
 }

@@ -30,13 +30,7 @@ class MoviesViewModel @ViewModelInject constructor(
     init {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _movies.postValue(Resource.loading(null))
-            list = repository.getMoviesFromDB().let {
-                if (it.isEmpty()) {
-                    val list = repository.getMovies()
-                    repository.insertMovies(list)
-                    return@let list
-                } else it
-            }
+            list = repository.getMovies()
             _movies.postValue(
                 Resource.success(list)
             )

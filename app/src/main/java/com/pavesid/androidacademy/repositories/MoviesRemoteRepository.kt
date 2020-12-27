@@ -16,7 +16,17 @@ class MoviesRemoteRepository @Inject constructor(
     private val moviesDao: MoviesDao
 ) : MoviesRepository {
 
-    override suspend fun getMovies(): List<Movie> {
+    override suspend fun getMovies(): List<Movie> = getMoviesFromDB().let {
+        if (it.isEmpty()) {
+            val list = getMoviesFromInternet()
+            insertMovies(list)
+            return@let list
+        } else it
+    }
+
+    private suspend fun getMoviesFromDB(): List<Movie> = moviesDao.getAllMovies()
+
+    private suspend fun getMoviesFromInternet(): List<Movie> {
         var movies = listOf<JsonMovie>()
         var genres = listOf<Genre>()
         var actors = listOf<Actor>()
@@ -37,8 +47,6 @@ class MoviesRemoteRepository @Inject constructor(
             actors
         )
     }
-
-    override suspend fun getMoviesFromDB(): List<Movie> = moviesDao.getAllMovies()
 
     override suspend fun updateMovie(movie: Movie) {
         moviesDao.updateMovie(movie)

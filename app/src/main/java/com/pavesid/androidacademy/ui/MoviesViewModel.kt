@@ -16,7 +16,7 @@ import timber.log.Timber
 
 class MoviesViewModel @ViewModelInject constructor(
     private val repository: MoviesRepository,
-    @IODispatcher dispatcher: CoroutineDispatcher
+    @IODispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _movies = MutableLiveData<Resource<List<Movie>>>()
@@ -40,7 +40,7 @@ class MoviesViewModel @ViewModelInject constructor(
     }
 
     fun updateMovies(movie: Movie) {
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+        viewModelScope.launch(dispatcher + exceptionHandler) {
             val index = list.indexOf(movie)
             list[index].liked = !list[index].liked
             repository.updateMovie(list[index])

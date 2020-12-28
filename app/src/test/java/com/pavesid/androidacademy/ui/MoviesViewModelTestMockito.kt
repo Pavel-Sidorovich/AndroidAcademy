@@ -34,31 +34,27 @@ class MoviesViewModelTestMockito {
     private lateinit var moviesObserverMockito: Observer<Resource<List<Movie>>>
 
     @Test
-    fun `should return response is success when repository return data`() {
-        runBlockingTest {
-            repository.setShouldReturnNetworkError(false)
+    fun `should return response is success when repository return data`() = runBlockingTest {
+        repository.setShouldReturnNetworkError(false)
 
-            val viewModel = MoviesViewModel(repository, coroutineDispatcher)
-            viewModel.movies.observeForever(moviesObserverMockito)
+        val viewModel = MoviesViewModel(repository, coroutineDispatcher)
+        viewModel.movies.observeForever(moviesObserverMockito)
 
-            verify(moviesObserverMockito).onChanged(Resource.success(emptyList()))
+        verify(moviesObserverMockito).onChanged(Resource.success(emptyList()))
 
-            viewModel.movies.removeObserver(moviesObserverMockito)
-        }
+        viewModel.movies.removeObserver(moviesObserverMockito)
     }
 
     @Test
-    fun `should return response is error when repository throw exception`() {
-        runBlockingTest {
-            repository.setShouldReturnNetworkError(true)
+    fun `should return response is error when repository throw exception`() = runBlockingTest {
+        repository.setShouldReturnNetworkError(true)
 
-            val message = "Error"
-            val viewModel = MoviesViewModel(repository, coroutineDispatcher)
-            viewModel.movies.observeForever(moviesObserverMockito)
+        val message = "Error"
+        val viewModel = MoviesViewModel(repository, coroutineDispatcher)
+        viewModel.movies.observeForever(moviesObserverMockito)
 
-            verify(moviesObserverMockito).onChanged(Resource.error(message, null))
+        verify(moviesObserverMockito).onChanged(Resource.error(message, null))
 
-            viewModel.movies.removeObserver(moviesObserverMockito)
-        }
+        viewModel.movies.removeObserver(moviesObserverMockito)
     }
 }

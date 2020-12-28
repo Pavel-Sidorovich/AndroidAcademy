@@ -1,76 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="?attr/colorBackground"
-	android:fitsSystemWindows="false"
-	tools:context=".ui.movies.MoviesFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorBackground"
+    android:fitsSystemWindows="false"
+    tools:context=".ui.movies.MoviesFragment">
 
-	<com.google.android.material.appbar.AppBarLayout
-		android:id="@+id/appBar"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="?attr/colorBackground"
-		android:elevation="@dimen/appbar_elevation"
-		android:fitsSystemWindows="true"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorBackground"
+        android:elevation="@dimen/appbar_elevation"
+        android:fitsSystemWindows="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-		<androidx.appcompat.widget.Toolbar
-			android:id="@+id/toolbar"
-			android:layout_width="match_parent"
-			android:layout_height="?attr/actionBarSize"
-			android:fitsSystemWindows="false"
-			android:theme="@style/AppTheme.PopupOverlay"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			app:popupTheme="@style/AppTheme.PopupOverlay">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:fitsSystemWindows="false"
+            android:theme="@style/AppTheme.PopupOverlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
-			<ImageView
-				android:layout_width="@dimen/movies_aim_width"
-				android:layout_height="@dimen/movies_aim_height"
-				android:layout_marginEnd="@dimen/spacing_small_8"
-				android:contentDescription="@string/movies_aim"
-				android:src="@drawable/ic_aim" />
+            <ImageView
+                android:layout_width="@dimen/movies_aim_width"
+                android:layout_height="@dimen/movies_aim_height"
+                android:layout_marginEnd="@dimen/spacing_small_8"
+                android:contentDescription="@string/movies_aim"
+                android:src="@drawable/ic_aim" />
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:gravity="center"
-				android:text="@string/movies"
-				android:textColor="?attr/colorPrimaryBW"
-				android:textSize="14sp"
-				android:textStyle="bold" />
-		</androidx.appcompat.widget.Toolbar>
-	</com.google.android.material.appbar.AppBarLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/movies"
+                android:textColor="?attr/colorPrimaryBW"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-	<androidx.recyclerview.widget.RecyclerView
-		android:id="@+id/movies_recycler"
-		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:clipToPadding="false"
-		android:fitsSystemWindows="true"
-		android:paddingStart="@dimen/spacing_small_8"
-		android:paddingTop="@dimen/spacing_normal_16"
-		android:paddingEnd="@dimen/spacing_small_8"
-		app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/appBar"
-		app:spanCount="2"
-		tools:listitem="@layout/movie_item" />
-
-	<ProgressBar
-		android:id="@+id/progress"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/appBar" />
+    <include
+        layout="@layout/recycler_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,6 +30,7 @@ import kotlin.math.hypot
 class MainActivity : AppCompatActivity() {
 
     private var isDarkTheme = false
+
     @Inject
     lateinit var prefs: SharedPreferences
 

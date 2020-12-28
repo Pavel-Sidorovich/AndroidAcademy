@@ -4,6 +4,7 @@ object AppDependencies {
 
     // Stdlib
     private const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin_version}"
+    private const val kotlinStdLibJdk = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin_version}"
 
     // Android UI
     private const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat_version}"
@@ -80,12 +81,20 @@ object AppDependencies {
     const val lottie = "com.airbnb.android:lottie:${Versions.lottie_version}"
 
     // Test libs
-    private const val junit = "junit:junit:${Versions.junit}"
-    private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
-    private const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
+    private const val junit = "junit:junit:${Versions.junit_version}"
+    private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit_version}"
+    private const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso_version}"
+    private const val truth = "com.google.truth:truth:${Versions.truth_version}"
+    private const val mockk = "io.mockk:mockk:${Versions.mockk_version}"
+
+
+    private const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines_test_version}"
+    private const val core_testing = "androidx.arch.core:core-testing:${Versions.core_testing_version}"
+    private const val mockito_core = "org.mockito:mockito-core:${Versions.mockito_core_version}"
 
     val appLibraries = arrayListOf<String>().apply {
         add(kotlinStdLib)
+        add(kotlinStdLibJdk)
         add(coreKtx)
         add(appcompat)
         add(constraintLayout)
@@ -124,6 +133,11 @@ object AppDependencies {
 
     val testLibraries = arrayListOf<String>().apply {
         add(junit)
+        add(coroutines_test)
+        add(core_testing)
+        add(mockito_core)
+        add(truth)
+        add(mockk)
     }
 }
 

@@ -18,7 +18,8 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
-		tools:text="@string/movie_name" />
+		tools:text="@string/movie_name"
+		android:textIsSelectable="true" />
 
 	<TextView
 		android:id="@+id/movie_duration"
@@ -32,7 +33,8 @@
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/movie_name"
 		app:layout_constraintBottom_toTopOf="@id/movie_orig"
-		tools:text="@string/duration" />
+		tools:text="@string/duration"
+		android:textIsSelectable="true" />
 
 	<View
 		android:layout_width="0dp"
@@ -83,25 +85,31 @@
 	    style="@style/DetailsPG"
 	    android:layout_width="@dimen/movie_rectangle_size_24"
 	    android:layout_height="@dimen/movie_rectangle_size_24"
-	    android:layout_marginTop="@dimen/spacing_small_8"
 	    android:minWidth="@dimen/movie_rectangle_min_size_24"
 	    android:layout_marginStart="@dimen/spacing_small_8"
 	    android:minHeight="@dimen/movie_rectangle_min_size_24"
 	    android:background="@drawable/rectangle"
 	    app:layout_constraintStart_toStartOf="parent"
-	    app:layout_constraintTop_toTopOf="@id/movie_orig"
-	    tools:text="@string/pg" />
+	    app:layout_constraintTop_toTopOf="@id/movie_like_box"
+		app:layout_constraintBottom_toBottomOf="@id/movie_like_box"
+	    tools:text="@string/pg"
+		android:textIsSelectable="true" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_small_8"
-        android:alpha="0.75"
-        android:contentDescription="@string/movie_like"
-        android:src="@drawable/ic_like"
-        app:layout_constraintBottom_toBottomOf="@+id/movie_rectangle_pg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/movie_rectangle_pg" />
+	<xyz.hanks.library.bang.SmallBangView
+		android:id="@+id/movie_like_box"
+		android:layout_width="@dimen/movie_bang_size"
+		android:layout_height="@dimen/movie_bang_size"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/movie_orig">
+
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:alpha="0.75"
+			android:contentDescription="@string/movie_like"
+			android:src="@drawable/like_selector"
+			android:layout_gravity="center" />
+	</xyz.hanks.library.bang.SmallBangView>
 
     <TextView
         android:id="@+id/movie_tag"
@@ -114,7 +122,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/movie_orig"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/tag" />
+        tools:text="@string/tag"
+		android:textIsSelectable="true" />
 
     <me.zhanghai.android.materialratingbar.MaterialRatingBar
         android:id="@+id/movie_rating"
@@ -139,5 +148,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/movie_rating"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/movie_rating"
-        app:layout_constraintTop_toTopOf="@+id/movie_rating" />
+        app:layout_constraintTop_toTopOf="@+id/movie_rating"
+		android:textIsSelectable="true" />
 </androidx.constraintlayout.widget.ConstraintLayout>

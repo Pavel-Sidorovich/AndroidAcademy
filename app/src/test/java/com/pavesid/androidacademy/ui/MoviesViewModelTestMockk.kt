@@ -5,6 +5,11 @@ import androidx.lifecycle.Observer
 import com.pavesid.androidacademy.MainCoroutineRule
 import com.pavesid.androidacademy.data.Movie
 import com.pavesid.androidacademy.repositories.MoviesRemoteRepositoryTest
+import com.pavesid.androidacademy.ui.UtilsViewModelTest.addMovieToRepository
+import com.pavesid.androidacademy.ui.UtilsViewModelTest.addMoviesToRepository
+import com.pavesid.androidacademy.ui.UtilsViewModelTest.listOfOneElement
+import com.pavesid.androidacademy.ui.UtilsViewModelTest.updateMovieInViewModel
+import com.pavesid.androidacademy.ui.UtilsViewModelTest.updatedListOfOneElement
 import com.pavesid.androidacademy.utils.Resource
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -61,6 +66,46 @@ class MoviesViewModelTestMockk {
 
         verify {
             moviesObserverMockito.onChanged(Resource.error(message, null))
+        }
+
+        viewModel.movies.removeObserver(moviesObserverMockito)
+    }
+
+    @Test
+    fun `should add movies to repository`() {
+        val viewModel = MoviesViewModel(repository, coroutineDispatcher)
+        viewModel.movies.observeForever(moviesObserverMockito)
+        addMoviesToRepository(repository)
+
+        verify {
+            moviesObserverMockito.onChanged(Resource.success(listOfOneElement()))
+        }
+
+        viewModel.movies.removeObserver(moviesObserverMockito)
+    }
+
+    @Test
+    fun `should add movie to repository`() {
+        val viewModel = MoviesViewModel(repository, coroutineDispatcher)
+        viewModel.movies.observeForever(moviesObserverMockito)
+        addMovieToRepository(repository)
+
+        verify {
+            moviesObserverMockito.onChanged(Resource.success(listOfOneElement()))
+        }
+
+        viewModel.movies.removeObserver(moviesObserverMockito)
+    }
+
+    @Test
+    fun `should update movie in repository`() {
+        val viewModel = MoviesViewModel(repository, coroutineDispatcher)
+        viewModel.movies.observeForever(moviesObserverMockito)
+        addMoviesToRepository(repository)
+        updateMovieInViewModel(viewModel)
+
+        verify {
+            moviesObserverMockito.onChanged(Resource.success(updatedListOfOneElement()))
         }
 
         viewModel.movies.removeObserver(moviesObserverMockito)

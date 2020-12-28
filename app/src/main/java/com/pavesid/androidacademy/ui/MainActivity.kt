@@ -11,12 +11,14 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.pavesid.androidacademy.App.Companion.THEME
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
 import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
 import com.pavesid.androidacademy.ui.splash.SplashScreenFragment
 import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
+import com.pavesid.androidacademy.utils.extensions.edit
 import com.pavesid.androidacademy.utils.extensions.exitCircularReveal
 import com.pavesid.androidacademy.utils.extensions.exitCircularRevealToLeft
 import com.pavesid.androidacademy.utils.extensions.open
@@ -44,9 +46,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         isDarkTheme = prefs.getBoolean(THEME, false)
-        savedInstanceState ?: changeTheme()
 
-        val rootFragment = SplashScreenFragment()
+        val rootFragment = if (prefs.getBoolean(ANIMATION, false)) {
+            MoviesFragment.newInstance()
+        } else {
+            prefs.edit {
+                putBoolean(ANIMATION, true)
+            }
+            SplashScreenFragment.newInstance()
+        }
 
         savedInstanceState ?: supportFragmentManager.open {
             add(R.id.container, rootFragment, TAG)
@@ -68,7 +76,9 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.theme -> {
                 isDarkTheme = !isDarkTheme
-                prefs.edit().putBoolean(THEME, isDarkTheme).apply()
+                prefs.edit {
+                    putBoolean(THEME, isDarkTheme)
+                }
                 changeThemeWithAnimation(findViewById(R.id.theme))
                 true
             }
@@ -94,7 +104,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun changeFragment(toMovies: Boolean = false, parcelable: Parcelable? = null, cX: Int = 0, cY: Int = 0) {
+    fun changeFragment(
+        toMovies: Boolean = false,
+        parcelable: Parcelable? = null,
+        cX: Int = 0,
+        cY: Int = 0
+    ) {
         if (toMovies) {
             supportFragmentManager.open {
                 replace(R.id.container, MoviesFragment.newInstance(), TAG)
@@ -106,12 +121,6 @@ class MainActivity : AppCompatActivity() {
                 addToBackStack(null)
             }
         }
-    }
-
-    private fun changeTheme() {
-        delegate.localNightMode =
-            if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-        recreate()
     }
 
     private fun changeThemeWithAnimation(view: View) {
@@ -149,7 +158,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private companion object {
-        const val THEME = "switchTheme"
         private const val TAG = "Movies"
+        private const val ANIMATION = "animationPlayed"
     }
 }

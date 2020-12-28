@@ -4,15 +4,29 @@ import com.pavesid.androidacademy.data.Actor
 import com.pavesid.androidacademy.data.Genre
 import com.pavesid.androidacademy.data.JsonMovie
 import com.pavesid.androidacademy.data.Movie
+import com.pavesid.androidacademy.db.MoviesDao
+import com.pavesid.androidacademy.retrofit.MoviesApiImpl
 import javax.inject.Inject
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
-class MoviesRemoteRepository @Inject constructor() : MoviesRepository {
+class MoviesRepositoryImpl @Inject constructor(
+    private val moviesDao: MoviesDao
+) : MoviesRepository {
 
-    override suspend fun getMovies(): List<Movie> {
+    override suspend fun getMovies(): List<Movie> = getMoviesFromDB().let {
+        if (it.isEmpty()) {
+            val list = getMoviesFromInternet()
+            insertMovies(list)
+            return@let list
+        } else it
+    }
+
+    private suspend fun getMoviesFromDB(): List<Movie> = moviesDao.getAllMovies()
+
+    private suspend fun getMoviesFromInternet(): List<Movie> {
         var movies = listOf<JsonMovie>()
         var genres = listOf<Genre>()
         var actors = listOf<Actor>()
@@ -32,6 +46,18 @@ class MoviesRemoteRepository @Inject constructor() : MoviesRepository {
             genres,
             actors
         )
+    }
+
+    override suspend fun updateMovie(movie: Movie) {
+        moviesDao.updateMovie(movie)
+    }
+
+    override suspend fun insertMovie(movie: Movie) {
+        moviesDao.insertMovie(movie)
+    }
+
+    override suspend fun insertMovies(movies: List<Movie>) {
+        moviesDao.insertMovies(movies)
     }
 
     private fun parseMovies(

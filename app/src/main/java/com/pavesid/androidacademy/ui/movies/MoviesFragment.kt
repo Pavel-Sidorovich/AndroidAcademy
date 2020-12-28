@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
+import com.pavesid.androidacademy.databinding.RecyclerLayoutBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.ui.MoviesViewModel
 import com.pavesid.androidacademy.utils.Status
@@ -19,6 +20,8 @@ import timber.log.Timber
 class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     private val binding: FragmentMoviesBinding by viewBinding(FragmentMoviesBinding::bind)
+
+    private val recyclerLayoutBinding: RecyclerLayoutBinding by viewBinding { RecyclerLayoutBinding.bind(binding.root) }
 
     private val moviesItemDecoration: MoviesItemDecoration by lazy {
         MoviesItemDecoration(
@@ -60,20 +63,26 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     private fun initView() {
 
-        moviesAdapter = MoviesAdapter { movie, cX, cY ->
-            mainActivity.changeFragment(false, movie, cX, cY)
-        }
+        moviesAdapter = MoviesAdapter(
+            { movie ->
+                viewModel.updateMovies(movie = movie)
+            },
+            { movie, cX, cY ->
+                mainActivity.changeFragment(false, movie, cX, cY)
+            }
+        )
 
-        binding.moviesRecycler.apply {
+        recyclerLayoutBinding.moviesRecycler.apply {
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
+            layoutManager =
+                GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
             adapter = moviesAdapter
 
             addItemDecoration(moviesItemDecoration)
         }
 
         val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(binding.moviesRecycler)
+        touchHelper.attachToRecyclerView(recyclerLayoutBinding.moviesRecycler)
     }
 
     private fun subscribeToObservers() {
@@ -82,18 +91,18 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
             { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
-                        binding.progress.visibility = View.GONE
-                        Timber.d(binding.progress.toString())
+                        recyclerLayoutBinding.progress.visibility = View.GONE
+                        Timber.d(recyclerLayoutBinding.progress.toString())
                         resource.data?.let { movies ->
                             moviesAdapter.movies = movies
                         }
                     }
                     Status.ERROR -> {
-                        binding.progress.visibility = View.GONE
+                        recyclerLayoutBinding.progress.visibility = View.GONE
                         Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
                             .show()
                     }
-                    Status.LOADING -> binding.progress.visibility = View.VISIBLE
+                    Status.LOADING -> recyclerLayoutBinding.progress.visibility = View.VISIBLE
                 }
             }
         )

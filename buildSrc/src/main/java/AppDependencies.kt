@@ -78,7 +78,17 @@ object AppDependencies {
     const val ktlint = "com.pinterest:ktlint:${Versions.kt_lint_version}"
 
     // Lottie
-    const val lottie = "com.airbnb.android:lottie:${Versions.lottie_version}"
+    private const val lottie = "com.airbnb.android:lottie:${Versions.lottie_version}"
+
+    // Room
+    private const val roomRuntime = "androidx.room:room-runtime:${Versions.room_version}"
+    private const val roomCompiler = "androidx.room:room-compiler:${Versions.room_version}"
+
+    // Kotlin Extensions and Coroutines support for Room
+    private const val roomKtx = "androidx.room:room-ktx:${Versions.room_version}"
+
+    // SmallBang
+    private const val bang = "pub.hanks:smallbang:${Versions.bang_version}"
 
     // Test libs
     private const val junit = "junit:junit:${Versions.junit_version}"
@@ -116,6 +126,9 @@ object AppDependencies {
         add(retrofit2)
         add(converterSerialization)
         add(lottie)
+        add(roomRuntime)
+        add(roomKtx)
+        add(bang)
         add(preferenceKtx)
         add(firebase_crashlytics)
         add(firebase_analytics)
@@ -124,6 +137,7 @@ object AppDependencies {
     val kaptLibraries = arrayListOf<String>().apply {
         add(hiltAndroidCompiler)
         add(hiltCompiler)
+        add(roomCompiler)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {
@@ -141,7 +155,7 @@ object AppDependencies {
     }
 }
 
-//util functions for adding the different type dependencies from build.gradle file
+// Util functions for adding the different type dependencies from build.gradle file
 fun DependencyHandler.kapt(list: List<String>) {
     list.forEach { dependency ->
         add("kapt", dependency)

@@ -11,7 +11,6 @@ import android.os.Parcelable
 import android.view.Display
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.Surface
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
@@ -26,6 +25,7 @@ import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.Movie
 import com.pavesid.androidacademy.databinding.FragmentMoviesDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
+import com.pavesid.androidacademy.utils.CalculationAngle
 import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
 import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
 import com.pavesid.androidacademy.utils.extensions.startCircularReveal
@@ -33,12 +33,9 @@ import com.pavesid.androidacademy.utils.extensions.startCircularRevealFromLeft
 import com.pavesid.androidacademy.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlin.math.abs
-import kotlin.math.atan2
-import kotlin.math.round
-import kotlin.math.sqrt
 import kotlin.properties.Delegates
 
+@SuppressWarnings("deprecation")
 @AndroidEntryPoint
 class MoviesDetailsFragment :
     Fragment(R.layout.fragment_movies_details),
@@ -91,18 +88,18 @@ class MoviesDetailsFragment :
 
         override fun onSensorChanged(event: SensorEvent) {
 
-            // The sensorEvent object is reused across calls to onSensorChanged().
-            // clone() gets a copy so the data doesn't change out from under us
+            var angleTemp = 0
+
             when (event.sensor.type) {
                 Sensor.TYPE_ACCELEROMETER ->
-                    gravity = event.values.clone()
+                    angleTemp = CalculationAngle.getAngle(event.values, thisDisplay?.rotation ?: 0)
             }
 
-            getAngle()
+            if (angleTemp != Int.MAX_VALUE) {
+                angle = angleTemp
+            }
         }
     }
-
-    private var gravity = FloatArray(3)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,34 +143,6 @@ class MoviesDetailsFragment :
     override var posY: Int? = null
 
     override fun isToBeExitedWithAnimation(): Boolean = true
-
-    private fun getAngle() {
-        val normalizerGravity =
-            sqrt(gravity[0] * gravity[0] + gravity[1] * gravity[1] + gravity[2] * gravity[2])
-
-        gravity[0] = gravity[0] / normalizerGravity
-        gravity[1] = gravity[1] / normalizerGravity
-        gravity[2] = gravity[2] / normalizerGravity
-
-        var rotation =
-            round(Math.toDegrees(atan2(gravity[0].toDouble(), gravity[1].toDouble()))).toInt()
-
-        rotation = when (thisDisplay?.rotation) {
-            Surface.ROTATION_0, Surface.ROTATION_180 ->
-                rotation
-            Surface.ROTATION_90 ->
-                rotation - 90
-            Surface.ROTATION_270 ->
-                rotation + 90
-            else -> rotation
-        }
-
-        rotation /= ANGLE_DIVIDER
-
-        if (abs(rotation) < MAX_ANGLE) {
-            angle = rotation
-        }
-    }
 
     private fun initListeners() {
         defaultAccelerometer.let {
@@ -250,8 +219,6 @@ class MoviesDetailsFragment :
     }
 
     companion object {
-        private const val ANGLE_DIVIDER = 5
-        private const val MAX_ANGLE = 10
         private const val PARAM_PARCELABLE = "ParcelableElement"
 
         @JvmStatic

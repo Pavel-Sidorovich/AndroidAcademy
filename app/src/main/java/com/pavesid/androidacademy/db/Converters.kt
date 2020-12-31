@@ -10,26 +10,18 @@ import kotlinx.serialization.json.Json
 class Converters {
 
     @TypeConverter
-    fun genresToString(genres: List<Genre>): String = genres.joinToString("|") {
-        Json.encodeToString(it)
-    }
+    fun genresToString(genres: List<Genre>): String = Json.encodeToString(genres)
 
     @TypeConverter
-    fun stringToGenre(genres: String): List<Genre> = genres.split("|").map {
-        Json.decodeFromString(it)
-    }
+    fun stringToGenre(genres: String): List<Genre> = Json.decodeFromString(genres)
 
     @TypeConverter
-    fun actorsToString(actors: List<Actor>): String = actors.joinToString("|") {
-        Json.encodeToString(it)
-    }
+    fun actorsToString(actors: List<Actor>): String = Json.encodeToString(actors)
 
     @TypeConverter
     fun stringToActors(actors: String): List<Actor> = if (actors.isEmpty()) {
         emptyList()
     } else {
-        actors.split("|").map {
-            Json.decodeFromString(it)
-        }
+        Json.decodeFromString(actors)
     }
 }

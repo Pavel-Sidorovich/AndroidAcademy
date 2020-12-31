@@ -14,9 +14,8 @@ import com.pavesid.androidacademy.utils.Resource
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,8 +28,6 @@ class MoviesViewModelTestMockk {
 
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
-
-    private val coroutineDispatcher = TestCoroutineDispatcher()
 
     private val repository = MoviesRemoteRepositoryTest()
 
@@ -45,12 +42,11 @@ class MoviesViewModelTestMockk {
 
     @Test
     fun `should return response is success when repository return data`() {
-        repository.setShouldReturnNetworkError(false)
-
-        val viewModel = MoviesViewModel(repository, coroutineDispatcher)
+        val viewModel = MoviesViewModel(repository)
         viewModel.movies.observeForever(moviesObserverMockito)
 
-        verify {
+        verifyOrder {
+            moviesObserverMockito.onChanged(Resource.loading(null))
             moviesObserverMockito.onChanged(Resource.success(emptyList()))
         }
         viewModel.movies.removeObserver(moviesObserverMockito)
@@ -61,10 +57,11 @@ class MoviesViewModelTestMockk {
         val message = "Error"
         repository.setShouldReturnNetworkError(true)
 
-        val viewModel = MoviesViewModel(repository, coroutineDispatcher)
+        val viewModel = MoviesViewModel(repository)
         viewModel.movies.observeForever(moviesObserverMockito)
 
-        verify {
+        verifyOrder {
+            moviesObserverMockito.onChanged(Resource.loading(null))
             moviesObserverMockito.onChanged(Resource.error(message, null))
         }
 
@@ -73,11 +70,12 @@ class MoviesViewModelTestMockk {
 
     @Test
     fun `should add movies to repository`() {
-        val viewModel = MoviesViewModel(repository, coroutineDispatcher)
+        val viewModel = MoviesViewModel(repository)
         viewModel.movies.observeForever(moviesObserverMockito)
         addMoviesToRepository(repository)
 
-        verify {
+        verifyOrder {
+            moviesObserverMockito.onChanged(Resource.loading(null))
             moviesObserverMockito.onChanged(Resource.success(listOfOneElement()))
         }
 
@@ -86,11 +84,12 @@ class MoviesViewModelTestMockk {
 
     @Test
     fun `should add movie to repository`() {
-        val viewModel = MoviesViewModel(repository, coroutineDispatcher)
+        val viewModel = MoviesViewModel(repository)
         viewModel.movies.observeForever(moviesObserverMockito)
         addMovieToRepository(repository)
 
-        verify {
+        verifyOrder {
+            moviesObserverMockito.onChanged(Resource.loading(null))
             moviesObserverMockito.onChanged(Resource.success(listOfOneElement()))
         }
 
@@ -99,12 +98,13 @@ class MoviesViewModelTestMockk {
 
     @Test
     fun `should update movie in repository`() {
-        val viewModel = MoviesViewModel(repository, coroutineDispatcher)
+        val viewModel = MoviesViewModel(repository)
         viewModel.movies.observeForever(moviesObserverMockito)
         addMoviesToRepository(repository)
         updateMovieInViewModel(viewModel)
 
-        verify {
+        verifyOrder {
+            moviesObserverMockito.onChanged(Resource.loading(null))
             moviesObserverMockito.onChanged(Resource.success(updatedListOfOneElement()))
         }
 

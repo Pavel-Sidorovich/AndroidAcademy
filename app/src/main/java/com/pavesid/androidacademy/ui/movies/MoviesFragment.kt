@@ -40,6 +40,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         mainActivity.window.statusBarColor = requireContext().theme.getColorFromAttr(
             R.attr.backgroundColor
         )
+        viewModel.getMovies()
     }
 
     private val viewModel by lazy { ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java) }

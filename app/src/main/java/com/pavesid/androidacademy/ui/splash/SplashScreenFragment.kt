@@ -21,12 +21,15 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 
     private var animateProgress = 0f
 
+    private val viewModel by lazy { ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java) }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         animateProgress = savedInstanceState?.getFloat(PROGRESS) ?: animateProgress
 
-        ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
+//        ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
+        viewModel.getMovies()
 
         binding.animation.apply {
             setMinProgress(animateProgress)

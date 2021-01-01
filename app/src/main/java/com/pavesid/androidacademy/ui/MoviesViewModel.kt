@@ -29,7 +29,7 @@ class MoviesViewModel @ViewModelInject constructor(
         Timber.d(throwable)
     }
 
-    init {
+    fun getMovies() {
         viewModelScope.launch(dispatcher + exceptionHandler) {
             _movies.postValue(Resource.loading(null))
             list = repository.getMovies()

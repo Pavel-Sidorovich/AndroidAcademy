@@ -28,7 +28,6 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 
         animateProgress = savedInstanceState?.getFloat(PROGRESS) ?: animateProgress
 
-//        ViewModelProvider(requireActivity()).get(MoviesViewModel::class.java)
         viewModel.getMovies()
 
         binding.animation.apply {

@@ -1,3 +1,4 @@
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -20,6 +21,8 @@ android {
         targetSdkVersion(AppConfig.targetSdk)
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
+
+        buildConfigField("String", "API_KEY_MOVIE_DB", "\"${Secrets.apiKey}\"")
 
         testInstrumentationRunner = AppConfig.androidTestInstrumentation
     }

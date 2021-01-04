@@ -58,7 +58,7 @@ class MoviesViewModelTestMockk {
 
         viewModel = MoviesViewModel(repository, coroutineDispatcher)
         viewModel.movies.observeForever(moviesObserverMockito)
-        viewModel.getMovies()
+        viewModel.loadMovies()
 
         verifyOrder {
             moviesObserverMockito.onChanged(Resource.loading(null))
@@ -73,7 +73,7 @@ class MoviesViewModelTestMockk {
 
         viewModel = MoviesViewModel(repository, coroutineDispatcher)
         viewModel.movies.observeForever(moviesObserverMockito)
-        viewModel.getMovies()
+        viewModel.loadMovies()
 
         verifyOrder {
             moviesObserverMockito.onChanged(Resource.loading(null))
@@ -86,7 +86,7 @@ class MoviesViewModelTestMockk {
         viewModel = MoviesViewModel(repository, coroutineDispatcher)
         viewModel.movies.observeForever(moviesObserverMockito)
         addMoviesToRepository(repository)
-        viewModel.getMovies()
+        viewModel.loadMovies()
 
         verifyOrder {
             moviesObserverMockito.onChanged(Resource.loading(null))
@@ -99,7 +99,7 @@ class MoviesViewModelTestMockk {
         viewModel = MoviesViewModel(repository, coroutineDispatcher)
         viewModel.movies.observeForever(moviesObserverMockito)
         addMovieToRepository(repository)
-        viewModel.getMovies()
+        viewModel.loadMovies()
 
         verifyOrder {
             moviesObserverMockito.onChanged(Resource.loading(null))
@@ -111,7 +111,7 @@ class MoviesViewModelTestMockk {
     fun `should update movie in repository`() {
         viewModel = MoviesViewModel(repository, coroutineDispatcher)
         viewModel.movies.observeForever(moviesObserverMockito)
-        viewModel.getMovies()
+        viewModel.loadMovies()
         addMoviesToRepository(repository)
         updateMovieInViewModel(viewModel)
 

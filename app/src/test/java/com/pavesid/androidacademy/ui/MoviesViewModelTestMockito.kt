@@ -54,7 +54,7 @@ class MoviesViewModelTestMockito {
 
         viewModel = MoviesViewModel(repository, coroutineDispatcher)
         viewModel.movies.observeForever(moviesObserverMockito)
-        viewModel.getMovies()
+        viewModel.loadMovies()
         verify(moviesObserverMockito, times(2)).onChanged(capt.capture())
 
         val values = capt.allValues
@@ -68,7 +68,7 @@ class MoviesViewModelTestMockito {
         val message = "Error"
         viewModel = MoviesViewModel(repository, coroutineDispatcher)
         viewModel.movies.observeForever(moviesObserverMockito)
-        viewModel.getMovies()
+        viewModel.loadMovies()
 
         verify(moviesObserverMockito).onChanged(Resource.loading(null))
         verify(moviesObserverMockito).onChanged(Resource.error(message, null))

@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -14,7 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.pavesid.androidacademy.App.Companion.THEME
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
-import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
+import com.pavesid.androidacademy.ui.details.DetailsFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
 import com.pavesid.androidacademy.ui.splash.SplashScreenFragment
 import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
@@ -106,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
     fun changeFragment(
         toMovies: Boolean = false,
-        parcelable: Parcelable? = null,
+        id: Int = 0,
         cX: Int = 0,
         cY: Int = 0
     ) {
@@ -115,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                 replace(R.id.container, MoviesFragment.newInstance(), TAG)
             }
         } else {
-            val detailFragment = MoviesDetailsFragment.newInstance(parcelable!!, cX, cY)
+            val detailFragment = DetailsFragment.newInstance(id, cX, cY)
             supportFragmentManager.open {
                 add(R.id.container, detailFragment, null)
                 addToBackStack(null)

@@ -1,11 +1,12 @@
-package com.pavesid.androidacademy.ui
+package com.pavesid.androidacademy.ui.movies
 
+import androidx.annotation.MainThread
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pavesid.androidacademy.data.Movie
+import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.di.IODispatcher
 import com.pavesid.androidacademy.repositories.MoviesRepository
 import com.pavesid.androidacademy.utils.Resource
@@ -14,7 +15,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class MoviesViewModel @ViewModelInject constructor(
+internal class MoviesViewModel @ViewModelInject constructor(
     private val repository: MoviesRepository,
     @IODispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
@@ -22,7 +23,10 @@ class MoviesViewModel @ViewModelInject constructor(
     private val _movies = MutableLiveData<Resource<List<Movie>>>()
     val movies: LiveData<Resource<List<Movie>>> = _movies
 
-    private var list = emptyList<Movie>()
+    private var page = 1
+    private var isLoading = false
+
+    private var list = mutableListOf<Movie>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _movies.postValue(Resource.error(throwable.message.orEmpty(), null))
@@ -30,12 +34,30 @@ class MoviesViewModel @ViewModelInject constructor(
     }
 
     init {
-        viewModelScope.launch(dispatcher + exceptionHandler) {
-            _movies.postValue(Resource.loading(null))
-            list = repository.getMovies()
-            _movies.postValue(
-                Resource.success(list)
-            )
+        loadMovies()
+    }
+
+    /**
+     * Called when a new data packet needs to be received
+     */
+    @MainThread
+    fun loadMovies() {
+        if (!isLoading) {
+            viewModelScope.launch(dispatcher + exceptionHandler) {
+                isLoading = true
+                if (list.isEmpty()) {
+                    _movies.postValue(Resource.loading(null))
+                }
+                val movies = repository.getMovies(page)
+                if (movies.isNotEmpty()) {
+                    list.addAll(movies)
+                    page++
+                    _movies.postValue(
+                        Resource.success(list)
+                    )
+                }
+                isLoading = false
+            }
         }
     }
 

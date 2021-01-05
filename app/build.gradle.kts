@@ -59,6 +59,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(platform("com.google.firebase:firebase-bom:${Versions.firebase_bom_version}"))
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
     // App libs
     implementation(AppDependencies.appLibraries)

@@ -6,13 +6,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
-import com.pavesid.androidacademy.BuildConfig
+import androidx.recyclerview.widget.RecyclerView
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.databinding.RecyclerLayoutBinding
 import com.pavesid.androidacademy.ui.MainActivity
-import com.pavesid.androidacademy.ui.MoviesViewModel
 import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.utils.extensions.getColorFromAttr
 import com.pavesid.androidacademy.utils.viewBinding
@@ -36,6 +34,8 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     private val callback by lazy { MoviesItemTouchHelper(moviesAdapter) }
 
+    private var currentFirstElem: Int = 0
+
     override fun onStart() {
         super.onStart()
         mainActivity.window.statusBarColor = requireContext().theme.getColorFromAttr(
@@ -48,7 +48,6 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Timber.d(BuildConfig.API_KEY_MOVIE_DB)
         initActionBar()
         initView()
         subscribeToObservers()
@@ -74,17 +73,37 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
             }
         )
 
+        val moviesLayoutManager = GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
+
         recyclerLayoutBinding.moviesRecycler.apply {
             setHasFixedSize(true)
-            layoutManager =
-                GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
+            layoutManager = moviesLayoutManager
             adapter = moviesAdapter
 
             addItemDecoration(moviesItemDecoration)
+
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val visibleItemCount = moviesLayoutManager.childCount
+                    val totalItemCount = moviesLayoutManager.itemCount
+                    val lastVisibleItemPosition = moviesLayoutManager.findLastVisibleItemPosition()
+
+                    currentFirstElem = moviesLayoutManager.findFirstCompletelyVisibleItemPosition()
+
+                    val needMore = lastVisibleItemPosition + 2 * visibleItemCount >= totalItemCount
+
+                    if (needMore) {
+                        viewModel.loadMovies()
+                    }
+                }
+            })
+            scrollToPosition(currentFirstElem)
         }
 
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(recyclerLayoutBinding.moviesRecycler)
+//        val touchHelper = ItemTouchHelper(callback)
+//        touchHelper.attachToRecyclerView(recyclerLayoutBinding.moviesRecycler)
     }
 
     private fun subscribeToObservers() {

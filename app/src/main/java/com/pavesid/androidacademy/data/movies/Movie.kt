@@ -1,13 +1,11 @@
-package com.pavesid.androidacademy.data
+package com.pavesid.androidacademy.data.movies
 
-import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.db.Converters
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 @Entity(tableName = "movie_items")
 @TypeConverters(Converters::class)
 data class Movie(
@@ -22,6 +20,5 @@ data class Movie(
     val minimumAge: Int,
     val runtime: Int,
     val genres: List<Genre>,
-    val actors: List<Actor>,
     var liked: Boolean = false
-) : Parcelable
+)

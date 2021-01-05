@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.FragmentSplashScreenBinding
 import com.pavesid.androidacademy.ui.MainActivity
-import com.pavesid.androidacademy.ui.MoviesViewModel
+import com.pavesid.androidacademy.ui.movies.MoviesViewModel
 import com.pavesid.androidacademy.utils.viewBinding
 
 class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {

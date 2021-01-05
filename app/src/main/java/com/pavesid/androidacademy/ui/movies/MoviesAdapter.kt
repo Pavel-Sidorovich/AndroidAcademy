@@ -1,8 +1,6 @@
 package com.pavesid.androidacademy.ui.movies
 
-import android.os.Parcelable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -10,16 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
-import com.pavesid.androidacademy.data.Movie
-import com.pavesid.androidacademy.databinding.MovieItem2Binding
+import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.databinding.MovieItemBinding
 import com.pavesid.androidacademy.utils.extensions.setSafeOnClickListener
 import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
+import com.pavesid.androidacademy.utils.extensions.toRightUrl
 import java.util.Collections
 
 internal class MoviesAdapter(
     private val likeListener: (Movie) -> Unit,
-    private val listener: (Parcelable, Int, Int) -> Unit
+    private val listener: (Int, Int, Int) -> Unit
 ) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(), ItemTouchHelperAdapter {
 
@@ -38,19 +36,11 @@ internal class MoviesAdapter(
         set(value) = differ.submitList(value)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder =
-        if (viewType == 1) {
-            MoviesViewHolderV1(
-                MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-                listener = listener,
-                likeListener = likeListener
-            )
-        } else {
-            MoviesViewHolderV2(
-                MovieItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false),
-                listener = listener,
-                likeListener = likeListener
-            )
-        }
+        MoviesViewHolder(
+            MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            listener = listener,
+            likeListener = likeListener
+        )
 
     override fun getItemViewType(position: Int): Int {
         return movies[position].id % 2
@@ -83,19 +73,27 @@ internal class MoviesAdapter(
         movies = mutableMovies
     }
 
-    inner class MoviesViewHolderV1(
+    inner class MoviesViewHolder(
         private val binding: MovieItemBinding,
-        private val listener: (Parcelable, Int, Int) -> Unit,
+        private val listener: (Int, Int, Int) -> Unit,
         private val likeListener: (Movie) -> Unit
-    ) : MoviesViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        override fun bind(movie: Movie) {
+        fun bind(movie: Movie) {
             binding.apply {
                 movieRectanglePg.text = itemView.context.getString(R.string.pg, movie.minimumAge)
-                movieOrig.load(movie.poster) {
-                    crossfade(true)
-                    transformations(RoundedCornersTransformation(14f, 14f, 0f, 0f))
+                if (movie.poster.isNotBlank()) {
+                    movieOrig.load(movie.poster.toRightUrl()) {
+                        crossfade(true)
+                        transformations(RoundedCornersTransformation(14f, 14f, 0f, 0f))
+                    }
+                } else {
+                    movieOrig.load(DETAILS_PLACEHOLDER) {
+                        crossfade(true)
+                        transformations(RoundedCornersTransformation(14f, 14f, 0f, 0f))
+                    }
                 }
+
                 movieTag.text = movie.genres.take(MAX_GENRE).joinToString { it.name }
                 movieRating.rating = movie.ratings / 2
                 movieReviews.text = itemView.context.resources.getQuantityString(
@@ -123,61 +121,13 @@ internal class MoviesAdapter(
             binding.root.setSafeOnClickListener {
                 val cX = (binding.root.left + binding.root.right) / 2
                 val cY = (binding.root.top + binding.root.bottom) / 2
-                listener(movie, cX, cY)
+                listener(movie.id, cX, cY)
             }
         }
-    }
-
-    inner class MoviesViewHolderV2(
-        private val binding: MovieItem2Binding,
-        private val listener: (Parcelable, Int, Int) -> Unit,
-        private val likeListener: (Movie) -> Unit
-    ) : MoviesViewHolder(binding.root) {
-
-        override fun bind(movie: Movie) {
-            binding.apply {
-                movieRectanglePg.text = itemView.context.getString(R.string.pg, movie.minimumAge)
-                movieOrig.load(movie.poster) {
-                    crossfade(true)
-                    transformations(RoundedCornersTransformation(0f, 0f, 14f, 14f))
-                }
-                movieTag.text = movie.genres.take(MAX_GENRE).joinToString { it.name }
-                movieRating.rating = movie.ratings / 2
-                movieReviews.text = itemView.context.resources.getQuantityString(
-                    R.plurals.review,
-                    movie.numberOfRatings,
-                    movie.numberOfRatings
-                )
-                movieDuration.text = itemView.context.getString(R.string.duration, movie.runtime)
-                movieName.text = movie.title
-                movieName.setShaderForGradient()
-                movieLikeBox.apply {
-                    isSelected = movie.liked
-                    setOnClickListener {
-                        if (movieLikeBox.isSelected) {
-                            movieLikeBox.isSelected = false
-                        } else {
-                            movieLikeBox.isSelected = true
-                            movieLikeBox.likeAnimation()
-                        }
-                        likeListener.invoke(movie)
-                    }
-                }
-            }
-
-            binding.root.setSafeOnClickListener {
-                val cX = (binding.root.left + binding.root.right) / 2
-                val cY = (binding.root.top + binding.root.bottom) / 2
-                listener(movie, cX, cY)
-            }
-        }
-    }
-
-    abstract class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        abstract fun bind(movie: Movie)
     }
 
     private companion object {
-        private const val MAX_GENRE = 3
+        private const val MAX_GENRE = 2
+        private const val DETAILS_PLACEHOLDER = "https://upload.wikimedia.org/wikipedia/commons/a/a1/Out_Of_Poster.jpg"
     }
 }

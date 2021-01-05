@@ -1,9 +1,11 @@
 package com.pavesid.androidacademy.repositories
 
-import com.pavesid.androidacademy.data.Actor
-import com.pavesid.androidacademy.data.Genre
-import com.pavesid.androidacademy.data.JsonMovie
-import com.pavesid.androidacademy.data.Movie
+import com.pavesid.androidacademy.data.actors.ActorsResponse
+import com.pavesid.androidacademy.data.details.Details
+import com.pavesid.androidacademy.data.details.DetailsResponse
+import com.pavesid.androidacademy.data.genres.Genre
+import com.pavesid.androidacademy.data.movies.JsonMovie
+import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.db.MoviesDao
 import com.pavesid.androidacademy.retrofit.MoviesApiImpl
 import javax.inject.Inject
@@ -16,36 +18,61 @@ class MoviesRepositoryImpl @Inject constructor(
     private val moviesDao: MoviesDao
 ) : MoviesRepository {
 
-    override suspend fun getMovies(): List<Movie> = getMoviesFromDB().let {
-        if (it.isEmpty()) {
-            val list = getMoviesFromInternet()
-            insertMovies(list)
-            return@let list
-        } else it
-    }
+    private var genres = listOf<Genre>()
+
+    override suspend fun getMovies(
+        page: Int,
+        language: String
+    ): List<Movie> = getMoviesFromInternet(page, language)
+
+    override suspend fun getDetails(id: Int): Details? = getDetailsFromInternet(id)
+
+    override suspend fun getActors(id: Int): ActorsResponse = MoviesApiImpl.getActors(id)
 
     private suspend fun getMoviesFromDB(): List<Movie> = moviesDao.getAllMovies()
 
-    private suspend fun getMoviesFromInternet(): List<Movie> {
+    private suspend fun getMoviesFromInternet(
+        page: Int,
+        language: String
+    ): List<Movie> {
         var movies = listOf<JsonMovie>()
-        var genres = listOf<Genre>()
-        var actors = listOf<Actor>()
         coroutineScope {
             launch {
-                movies = MoviesApiImpl.getMovies()
+                movies = MoviesApiImpl.getMovies(page, language).movies
             }
-            launch {
-                genres = MoviesApiImpl.getGenres()
-            }
-            launch {
-                actors = MoviesApiImpl.getActors()
+            if (genres.isEmpty()) {
+                launch {
+                    genres = MoviesApiImpl.getGenres().genres
+                }
             }
         }
         return parseMovies(
             movies,
-            genres,
-            actors
+            genres
         )
+    }
+
+    private suspend fun getDetailsFromInternet(
+        id: Int
+    ): Details? {
+        var details: DetailsResponse? = null
+        var actors: ActorsResponse? = null
+        coroutineScope {
+            launch {
+                details = MoviesApiImpl.getDetails(id)
+            }
+            launch {
+                actors = MoviesApiImpl.getActors(id)
+            }
+        }
+        return if (details != null && actors != null) {
+            Details(
+                details!!,
+                actors!!.cast
+            )
+        } else {
+            null
+        }
     }
 
     override suspend fun updateMovie(movie: Movie) {
@@ -62,10 +89,8 @@ class MoviesRepositoryImpl @Inject constructor(
 
     private fun parseMovies(
         jsonMovies: List<JsonMovie>,
-        jsonGenres: List<Genre>,
-        jsonActors: List<Actor>
+        jsonGenres: List<Genre>
     ): List<Movie> {
-        val actorsMap = jsonActors.associateBy { it.id }
         val genresMap = jsonGenres.associateBy { it.id }
 
         return jsonMovies.map { jsonMovie ->
@@ -73,17 +98,14 @@ class MoviesRepositoryImpl @Inject constructor(
                 id = jsonMovie.id,
                 title = jsonMovie.title,
                 overview = jsonMovie.overview,
-                poster = jsonMovie.posterPicture,
-                backdrop = jsonMovie.backdropPicture,
+                poster = jsonMovie.posterPicture.orEmpty(),
+                backdrop = jsonMovie.backdropPicture.orEmpty(),
                 ratings = jsonMovie.ratings,
                 numberOfRatings = jsonMovie.votesCount,
                 minimumAge = if (jsonMovie.adult) 16 else 13,
-                runtime = jsonMovie.runtime,
+                runtime = 0,
                 genres = jsonMovie.genreIds.map {
                     genresMap[it] ?: throw IllegalArgumentException("Genre not found")
-                },
-                actors = jsonMovie.actors.map {
-                    actorsMap[it] ?: throw IllegalArgumentException("Actor not found")
                 }
             )
         }

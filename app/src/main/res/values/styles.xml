@@ -3,10 +3,12 @@
 
     <style name="TextSize14">
         <item name="android:textSize">14sp</item>
+        <item name="android:textIsSelectable">true</item>
     </style>
 
     <style name="TextSize12">
         <item name="android:textSize">12sp</item>
+        <item name="android:textIsSelectable">true</item>
     </style>
 
     <style name="TextBold" parent="TextSize14">
@@ -38,6 +40,7 @@
         <item name="android:lineSpacingExtra">4sp</item>
         <item name="textAllCaps">true</item>
         <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textIsSelectable">true</item>
     </style>
 
     <style name="DetailsStorylineTitle" parent="TextBold">
@@ -72,6 +75,27 @@
     <style name="DetailsTextCast" parent="TextSize12">
         <item name="android:textColor">?attr/colorActorNameText</item>
         <item name="android:fontFamily">sans-serif-black</item>
+    </style>
+
+    <style name="DetailsTextCastLand">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorActorNameText</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textIsSelectable">true</item>
+    </style>
+
+    <style name="DetailsCharacterCast">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">?attr/colorActorNameText</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textIsSelectable">true</item>
+    </style>
+
+    <style name="DetailsCharacterCastLand">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/colorActorNameText</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textIsSelectable">true</item>
     </style>
 
     <style name="MovieReviews">

@@ -7,7 +7,6 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.Display
 import android.view.Menu
 import android.view.MenuInflater
@@ -16,20 +15,25 @@ import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.pavesid.androidacademy.R
-import com.pavesid.androidacademy.data.Movie
-import com.pavesid.androidacademy.databinding.FragmentMoviesDetailsBinding
+import com.pavesid.androidacademy.data.actors.Cast
+import com.pavesid.androidacademy.data.details.DetailsResponse
+import com.pavesid.androidacademy.databinding.FragmentDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.utils.CalculationAngle
+import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
 import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
 import com.pavesid.androidacademy.utils.extensions.startCircularReveal
 import com.pavesid.androidacademy.utils.extensions.startCircularRevealFromLeft
+import com.pavesid.androidacademy.utils.extensions.toRightUrl
 import com.pavesid.androidacademy.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -37,17 +41,19 @@ import kotlin.properties.Delegates
 
 @SuppressWarnings("deprecation")
 @AndroidEntryPoint
-class MoviesDetailsFragment :
-    Fragment(R.layout.fragment_movies_details),
+class DetailsFragment :
+    Fragment(R.layout.fragment_details),
     ExitWithAnimation {
 
-    private val binding: FragmentMoviesDetailsBinding by viewBinding(FragmentMoviesDetailsBinding::bind)
+    private val binding: FragmentDetailsBinding by viewBinding(FragmentDetailsBinding::bind)
 
     @Inject
     lateinit var sensorManager: SensorManager
 
     @Inject
     lateinit var defaultAccelerometer: Sensor
+
+    private val viewModel by lazy { ViewModelProvider(requireActivity()).get(DetailsViewModel::class.java) }
 
     private val mainActivity by lazy { activity as MainActivity }
 
@@ -80,7 +86,7 @@ class MoviesDetailsFragment :
         animateRecycler(oldValue, newValue)
     }
 
-    private var movie: Movie? = null
+    private var movieId = 0
 
     private val eventListener: SensorEventListener = object : SensorEventListener {
 
@@ -105,8 +111,9 @@ class MoviesDetailsFragment :
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         arguments?.let {
-            movie = it.getParcelable(PARAM_PARCELABLE)
+            movieId = it.getInt(PARAM_ID)
         }
+        savedInstanceState ?: viewModel.loadDetails(movieId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -114,6 +121,7 @@ class MoviesDetailsFragment :
 
         initActionBar()
         initView()
+        subscribeToObservers()
 
         savedInstanceState ?: if (posX != null && posY != null) {
             view.startCircularReveal(posX!!, posY!!)
@@ -133,9 +141,13 @@ class MoviesDetailsFragment :
         initListeners()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        sensorManager.unregisterListener(eventListener)
+    }
+
     override fun onStop() {
         super.onStop()
-        sensorManager.unregisterListener(eventListener)
         mainActivity.setSupportActionBar(null)
     }
 
@@ -158,33 +170,68 @@ class MoviesDetailsFragment :
         }
     }
 
-    private fun initMovie() {
-        movie?.let { movie ->
-            if (movie.backdrop.isNotBlank()) {
-                binding.detailsOrig.load(movie.backdrop) {
-                    crossfade(true)
-                }
+    private fun initDetails(details: DetailsResponse) {
+        if (!details.backdropPicture.isNullOrBlank()) {
+            binding.detailsOrig.load(details.backdropPicture.toRightUrl()) {
+                crossfade(true)
             }
-            if (movie.actors.isNotEmpty()) {
-                castAdapter.setData(movie.actors)
-            } else {
-                binding.detailsHeading.visibility = View.GONE
-            }
-
-            binding.apply {
-                detailsStoryline.text = movie.overview
-                collapsingToolbar.title = movie.title
-                detailsTag.text = movie.genres.joinToString { it.name }
-                detailsRating.rating = movie.ratings / 2
-                detailsReviews.text =
-                    resources.getQuantityString(
-                        R.plurals.review,
-                        movie.numberOfRatings,
-                        movie.numberOfRatings
-                    )
-                detailsRectangle.text = getString(R.string.pg, movie.minimumAge)
+        } else {
+            binding.detailsOrig.load(BACKDROP_PLACEHOLDER) {
+                crossfade(true)
             }
         }
+
+        binding.apply {
+            detailsStoryline.text = details.overview
+            collapsingToolbar.title = details.title
+            detailsTag.text = details.genres.joinToString { it.name }
+            detailsRating.rating = details.ratings / 2
+            detailsReviews.text =
+                resources.getQuantityString(
+                    R.plurals.review,
+                    details.votesCount,
+                    details.votesCount
+                )
+            detailsRectangle.text = if (details.adult) {
+                getString(R.string.pg, 16)
+            } else {
+                getString(R.string.pg, 13)
+            }
+        }
+    }
+
+    private fun initCast(cast: List<Cast>) {
+        if (cast.isNotEmpty()) {
+            castAdapter.setData(cast.take(COUNT_OF_ACTORS))
+            binding.detailsHeading.visibility = View.VISIBLE
+            binding.detailsCastRecycler.visibility = View.VISIBLE
+        } else {
+            binding.detailsHeading.visibility = View.GONE
+            binding.detailsCastRecycler.visibility = View.GONE
+        }
+    }
+
+    private fun subscribeToObservers() {
+        viewModel.details.observe(
+            viewLifecycleOwner,
+            { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        binding.progress.visibility = View.GONE
+                        resource.data?.let { details ->
+                            initDetails(details.detailsResponse)
+                            initCast(details.cast)
+                        }
+                    }
+                    Status.ERROR -> {
+                        binding.progress.visibility = View.GONE
+                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    Status.LOADING -> binding.progress.visibility = View.VISIBLE
+                }
+            }
+        )
     }
 
     private fun animateRecycler(prev: Int, current: Int) {
@@ -206,12 +253,11 @@ class MoviesDetailsFragment :
     }
 
     private fun initView() {
-        initMovie()
         binding.apply {
             detailsStorylineTitle.setShaderForGradient()
             detailsHeading.setShaderForGradient()
             detailsCastRecycler.apply {
-                layoutManager = this@MoviesDetailsFragment.layoutManager
+                layoutManager = this@DetailsFragment.layoutManager
                 adapter = castAdapter
                 addItemDecoration(castItemDecoration)
             }
@@ -219,18 +265,20 @@ class MoviesDetailsFragment :
     }
 
     companion object {
-        private const val PARAM_PARCELABLE = "ParcelableElement"
+        private const val PARAM_ID = "movie_id"
+        private const val COUNT_OF_ACTORS = 6
+        private const val BACKDROP_PLACEHOLDER = "https://hollywoodsuite.ca/wp-content/uploads/poster/hws-placeholder.jpg"
 
         @JvmStatic
         fun newInstance(
-            parcelable: Parcelable,
+            id: Int,
             cX: Int,
             cY: Int
-        ): MoviesDetailsFragment = MoviesDetailsFragment().apply {
+        ): DetailsFragment = DetailsFragment().apply {
             posX = cX
             posY = cY
             val args = Bundle()
-            args.putParcelable(PARAM_PARCELABLE, parcelable)
+            args.putInt(PARAM_ID, id)
             arguments = args
         }
     }

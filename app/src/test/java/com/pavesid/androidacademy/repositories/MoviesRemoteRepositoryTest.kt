@@ -1,6 +1,9 @@
 package com.pavesid.androidacademy.repositories
 
-import com.pavesid.androidacademy.data.Movie
+import com.pavesid.androidacademy.data.actors.ActorsResponse
+import com.pavesid.androidacademy.data.details.Details
+import com.pavesid.androidacademy.data.details.DetailsResponse
+import com.pavesid.androidacademy.data.movies.Movie
 
 class MoviesRemoteRepositoryTest : MoviesRepository {
 
@@ -8,12 +11,23 @@ class MoviesRemoteRepositoryTest : MoviesRepository {
 
     private val movies: MutableList<Movie> = mutableListOf()
 
-    override suspend fun getMovies(): List<Movie> {
+    override suspend fun getMovies(page: Int, language: String): List<Movie> {
         return if (shouldReturnNetworkError) {
             throw RuntimeException("Error")
         } else {
             movies
         }
+    }
+
+    override suspend fun getDetails(id: Int): Details {
+        return Details(
+            DetailsResponse(1, "", "", "", "", emptyList(), 0f, 0, false, 0),
+            emptyList()
+        )
+    }
+
+    override suspend fun getActors(id: Int): ActorsResponse {
+        return ActorsResponse(emptyList(), emptyList(), 1)
     }
 
     override suspend fun updateMovie(movie: Movie) {

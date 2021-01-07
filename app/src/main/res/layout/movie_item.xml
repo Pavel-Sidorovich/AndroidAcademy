@@ -120,26 +120,13 @@
         android:layout_marginStart="@dimen/spacing_extra_small_4"
         android:layout_marginTop="@dimen/spacing_small_normal_12"
         android:layout_marginEnd="@dimen/spacing_extra_small_4"
-        app:layout_constraintBottom_toTopOf="@id/movie_duration"
+		android:layout_marginBottom="@dimen/spacing_small_normal_12"
+		android:gravity="center"
+		app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/movie_orig"
         tools:text="@string/movie_name"
-		android:textIsSelectable="true" />
-
-    <TextView
-        android:id="@+id/movie_duration"
-        style="@style/MovieDuration"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_extra_small_4"
-        android:layout_marginEnd="@dimen/spacing_extra_small_4"
-        android:layout_marginBottom="@dimen/spacing_small_8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movie_name"
-        tools:text="@string/duration"
 		android:textIsSelectable="true" />
 
 	<View

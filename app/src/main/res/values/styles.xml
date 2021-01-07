@@ -126,8 +126,6 @@
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
-    <style name="MovieDuration" parent="MovieReviews" />
-
     <style name="TextAppearance.App.CollapsingToolbar.Expanded" parent="TextAppearance.MaterialComponents.Headline3">
         <item name="android:textColor">?attr/colorText</item>
     </style>

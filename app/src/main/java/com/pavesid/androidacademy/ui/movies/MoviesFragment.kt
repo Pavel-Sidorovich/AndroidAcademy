@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
@@ -31,8 +32,6 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
     private val mainActivity by lazy { activity as MainActivity }
 
     private lateinit var moviesAdapter: MoviesAdapter
-
-    private val callback by lazy { MoviesItemTouchHelper(moviesAdapter) }
 
     private var currentFirstElem: Int = 0
 
@@ -102,8 +101,9 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
             scrollToPosition(currentFirstElem)
         }
 
-//        val touchHelper = ItemTouchHelper(callback)
-//        touchHelper.attachToRecyclerView(recyclerLayoutBinding.moviesRecycler)
+        val callback = MoviesItemTouchHelper(moviesAdapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(recyclerLayoutBinding.moviesRecycler)
     }
 
     private fun subscribeToObservers() {

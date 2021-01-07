@@ -187,14 +187,14 @@
 				app:layout_constraintTop_toBottomOf="@+id/details_storyline_title" />
 
 			<TextView
-				android:id="@+id/details_heading"
+				android:id="@+id/details_cast_heading"
 				style="@style/DetailsHeading"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/spacing_normal_16"
 				android:layout_marginTop="@dimen/spacing_extra_large_36"
 				android:layout_marginEnd="@dimen/spacing_normal_16"
-				android:text="@string/heading"
+				android:text="@string/cast_title"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/details_storyline" />
@@ -204,13 +204,38 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="@dimen/spacing_small_8"
+				android:orientation="vertical"
+				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/details_cast_heading"
+				tools:listitem="@layout/cast_item" />
+
+			<TextView
+				android:id="@+id/details_crew_heading"
+				style="@style/DetailsHeading"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="@dimen/spacing_normal_16"
+				android:layout_marginTop="@dimen/spacing_small_8"
+				android:layout_marginEnd="@dimen/spacing_normal_16"
+				android:text="@string/crew_title"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/details_cast_recycler" />
+
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/details_crew_recycler"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/spacing_small_8"
 				android:layout_marginBottom="@dimen/spacing_large_24"
 				android:orientation="vertical"
 				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/details_heading"
+				app:layout_constraintTop_toBottomOf="@+id/details_crew_heading"
 				tools:listitem="@layout/cast_item" />
 		</androidx.constraintlayout.widget.ConstraintLayout>
 	</androidx.core.widget.NestedScrollView>

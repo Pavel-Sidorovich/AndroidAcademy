@@ -22,6 +22,7 @@ class MoviesRemoteRepositoryTest : MoviesRepository {
     override suspend fun getDetails(id: Int): Details {
         return Details(
             DetailsResponse(1, "", "", "", "", emptyList(), 0f, 0, false, 0),
+            emptyList(),
             emptyList()
         )
     }

@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.actors.Cast
+import com.pavesid.androidacademy.data.actors.Crew
 import com.pavesid.androidacademy.data.details.DetailsResponse
 import com.pavesid.androidacademy.databinding.FragmentDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
@@ -59,7 +60,9 @@ class DetailsFragment :
 
     private val castAdapter: CastAdapter = CastAdapter()
 
-    private val layoutManager: LinearLayoutManager by lazy {
+    private val crewAdapter: CrewAdapter = CrewAdapter()
+
+    private val layoutManagerCast: LinearLayoutManager by lazy {
         LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
@@ -67,8 +70,16 @@ class DetailsFragment :
         )
     }
 
-    private val castItemDecoration: CastItemDecoration by lazy {
-        CastItemDecoration(
+    private val layoutManagerCrew: LinearLayoutManager by lazy {
+        LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+    }
+
+    private val customItemDecoration: CustomItemDecoration by lazy {
+        CustomItemDecoration(
             spaceSize = requireContext().resources.getDimensionPixelSize(R.dimen.spacing_extra_small_4),
             bigSpaceSize = requireContext().resources.getDimensionPixelSize(R.dimen.spacing_normal_16)
         )
@@ -202,12 +213,23 @@ class DetailsFragment :
 
     private fun initCast(cast: List<Cast>) {
         if (cast.isNotEmpty()) {
-            castAdapter.setData(cast.take(COUNT_OF_ACTORS))
-            binding.detailsHeading.visibility = View.VISIBLE
+            castAdapter.setData(cast)
+            binding.detailsCastHeading.visibility = View.VISIBLE
             binding.detailsCastRecycler.visibility = View.VISIBLE
         } else {
-            binding.detailsHeading.visibility = View.GONE
+            binding.detailsCastHeading.visibility = View.GONE
             binding.detailsCastRecycler.visibility = View.GONE
+        }
+    }
+
+    private fun initCrew(crew: List<Crew>) {
+        if (crew.isNotEmpty()) {
+            crewAdapter.setData(crew)
+            binding.detailsCrewHeading.visibility = View.VISIBLE
+            binding.detailsCrewRecycler.visibility = View.VISIBLE
+        } else {
+            binding.detailsCrewHeading.visibility = View.GONE
+            binding.detailsCrewRecycler.visibility = View.GONE
         }
     }
 
@@ -221,6 +243,7 @@ class DetailsFragment :
                         resource.data?.let { details ->
                             initDetails(details.detailsResponse)
                             initCast(details.cast)
+                            initCrew(details.crew)
                         }
                     }
                     Status.ERROR -> {
@@ -250,16 +273,25 @@ class DetailsFragment :
         binding.detailsCastRecycler.children.forEach {
             it.startAnimation(rotate)
         }
+
+        binding.detailsCrewRecycler.children.forEach {
+            it.startAnimation(rotate)
+        }
     }
 
     private fun initView() {
         binding.apply {
             detailsStorylineTitle.setShaderForGradient()
-            detailsHeading.setShaderForGradient()
+            detailsCastHeading.setShaderForGradient()
             detailsCastRecycler.apply {
-                layoutManager = this@DetailsFragment.layoutManager
+                layoutManager = this@DetailsFragment.layoutManagerCast
                 adapter = castAdapter
-                addItemDecoration(castItemDecoration)
+                addItemDecoration(customItemDecoration)
+            }
+            detailsCrewRecycler.apply {
+                layoutManager = this@DetailsFragment.layoutManagerCrew
+                adapter = crewAdapter
+                addItemDecoration(customItemDecoration)
             }
         }
     }

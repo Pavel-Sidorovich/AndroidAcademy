@@ -68,7 +68,8 @@ class MoviesRepositoryImpl @Inject constructor(
         return if (details != null && actors != null) {
             Details(
                 details!!,
-                actors!!.cast
+                actors!!.cast,
+                actors!!.crew
             )
         } else {
             null

@@ -101,7 +101,6 @@ internal class MoviesAdapter(
                     movie.numberOfRatings,
                     movie.numberOfRatings
                 )
-                movieDuration.text = itemView.context.getString(R.string.duration, movie.runtime)
                 movieName.text = movie.title
                 movieName.setShaderForGradient()
                 movieLikeBox.apply {

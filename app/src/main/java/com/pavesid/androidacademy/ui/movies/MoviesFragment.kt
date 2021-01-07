@@ -68,7 +68,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
                 viewModel.updateMovies(movie = movie)
             },
             { movie, cX, cY ->
-                mainActivity.changeFragment(false, movie, cX, cY)
+                mainActivity.changeToDetailsFragment(movie, cX, cY)
             }
         )
 

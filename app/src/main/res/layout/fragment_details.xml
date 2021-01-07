@@ -155,7 +155,33 @@
 				android:layout_marginStart="@dimen/spacing_small_8"
 				app:layout_constraintBottom_toBottomOf="@+id/details_rating"
 				app:layout_constraintStart_toEndOf="@+id/details_rating"
-				app:layout_constraintTop_toTopOf="@+id/details_rating" />
+				app:layout_constraintTop_toTopOf="@+id/details_rating"
+				android:textIsSelectable="true" />
+
+			<TextView
+				android:id="@+id/details_runtime_title"
+				style="@style/DetailsHeading"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="@dimen/spacing_normal_16"
+				android:layout_marginTop="@dimen/spacing_large_24"
+				android:layout_marginEnd="@dimen/spacing_normal_16"
+				android:text="@string/runtime_title"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/details_reviews" />
+
+			<TextView
+				android:id="@+id/details_runtime"
+				style="@style/DetailsRuntime"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="@dimen/spacing_normal_16"
+				android:layout_marginStart="@dimen/spacing_small_8"
+				android:gravity="start"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintBottom_toBottomOf="@+id/details_runtime_title"
+				app:layout_constraintTop_toTopOf="@+id/details_runtime_title"
+				app:layout_constraintStart_toEndOf="@+id/details_runtime_title" />
 
 			<TextView
 				android:id="@+id/details_storyline_title"
@@ -163,13 +189,12 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/spacing_normal_16"
-				android:layout_marginTop="@dimen/spacing_large_24"
+				android:layout_marginTop="@dimen/spacing_small_8"
 				android:layout_marginEnd="@dimen/spacing_normal_16"
 				android:text="@string/storyline_title"
-				android:textIsSelectable="true"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/details_reviews" />
+				app:layout_constraintTop_toBottomOf="@+id/details_runtime_title" />
 
 			<TextView
 				android:id="@+id/details_storyline"
@@ -180,7 +205,6 @@
 				android:layout_marginTop="@dimen/spacing_normal_16"
 				android:layout_marginEnd="@dimen/spacing_normal_16"
 				android:letterSpacing="-0.005"
-				android:textIsSelectable="true"
 				tools:text="@string/storyline"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"

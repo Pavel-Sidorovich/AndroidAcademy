@@ -103,22 +103,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun changeFragment(
-        toMovies: Boolean = false,
-        id: Int = 0,
+    fun changeToMoviesFragment() = supportFragmentManager.open {
+        replace(R.id.container, MoviesFragment.newInstance(), TAG)
+    }
+
+    fun changeToDetailsFragment(
+        movieString: String = "",
         cX: Int = 0,
         cY: Int = 0
     ) {
-        if (toMovies) {
-            supportFragmentManager.open {
-                replace(R.id.container, MoviesFragment.newInstance(), TAG)
-            }
-        } else {
-            val detailFragment = DetailsFragment.newInstance(id, cX, cY)
-            supportFragmentManager.open {
-                add(R.id.container, detailFragment, null)
-                addToBackStack(null)
-            }
+        val detailFragment = DetailsFragment.newInstance(movieString, cX, cY)
+        supportFragmentManager.open {
+            add(R.id.container, detailFragment, null)
+            addToBackStack(null)
         }
     }
 

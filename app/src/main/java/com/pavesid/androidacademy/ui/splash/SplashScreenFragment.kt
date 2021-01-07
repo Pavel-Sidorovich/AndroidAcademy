@@ -34,7 +34,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
             addAnimatorListener(object : AnimatorListenerAdapter() {
 
                 override fun onAnimationEnd(p0: Animator?) {
-                    mainActivity.changeFragment(true)
+                    mainActivity.changeToMoviesFragment()
                 }
             })
             addAnimatorUpdateListener { animator ->

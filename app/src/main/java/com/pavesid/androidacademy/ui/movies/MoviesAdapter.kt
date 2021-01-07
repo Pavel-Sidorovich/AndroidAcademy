@@ -14,10 +14,12 @@ import com.pavesid.androidacademy.utils.extensions.setSafeOnClickListener
 import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
 import com.pavesid.androidacademy.utils.extensions.toRightUrl
 import java.util.Collections
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 internal class MoviesAdapter(
     private val likeListener: (Movie) -> Unit,
-    private val listener: (Int, Int, Int) -> Unit
+    private val listener: (String, Int, Int) -> Unit
 ) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(), ItemTouchHelperAdapter {
 
@@ -75,7 +77,7 @@ internal class MoviesAdapter(
 
     inner class MoviesViewHolder(
         private val binding: MovieItemBinding,
-        private val listener: (Int, Int, Int) -> Unit,
+        private val listener: (String, Int, Int) -> Unit,
         private val likeListener: (Movie) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -120,7 +122,7 @@ internal class MoviesAdapter(
             binding.root.setSafeOnClickListener {
                 val cX = (binding.root.left + binding.root.right) / 2
                 val cY = (binding.root.top + binding.root.bottom) / 2
-                listener(movie.id, cX, cY)
+                listener(Json.encodeToString(movie), cX, cY)
             }
         }
     }

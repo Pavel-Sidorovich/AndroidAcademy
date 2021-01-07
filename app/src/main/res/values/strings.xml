@@ -14,6 +14,8 @@
 	<string name="movie_original_image">Original image</string>
 	<string name="movies_aim">Aim</string>
 	<string name="pg">%d+</string>
+	<string name="runtime">%d min.</string>
 	<string name="theme">Theme</string>
 	<string name="screenshot">Screenshot</string>
+	<string name="runtime_title">Runtime:</string>
 </resources>

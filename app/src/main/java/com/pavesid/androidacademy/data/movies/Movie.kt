@@ -5,9 +5,11 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.db.Converters
+import kotlinx.serialization.Serializable
 
 @Entity(tableName = "movie_items")
 @TypeConverters(Converters::class)
+@Serializable
 data class Movie(
     @PrimaryKey
     val id: Int,

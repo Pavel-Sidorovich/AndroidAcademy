@@ -43,6 +43,8 @@
         <item name="android:textIsSelectable">true</item>
     </style>
 
+    <style name="DetailsRuntime" parent="DetailsReviews" />
+
     <style name="DetailsStorylineTitle" parent="TextBold">
         <item name="android:textColor">?attr/colorText</item>
         <item name="android:shadowColor">#80000000</item>

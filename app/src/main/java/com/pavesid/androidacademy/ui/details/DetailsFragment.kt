@@ -26,6 +26,7 @@ import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.actors.Cast
 import com.pavesid.androidacademy.data.actors.Crew
 import com.pavesid.androidacademy.data.details.DetailsResponse
+import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.databinding.FragmentDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.utils.CalculationAngle
@@ -39,6 +40,8 @@ import com.pavesid.androidacademy.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.properties.Delegates
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 @SuppressWarnings("deprecation")
 @AndroidEntryPoint
@@ -97,7 +100,7 @@ class DetailsFragment :
         animateRecycler(oldValue, newValue)
     }
 
-    private var movieId = 0
+    private lateinit var currentMovie: Movie
 
     private val eventListener: SensorEventListener = object : SensorEventListener {
 
@@ -122,9 +125,9 @@ class DetailsFragment :
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         arguments?.let {
-            movieId = it.getInt(PARAM_ID)
+            currentMovie = Json.decodeFromString(it.getString(PARAM_MOVIE).orEmpty())
         }
-        savedInstanceState ?: viewModel.loadDetails(movieId)
+        savedInstanceState ?: viewModel.loadDetails(currentMovie.id)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -182,33 +185,7 @@ class DetailsFragment :
     }
 
     private fun initDetails(details: DetailsResponse) {
-        if (!details.backdropPicture.isNullOrBlank()) {
-            binding.detailsOrig.load(details.backdropPicture.toRightUrl()) {
-                crossfade(true)
-            }
-        } else {
-            binding.detailsOrig.load(BACKDROP_PLACEHOLDER) {
-                crossfade(true)
-            }
-        }
-
-        binding.apply {
-            detailsStoryline.text = details.overview
-            collapsingToolbar.title = details.title
-            detailsTag.text = details.genres.joinToString { it.name }
-            detailsRating.rating = details.ratings / 2
-            detailsReviews.text =
-                resources.getQuantityString(
-                    R.plurals.review,
-                    details.votesCount,
-                    details.votesCount
-                )
-            detailsRectangle.text = if (details.adult) {
-                getString(R.string.pg, 16)
-            } else {
-                getString(R.string.pg, 13)
-            }
-        }
+        binding.detailsRuntime.text = resources.getString(R.string.runtime, details.runtime)
     }
 
     private fun initCast(cast: List<Cast>) {
@@ -280,6 +257,15 @@ class DetailsFragment :
     }
 
     private fun initView() {
+        if (currentMovie.backdrop.isNotBlank()) {
+            binding.detailsOrig.load(currentMovie.backdrop.toRightUrl()) {
+                crossfade(true)
+            }
+        } else {
+            binding.detailsOrig.load(BACKDROP_PLACEHOLDER) {
+                crossfade(true)
+            }
+        }
         binding.apply {
             detailsStorylineTitle.setShaderForGradient()
             detailsCastHeading.setShaderForGradient()
@@ -293,24 +279,35 @@ class DetailsFragment :
                 adapter = crewAdapter
                 addItemDecoration(customItemDecoration)
             }
+
+            detailsStoryline.text = currentMovie.overview
+            collapsingToolbar.title = currentMovie.title
+            detailsTag.text = currentMovie.genres.joinToString { it.name }
+            detailsRating.rating = currentMovie.ratings / 2
+            detailsReviews.text =
+                resources.getQuantityString(
+                    R.plurals.review,
+                    currentMovie.numberOfRatings,
+                    currentMovie.numberOfRatings
+                )
+            detailsRectangle.text = getString(R.string.pg, currentMovie.minimumAge)
         }
     }
 
     companion object {
-        private const val PARAM_ID = "movie_id"
-        private const val COUNT_OF_ACTORS = 6
+        private const val PARAM_MOVIE = "movie"
         private const val BACKDROP_PLACEHOLDER = "https://hollywoodsuite.ca/wp-content/uploads/poster/hws-placeholder.jpg"
 
         @JvmStatic
         fun newInstance(
-            id: Int,
+            id: String,
             cX: Int,
             cY: Int
         ): DetailsFragment = DetailsFragment().apply {
             posX = cX
             posY = cY
             val args = Bundle()
-            args.putInt(PARAM_ID, id)
+            args.putString(PARAM_MOVIE, id)
             arguments = args
         }
     }

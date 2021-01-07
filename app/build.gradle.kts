@@ -22,7 +22,7 @@ android {
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
 
-        buildConfigField("String", "API_KEY_MOVIE_DB", "\"${Secrets.apiKey}\"")
+        // buildConfigField("String", "API_KEY_MOVIE_DB", "\"${Secrets.apiKey}\"")
 
         testInstrumentationRunner = AppConfig.androidTestInstrumentation
     }

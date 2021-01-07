@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
+import android.os.StrictMode
 import androidx.appcompat.app.AppCompatDelegate
 import com.pavesid.androidacademy.utils.Utils
 import dagger.hilt.android.HiltAndroidApp
@@ -25,7 +26,7 @@ class App : Application() {
 
     override fun onCreate() {
         if (BuildConfig.DEBUG) {
-//            StrictMode.enableDefaults()
+            StrictMode.enableDefaults()
             Timber.plant(Timber.DebugTree())
         }
         super.onCreate()

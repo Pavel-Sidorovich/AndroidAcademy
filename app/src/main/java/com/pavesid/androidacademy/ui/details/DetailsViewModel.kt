@@ -32,11 +32,7 @@ internal class DetailsViewModel @ViewModelInject constructor(
         viewModelScope.launch(dispatcher + exceptionHandler) {
             _details.postValue(Resource.loading(null))
             val details = repository.getDetails(id)
-            if (details != null) {
-                _details.postValue(Resource.success(details))
-            } else {
-                _details.postValue(Resource.error("Value is null", null))
-            }
+            _details.postValue(Resource.success(details))
         }
     }
 }

@@ -98,7 +98,6 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
                     }
                 }
             })
-            scrollToPosition(currentFirstElem)
         }
 
         val callback = MoviesItemTouchHelper(moviesAdapter)

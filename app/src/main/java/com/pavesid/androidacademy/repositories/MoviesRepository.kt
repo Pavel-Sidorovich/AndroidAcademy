@@ -1,6 +1,6 @@
 package com.pavesid.androidacademy.repositories
 
-import com.pavesid.androidacademy.data.actors.ActorsResponse
+import com.pavesid.androidacademy.data.actors.CreditsResponse
 import com.pavesid.androidacademy.data.details.Details
 import com.pavesid.androidacademy.data.movies.Movie
 
@@ -17,7 +17,7 @@ interface MoviesRepository {
 
     suspend fun getActors(
         id: Int
-    ): ActorsResponse
+    ): CreditsResponse
 
     suspend fun updateMovie(movie: Movie)
 

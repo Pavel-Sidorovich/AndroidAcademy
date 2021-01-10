@@ -1,6 +1,6 @@
 package com.pavesid.androidacademy.retrofit
 
-import com.pavesid.androidacademy.data.actors.ActorsResponse
+import com.pavesid.androidacademy.data.actors.CreditsResponse
 import com.pavesid.androidacademy.data.details.DetailsResponse
 import com.pavesid.androidacademy.data.genres.GenresResponse
 import com.pavesid.androidacademy.data.movies.MovieResponse
@@ -24,7 +24,7 @@ interface MoviesApi {
     suspend fun getGenres(): GenresResponse
 
     @GET("movie/{movie_id}/credits")
-    suspend fun getActors(
+    suspend fun getCredits(
         @Path("movie_id") movieId: Int
-    ): ActorsResponse
+    ): CreditsResponse
 }

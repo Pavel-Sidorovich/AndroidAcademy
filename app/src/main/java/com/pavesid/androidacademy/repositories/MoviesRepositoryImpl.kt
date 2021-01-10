@@ -1,6 +1,6 @@
 package com.pavesid.androidacademy.repositories
 
-import com.pavesid.androidacademy.data.actors.ActorsResponse
+import com.pavesid.androidacademy.data.actors.CreditsResponse
 import com.pavesid.androidacademy.data.details.Details
 import com.pavesid.androidacademy.data.details.DetailsResponse
 import com.pavesid.androidacademy.data.genres.Genre
@@ -25,9 +25,9 @@ class MoviesRepositoryImpl @Inject constructor(
         language: String
     ): List<Movie> = getMoviesFromInternet(page, language)
 
-    override suspend fun getDetails(id: Int): Details? = getDetailsFromInternet(id)
+    override suspend fun getDetails(id: Int): Details = getDetailsFromInternet(id)
 
-    override suspend fun getActors(id: Int): ActorsResponse = MoviesApiImpl.getActors(id)
+    override suspend fun getActors(id: Int): CreditsResponse = MoviesApiImpl.getActors(id)
 
     private suspend fun getMoviesFromDB(): List<Movie> = moviesDao.getAllMovies()
 
@@ -54,26 +54,22 @@ class MoviesRepositoryImpl @Inject constructor(
 
     private suspend fun getDetailsFromInternet(
         id: Int
-    ): Details? {
-        var details: DetailsResponse? = null
-        var actors: ActorsResponse? = null
+    ): Details {
+        lateinit var details: DetailsResponse
+        lateinit var credits: CreditsResponse
         coroutineScope {
             launch {
                 details = MoviesApiImpl.getDetails(id)
             }
             launch {
-                actors = MoviesApiImpl.getActors(id)
+                credits = MoviesApiImpl.getActors(id)
             }
         }
-        return if (details != null && actors != null) {
-            Details(
-                details!!,
-                actors!!.cast,
-                actors!!.crew
-            )
-        } else {
-            null
-        }
+        return Details(
+            details,
+            credits.cast,
+            credits.crew
+        )
     }
 
     override suspend fun updateMovie(movie: Movie) {

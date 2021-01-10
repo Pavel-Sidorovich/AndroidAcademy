@@ -228,7 +228,11 @@ class DetailsFragment :
                         Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
                             .show()
                     }
-                    Status.LOADING -> binding.progress.visibility = View.VISIBLE
+                    Status.LOADING -> {
+                        binding.progress.visibility = View.VISIBLE
+                        initCast(emptyList())
+                        initCrew(emptyList())
+                    }
                 }
             }
         )
@@ -300,14 +304,14 @@ class DetailsFragment :
 
         @JvmStatic
         fun newInstance(
-            id: String,
+            movie: String,
             cX: Int,
             cY: Int
         ): DetailsFragment = DetailsFragment().apply {
             posX = cX
             posY = cY
             val args = Bundle()
-            args.putString(PARAM_MOVIE, id)
+            args.putString(PARAM_MOVIE, movie)
             arguments = args
         }
     }

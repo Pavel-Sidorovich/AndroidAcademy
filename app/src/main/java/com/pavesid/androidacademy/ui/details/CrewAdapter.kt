@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.actors.Crew
 import com.pavesid.androidacademy.databinding.CastItemBinding
 import com.pavesid.androidacademy.utils.extensions.toRightUrl
-import javax.inject.Inject
 
-internal class CrewAdapter @Inject constructor() :
+internal class CrewAdapter :
     RecyclerView.Adapter<CrewAdapter.CastViewHolder>() {
 
     private var crews: List<Crew> = emptyList()
@@ -35,7 +35,7 @@ internal class CrewAdapter @Inject constructor() :
             binding.apply {
                 nameCast.text = crew.name
                 if (crew.profilePath.isNullOrEmpty()) {
-                    imageCast.load(ACTOR_PLACEHOLDER) {
+                    imageCast.load(R.drawable.writer) {
                         crossfade(true)
                         transformations(RoundedCornersTransformation(8f))
                     }
@@ -48,9 +48,5 @@ internal class CrewAdapter @Inject constructor() :
                 characterCast.text = crew.job
             }
         }
-    }
-
-    private companion object {
-        private const val ACTOR_PLACEHOLDER = "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1570689994l/49418257._SX318_SY475_.jpg"
     }
 }

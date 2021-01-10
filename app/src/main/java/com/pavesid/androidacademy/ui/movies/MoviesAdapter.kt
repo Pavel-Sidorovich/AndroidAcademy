@@ -44,10 +44,6 @@ internal class MoviesAdapter(
             likeListener = likeListener
         )
 
-    override fun getItemViewType(position: Int): Int {
-        return movies[position].id % 2
-    }
-
     override fun getItemCount(): Int = movies.size
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) =
@@ -90,7 +86,7 @@ internal class MoviesAdapter(
                         transformations(RoundedCornersTransformation(14f, 14f, 0f, 0f))
                     }
                 } else {
-                    movieOrig.load(DETAILS_PLACEHOLDER) {
+                    movieOrig.load(R.drawable.out_of_poster) {
                         crossfade(true)
                         transformations(RoundedCornersTransformation(14f, 14f, 0f, 0f))
                     }
@@ -129,6 +125,5 @@ internal class MoviesAdapter(
 
     private companion object {
         private const val MAX_GENRE = 2
-        private const val DETAILS_PLACEHOLDER = "https://upload.wikimedia.org/wikipedia/commons/a/a1/Out_Of_Poster.jpg"
     }
 }

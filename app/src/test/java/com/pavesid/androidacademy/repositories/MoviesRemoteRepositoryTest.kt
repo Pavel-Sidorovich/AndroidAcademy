@@ -1,6 +1,6 @@
 package com.pavesid.androidacademy.repositories
 
-import com.pavesid.androidacademy.data.actors.ActorsResponse
+import com.pavesid.androidacademy.data.actors.CreditsResponse
 import com.pavesid.androidacademy.data.details.Details
 import com.pavesid.androidacademy.data.details.DetailsResponse
 import com.pavesid.androidacademy.data.movies.Movie
@@ -27,8 +27,8 @@ class MoviesRemoteRepositoryTest : MoviesRepository {
         )
     }
 
-    override suspend fun getActors(id: Int): ActorsResponse {
-        return ActorsResponse(emptyList(), emptyList(), 1)
+    override suspend fun getActors(id: Int): CreditsResponse {
+        return CreditsResponse(emptyList(), emptyList(), 1)
     }
 
     override suspend fun updateMovie(movie: Movie) {

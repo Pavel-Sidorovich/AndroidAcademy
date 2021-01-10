@@ -2,7 +2,7 @@ package com.pavesid.androidacademy.retrofit
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.pavesid.androidacademy.App
-import com.pavesid.androidacademy.data.actors.ActorsResponse
+import com.pavesid.androidacademy.data.actors.CreditsResponse
 import com.pavesid.androidacademy.data.details.DetailsResponse
 import com.pavesid.androidacademy.data.genres.GenresResponse
 import com.pavesid.androidacademy.data.movies.MovieResponse
@@ -49,5 +49,5 @@ object MoviesApiImpl {
 
     suspend fun getDetails(movieId: Int): DetailsResponse = api.getDetails(movieId)
 
-    suspend fun getActors(id: Int): ActorsResponse = api.getActors(id)
+    suspend fun getActors(id: Int): CreditsResponse = api.getCredits(id)
 }

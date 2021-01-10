@@ -8,7 +8,7 @@ class CacheControlInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalResponse = chain.proceed(chain.request())
         return if (Utils.isNetworkConnected) {
-            val maxAge = 60 // read from cache for 1 minute
+            val maxAge = 120 // read from cache for 2 minutes
             originalResponse.newBuilder()
                 .header("Cache-Control", "public, max-age=$maxAge")
                 .build()

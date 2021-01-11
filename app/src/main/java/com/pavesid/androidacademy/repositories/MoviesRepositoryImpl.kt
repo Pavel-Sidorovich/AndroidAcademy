@@ -20,25 +20,19 @@ class MoviesRepositoryImpl @Inject constructor(
 
     private var genres = listOf<Genre>()
 
-    override suspend fun getMovies(
-        page: Int,
-        language: String
-    ): List<Movie> = getMoviesFromInternet(page, language)
-
     override suspend fun getDetails(id: Int): Details = getDetailsFromInternet(id)
 
     override suspend fun getActors(id: Int): CreditsResponse = MoviesApiImpl.getActors(id)
 
-    private suspend fun getMoviesFromDB(): List<Movie> = moviesDao.getAllMovies()
-
-    private suspend fun getMoviesFromInternet(
-        page: Int,
-        language: String
-    ): List<Movie> {
+    override suspend fun getMoviesByGenre(id: Int, page: Int): List<Movie> {
         var movies = listOf<JsonMovie>()
         coroutineScope {
             launch {
-                movies = MoviesApiImpl.getMovies(page, language).movies
+                movies = if (id == -1) {
+                    MoviesApiImpl.getMovies(page).movies
+                } else {
+                    MoviesApiImpl.getMoviesByGenre(id, page).movies
+                }
             }
             if (genres.isEmpty()) {
                 launch {
@@ -51,6 +45,8 @@ class MoviesRepositoryImpl @Inject constructor(
             genres
         )
     }
+
+    override suspend fun getGenres(): List<Genre> = MoviesApiImpl.getGenres().genres
 
     private suspend fun getDetailsFromInternet(
         id: Int

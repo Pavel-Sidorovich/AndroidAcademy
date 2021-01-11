@@ -6,22 +6,28 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
 import com.pavesid.androidacademy.R
+import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.databinding.RecyclerLayoutBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.utils.extensions.getColorFromAttr
 import com.pavesid.androidacademy.utils.viewBinding
-import timber.log.Timber
+import kotlin.math.abs
 
 class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     private val binding: FragmentMoviesBinding by viewBinding(FragmentMoviesBinding::bind)
 
-    private val recyclerLayoutBinding: RecyclerLayoutBinding by viewBinding { RecyclerLayoutBinding.bind(binding.root) }
+    private val recyclerLayoutBinding: RecyclerLayoutBinding by viewBinding {
+        RecyclerLayoutBinding.bind(
+            binding.root
+        )
+    }
 
     private val moviesItemDecoration: MoviesItemDecoration by lazy {
         MoviesItemDecoration(
@@ -32,6 +38,10 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
     private val mainActivity by lazy { activity as MainActivity }
 
     private lateinit var moviesAdapter: MoviesAdapter
+
+    private val genresAdapter = GenresAdapter {
+        viewModel.loadMovies(it)
+    }
 
     private var currentFirstElem: Int = 0
 
@@ -64,9 +74,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
     private fun initView() {
 
         moviesAdapter = MoviesAdapter(
-            { movie ->
-                viewModel.updateMovies(movie = movie)
-            },
+            { },
             { movie, cX, cY ->
                 mainActivity.changeToDetailsFragment(movie, cX, cY)
             }
@@ -100,32 +108,62 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
             })
         }
 
-        val callback = MoviesItemTouchHelper(moviesAdapter)
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(recyclerLayoutBinding.moviesRecycler)
+        val genresLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        binding.tagsRecycler.apply {
+            layoutManager = genresLayoutManager
+            adapter = genresAdapter
+        }
+
+        binding.appBar.addOnOffsetChangedListener(
+            AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                if (abs(verticalOffset) >= appBarLayout.totalScrollRange) {
+                    binding.tagsRecycler.visibility = View.INVISIBLE
+                } else {
+                    binding.tagsRecycler.visibility = View.VISIBLE
+                }
+            }
+        )
     }
 
     private fun subscribeToObservers() {
         viewModel.movies.observe(
-            viewLifecycleOwner,
-            { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        recyclerLayoutBinding.progress.visibility = View.GONE
-                        Timber.d(recyclerLayoutBinding.progress.toString())
-                        resource.data?.let { movies ->
-                            moviesAdapter.movies = movies
-                        }
+            viewLifecycleOwner
+        ) { resource ->
+            when (resource.status) {
+                Status.SUCCESS -> {
+                    recyclerLayoutBinding.progress.visibility = View.GONE
+                    resource.data?.let { movies ->
+                        moviesAdapter.setData(movies)
                     }
-                    Status.ERROR -> {
-                        recyclerLayoutBinding.progress.visibility = View.GONE
-                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
-                            .show()
+                }
+                Status.ERROR -> {
+                    recyclerLayoutBinding.progress.visibility = View.GONE
+                    Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+                Status.LOADING -> recyclerLayoutBinding.progress.visibility = View.VISIBLE
+            }
+        }
+
+        viewModel.genres.observe(
+            viewLifecycleOwner
+        ) {
+            resources ->
+            when (resources.status) {
+                Status.SUCCESS -> {
+                    resources.data?.let { genres ->
+                        val list = mutableListOf<Genre>()
+                        list.add(Genre(-1, "All"))
+                        list.addAll(genres)
+                        genresAdapter.setData(list)
                     }
-                    Status.LOADING -> recyclerLayoutBinding.progress.visibility = View.VISIBLE
+                    binding.tagsRecycler.visibility = View.VISIBLE
+                }
+                else -> {
+                    binding.tagsRecycler.visibility = View.GONE
                 }
             }
-        )
+        }
     }
 
     companion object {

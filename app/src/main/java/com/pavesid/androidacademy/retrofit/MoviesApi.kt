@@ -9,10 +9,10 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MoviesApi {
-    @GET("movie/now_playing")
+    @GET("discover/movie")
     suspend fun getMovies(
         @Query("page") page: Int,
-        @Query("language") language: String
+        @Query("sort_by") sort: String = "popularity.desc"
     ): MovieResponse
 
     @GET("movie/{movie_id}")
@@ -27,4 +27,11 @@ interface MoviesApi {
     suspend fun getCredits(
         @Path("movie_id") movieId: Int
     ): CreditsResponse
+
+    @GET("discover/movie")
+    suspend fun getMoviesByGenre(
+        @Query("with_genres") genreId: Int,
+        @Query("page") page: Int,
+        @Query("sort_by") sort: String = "popularity.desc"
+    ): MovieResponse
 }

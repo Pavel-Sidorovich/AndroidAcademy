@@ -28,7 +28,7 @@ internal class CrewAdapter :
         notifyDataSetChanged()
     }
 
-    inner class CastViewHolder(private val binding: CastItemBinding) :
+    class CastViewHolder(private val binding: CastItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(crew: Crew) {

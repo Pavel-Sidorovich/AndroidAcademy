@@ -66,6 +66,7 @@ object AppDependencies {
         "androidx.hilt:hilt-compiler:${Versions.hilt_compiler_version}"
 
     // Retrofit
+    private const val logging = "com.squareup.okhttp3:logging-interceptor:${Versions.logging_version}"
     private const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit_version}"
     private const val converterSerialization =
         "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.serialization_converter_version}"
@@ -123,6 +124,7 @@ object AppDependencies {
         add(timber)
         add(hiltAndroid)
         add(hiltLifecycleViewModel)
+        add(logging)
         add(retrofit2)
         add(converterSerialization)
         add(lottie)

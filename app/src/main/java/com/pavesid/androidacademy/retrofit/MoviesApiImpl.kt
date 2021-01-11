@@ -41,13 +41,17 @@ object MoviesApiImpl {
     private val api: MoviesApi = retrofit.create(MoviesApi::class.java)
 
     suspend fun getMovies(
-        page: Int = 1,
-        language: String = "en-US"
-    ): MovieResponse = api.getMovies(page, language)
+        page: Int = 1
+    ): MovieResponse = api.getMovies(page)
 
     suspend fun getGenres(): GenresResponse = api.getGenres()
 
     suspend fun getDetails(movieId: Int): DetailsResponse = api.getDetails(movieId)
 
     suspend fun getActors(id: Int): CreditsResponse = api.getCredits(id)
+
+    suspend fun getMoviesByGenre(
+        id: Int,
+        page: Int
+    ): MovieResponse = api.getMoviesByGenre(genreId = id, page = page)
 }

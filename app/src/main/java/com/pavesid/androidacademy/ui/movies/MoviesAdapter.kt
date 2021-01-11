@@ -2,8 +2,7 @@ package com.pavesid.androidacademy.ui.movies
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
+import androidx.annotation.MainThread
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
@@ -13,7 +12,6 @@ import com.pavesid.androidacademy.databinding.MovieItemBinding
 import com.pavesid.androidacademy.utils.extensions.setSafeOnClickListener
 import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
 import com.pavesid.androidacademy.utils.extensions.toRightUrl
-import java.util.Collections
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -21,21 +19,15 @@ internal class MoviesAdapter(
     private val likeListener: (Movie) -> Unit,
     private val listener: (String, Int, Int) -> Unit
 ) :
-    RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>(), ItemTouchHelperAdapter {
+    RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
-            oldItem.id == newItem.id
+    private var movies: List<Movie> = listOf()
 
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
-            oldItem.hashCode() == newItem.hashCode()
+    @MainThread
+    fun setData(data: List<Movie>) {
+        movies = data
+        notifyDataSetChanged()
     }
-
-    private val differ = AsyncListDiffer(this, diffCallback)
-
-    var movies: List<Movie>
-        get() = differ.currentList
-        set(value) = differ.submitList(value)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder =
         MoviesViewHolder(
@@ -49,29 +41,7 @@ internal class MoviesAdapter(
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) =
         holder.bind(movie = movies[position])
 
-    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-        val mutableMovies = movies.toMutableList()
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
-                Collections.swap(mutableMovies, i, i + 1)
-            }
-        } else {
-            for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(mutableMovies, i, i - 1)
-            }
-        }
-        movies = mutableMovies
-
-        return true
-    }
-
-    override fun onItemDismiss(position: Int) {
-        val mutableMovies = movies.toMutableList()
-        mutableMovies.removeAt(position)
-        movies = mutableMovies
-    }
-
-    inner class MoviesViewHolder(
+    class MoviesViewHolder(
         private val binding: MovieItemBinding,
         private val listener: (String, Int, Int) -> Unit,
         private val likeListener: (Movie) -> Unit
@@ -104,13 +74,13 @@ internal class MoviesAdapter(
                 movieLikeBox.apply {
                     isSelected = movie.liked
                     setOnClickListener {
-                        if (movieLikeBox.isSelected) {
-                            movieLikeBox.isSelected = false
-                        } else {
-                            movieLikeBox.isSelected = true
-                            movieLikeBox.likeAnimation()
-                        }
                         likeListener.invoke(movie)
+                        isSelected = if (isSelected) {
+                            false
+                        } else {
+                            likeAnimation()
+                            true
+                        }
                     }
                 }
             }

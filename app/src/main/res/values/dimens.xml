@@ -19,6 +19,7 @@
 	<dimen name="movie_rectangle_min_size_24">24dp</dimen>
 	<dimen name="movie_height_rating_10">10dp</dimen>
 	<dimen name="movie_radius_8">8dp</dimen>
+	<dimen name="genre_radius_16">16dp</dimen>
 	<dimen name="movies_aim_width">16dp</dimen>
 	<dimen name="movies_aim_height">16dp</dimen>
 	<dimen name="border_size">1dp</dimen>

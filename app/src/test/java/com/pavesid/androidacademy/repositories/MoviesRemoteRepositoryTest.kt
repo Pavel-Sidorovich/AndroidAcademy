@@ -3,6 +3,7 @@ package com.pavesid.androidacademy.repositories
 import com.pavesid.androidacademy.data.actors.CreditsResponse
 import com.pavesid.androidacademy.data.details.Details
 import com.pavesid.androidacademy.data.details.DetailsResponse
+import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.data.movies.Movie
 
 class MoviesRemoteRepositoryTest : MoviesRepository {
@@ -11,13 +12,7 @@ class MoviesRemoteRepositoryTest : MoviesRepository {
 
     private val movies: MutableList<Movie> = mutableListOf()
 
-    override suspend fun getMovies(page: Int, language: String): List<Movie> {
-        return if (shouldReturnNetworkError) {
-            throw RuntimeException("Error")
-        } else {
-            movies
-        }
-    }
+    private val genres: MutableList<Genre> = mutableListOf()
 
     override suspend fun getDetails(id: Int): Details {
         return Details(
@@ -29,6 +24,22 @@ class MoviesRemoteRepositoryTest : MoviesRepository {
 
     override suspend fun getActors(id: Int): CreditsResponse {
         return CreditsResponse(emptyList(), emptyList(), 1)
+    }
+
+    override suspend fun getMoviesByGenre(id: Int, page: Int): List<Movie> {
+        return if (shouldReturnNetworkError) {
+            throw RuntimeException("Error")
+        } else {
+            movies
+        }
+    }
+
+    override suspend fun getGenres(): List<Genre> {
+        return if (shouldReturnNetworkError) {
+            throw RuntimeException("Error")
+        } else {
+            genres
+        }
     }
 
     override suspend fun updateMovie(movie: Movie) {

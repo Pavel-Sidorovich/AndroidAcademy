@@ -7,7 +7,7 @@ import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.data.movies.JsonMovie
 import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.db.MoviesDao
-import com.pavesid.androidacademy.retrofit.MoviesApiImpl
+import com.pavesid.androidacademy.retrofit.MoviesApi
 import javax.inject.Inject
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -15,28 +15,29 @@ import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
 class MoviesRepositoryImpl @Inject constructor(
-    private val moviesDao: MoviesDao
+    private val moviesDao: MoviesDao,
+    private val moviesApi: MoviesApi
 ) : MoviesRepository {
 
     private var genres = listOf<Genre>()
 
     override suspend fun getDetails(id: Int): Details = getDetailsFromInternet(id)
 
-    override suspend fun getActors(id: Int): CreditsResponse = MoviesApiImpl.getActors(id)
+    override suspend fun getActors(id: Int): CreditsResponse = moviesApi.getCredits(id)
 
     override suspend fun getMoviesByGenre(id: Int, page: Int): List<Movie> {
         var movies = listOf<JsonMovie>()
         coroutineScope {
             launch {
                 movies = if (id == -1) {
-                    MoviesApiImpl.getMovies(page).movies
+                    moviesApi.getMovies(page).movies
                 } else {
-                    MoviesApiImpl.getMoviesByGenre(id, page).movies
+                    moviesApi.getMoviesByGenre(id, page).movies
                 }
             }
             if (genres.isEmpty()) {
                 launch {
-                    genres = MoviesApiImpl.getGenres().genres
+                    genres = moviesApi.getGenres().genres
                 }
             }
         }
@@ -46,7 +47,7 @@ class MoviesRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getGenres(): List<Genre> = MoviesApiImpl.getGenres().genres
+    override suspend fun getGenres(): List<Genre> = moviesApi.getGenres().genres
 
     private suspend fun getDetailsFromInternet(
         id: Int
@@ -55,10 +56,10 @@ class MoviesRepositoryImpl @Inject constructor(
         lateinit var credits: CreditsResponse
         coroutineScope {
             launch {
-                details = MoviesApiImpl.getDetails(id)
+                details = moviesApi.getDetails(id)
             }
             launch {
-                credits = MoviesApiImpl.getActors(id)
+                credits = moviesApi.getCredits(id)
             }
         }
         return Details(

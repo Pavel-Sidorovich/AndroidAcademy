@@ -39,9 +39,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     private lateinit var moviesAdapter: MoviesAdapter
 
-    private val genresAdapter = GenresAdapter {
-        viewModel.loadMovies(it)
-    }
+    private lateinit var genresAdapter: GenresAdapter
 
     private var currentFirstElem: Int = 0
 
@@ -72,6 +70,10 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
     }
 
     private fun initView() {
+
+        genresAdapter = GenresAdapter {
+            viewModel.loadMovies(it)
+        }
 
         moviesAdapter = MoviesAdapter(
             { },
@@ -141,7 +143,10 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
                     Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
                         .show()
                 }
-                Status.LOADING -> recyclerLayoutBinding.progress.visibility = View.VISIBLE
+                Status.LOADING -> {
+                    moviesAdapter.setData(emptyList())
+                    recyclerLayoutBinding.progress.visibility = View.VISIBLE
+                }
             }
         }
 

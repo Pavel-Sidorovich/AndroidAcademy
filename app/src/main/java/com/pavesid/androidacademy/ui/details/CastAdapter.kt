@@ -8,7 +8,7 @@ import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.actors.Cast
 import com.pavesid.androidacademy.databinding.CastItemBinding
-import com.pavesid.androidacademy.utils.extensions.toRightUrl
+import com.pavesid.androidacademy.utils.extensions.toW342Url
 
 internal class CastAdapter :
     RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
@@ -40,7 +40,7 @@ internal class CastAdapter :
                         transformations(RoundedCornersTransformation(8f))
                     }
                 } else {
-                    imageCast.load(actor.profilePath.toRightUrl()) {
+                    imageCast.load(actor.profilePath.toW342Url()) {
                         crossfade(true)
                         transformations(RoundedCornersTransformation(8f))
                     }

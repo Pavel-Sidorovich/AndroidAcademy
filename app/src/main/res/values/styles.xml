@@ -139,7 +139,9 @@
 
 	<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
+	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="colorControlNormal">?attr/colorText</item>
+    </style>
 
     <style name="MyAppTheme.PopupOverlay" parent="AppTheme.PopupOverlay">
         <item name="android:tint">?attr/colorPrimaryBW</item>
@@ -149,5 +151,14 @@
         <item name="android:windowBackground">@drawable/ic_splash</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
+        <!-- Query Text Color -->
+        <item name="android:textColorPrimary">?attr/colorText</item>
+        <!-- Hint Color -->
+        <item name="android:textColorHint">?attr/colorText</item>
+        <!-- Icon Color -->
+        <item name="android:tint">?attr/colorText</item>
     </style>
 </resources>

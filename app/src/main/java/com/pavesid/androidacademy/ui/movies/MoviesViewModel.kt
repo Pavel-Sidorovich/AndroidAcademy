@@ -82,18 +82,10 @@ internal class MoviesViewModel @ViewModelInject constructor(
     fun loadGenres() {
         genres.value?.data ?: viewModelScope.launch(dispatcher + exceptionHandlerGenres) {
             val genres = repository.getGenres()
-            _genres.postValue(Resource.success(genres))
-        }
-    }
-
-    fun updateMovies(movie: Movie) {
-        viewModelScope.launch(dispatcher + exceptionHandler) {
-            val index = list.indexOf(movie)
-            list[index].liked = !list[index].liked
-            repository.updateMovie(list[index])
-            _movies.postValue(
-                Resource.success(list)
-            )
+            val list = mutableListOf<Genre>()
+            list.add(Genre(-1, "All", true))
+            list.addAll(genres)
+            _genres.postValue(Resource.success(list))
         }
     }
 }

@@ -11,7 +11,7 @@ import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.databinding.MovieItemBinding
 import com.pavesid.androidacademy.utils.extensions.setSafeOnClickListener
 import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
-import com.pavesid.androidacademy.utils.extensions.toRightUrl
+import com.pavesid.androidacademy.utils.extensions.toW342Url
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -51,7 +51,7 @@ internal class MoviesAdapter(
             binding.apply {
                 movieRectanglePg.text = itemView.context.getString(R.string.pg, movie.minimumAge)
                 if (movie.poster.isNotBlank()) {
-                    movieOrig.load(movie.poster.toRightUrl()) {
+                    movieOrig.load(movie.poster.toW342Url()) {
                         crossfade(true)
                         transformations(RoundedCornersTransformation(14f, 14f, 0f, 0f))
                     }

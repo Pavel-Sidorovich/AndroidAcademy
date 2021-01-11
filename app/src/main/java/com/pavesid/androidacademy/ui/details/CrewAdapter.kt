@@ -8,7 +8,7 @@ import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.actors.Crew
 import com.pavesid.androidacademy.databinding.CastItemBinding
-import com.pavesid.androidacademy.utils.extensions.toRightUrl
+import com.pavesid.androidacademy.utils.extensions.toW342Url
 
 internal class CrewAdapter :
     RecyclerView.Adapter<CrewAdapter.CastViewHolder>() {
@@ -40,7 +40,7 @@ internal class CrewAdapter :
                         transformations(RoundedCornersTransformation(8f))
                     }
                 } else {
-                    imageCast.load(crew.profilePath.toRightUrl()) {
+                    imageCast.load(crew.profilePath.toW342Url()) {
                         crossfade(true)
                         transformations(RoundedCornersTransformation(8f))
                     }

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.pavesid.androidacademy.R
-import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.databinding.RecyclerLayoutBinding
 import com.pavesid.androidacademy.ui.MainActivity
@@ -157,10 +156,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
             when (resources.status) {
                 Status.SUCCESS -> {
                     resources.data?.let { genres ->
-                        val list = mutableListOf<Genre>()
-                        list.add(Genre(-1, "All"))
-                        list.addAll(genres)
-                        genresAdapter.setData(list)
+                        genresAdapter.setData(genres)
                     }
                     binding.tagsRecycler.visibility = View.VISIBLE
                 }

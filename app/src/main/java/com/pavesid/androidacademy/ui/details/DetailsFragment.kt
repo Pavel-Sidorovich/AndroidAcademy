@@ -35,7 +35,7 @@ import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
 import com.pavesid.androidacademy.utils.extensions.setShaderForGradient
 import com.pavesid.androidacademy.utils.extensions.startCircularReveal
 import com.pavesid.androidacademy.utils.extensions.startCircularRevealFromLeft
-import com.pavesid.androidacademy.utils.extensions.toRightUrl
+import com.pavesid.androidacademy.utils.extensions.toOriginalUrl
 import com.pavesid.androidacademy.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -146,6 +146,7 @@ class DetailsFragment :
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.findItem(R.id.theme).isVisible = false
+        menu.findItem(R.id.action_search).isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -262,7 +263,7 @@ class DetailsFragment :
 
     private fun initView() {
         if (currentMovie.backdrop.isNotBlank()) {
-            binding.detailsOrig.load(currentMovie.backdrop.toRightUrl()) {
+            binding.detailsOrig.load(currentMovie.backdrop.toOriginalUrl()) {
                 crossfade(true)
             }
         } else {

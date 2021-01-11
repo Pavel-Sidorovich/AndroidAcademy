@@ -18,4 +18,5 @@
 	<string name="theme">Theme</string>
 	<string name="screenshot">Screenshot</string>
 	<string name="runtime_title">Runtime:</string>
+	<string name="menu_search_title">Search</string>
 </resources>

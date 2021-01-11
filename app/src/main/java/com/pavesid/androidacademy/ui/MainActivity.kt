@@ -8,8 +8,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
 import com.pavesid.androidacademy.App.Companion.THEME
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
@@ -64,6 +66,21 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu, menu)
         menu?.findItem(R.id.theme)?.setSafeOnMenuItemClickListener {
         }
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+//                viewModel.handleSearchQuery(query)
+                Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+//                viewModel.handleSearchQuery(newText)
+                Toast.makeText(this@MainActivity, newText, Toast.LENGTH_SHORT).show()
+                return true
+            }
+        })
         return true
     }
 

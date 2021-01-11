@@ -8,5 +8,6 @@ data class Genre(
     @SerialName("id")
     val id: Int,
     @SerialName("name")
-    val name: String
+    val name: String,
+    var isChecked: Boolean = false
 )

@@ -40,7 +40,6 @@
                     android:contentDescription="@string/original_image"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="375:298"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

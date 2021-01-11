@@ -31,7 +31,7 @@ class GenresAdapter(private val listener: (Int) -> Unit) :
         notifyDataSetChanged()
     }
 
-    class GenresViewHolder(
+    inner class GenresViewHolder(
         private val binding: GenreItemBinding,
         private val listener: (Int) -> Unit
     ) :
@@ -39,8 +39,14 @@ class GenresAdapter(private val listener: (Int) -> Unit) :
 
         fun bind(genre: Genre) {
             binding.root.apply {
+                isSelected = genre.isChecked
                 text = genre.name
                 setOnClickListener {
+                    genres.forEach {
+                        it.isChecked = false
+                    }
+                    genre.isChecked = true
+                    notifyDataSetChanged()
                     listener(genre.id)
                 }
             }

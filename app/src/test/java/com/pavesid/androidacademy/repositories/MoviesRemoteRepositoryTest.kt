@@ -34,6 +34,14 @@ class MoviesRemoteRepositoryTest : MoviesRepository {
         }
     }
 
+    override suspend fun searchMovies(query: String, page: Int): List<Movie> {
+        return if (shouldReturnNetworkError) {
+            throw RuntimeException("Error")
+        } else {
+            movies
+        }
+    }
+
     override suspend fun getGenres(): List<Genre> {
         return if (shouldReturnNetworkError) {
             throw RuntimeException("Error")

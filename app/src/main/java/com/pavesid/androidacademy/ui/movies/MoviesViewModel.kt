@@ -14,6 +14,7 @@ import com.pavesid.androidacademy.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -35,6 +36,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
     private var list = mutableListOf<Movie>()
 
     private var currentJob: Job? = null
+    private var debounceJob: Job? = null
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _movies.postValue(Resource.error(throwable.message.orEmpty(), null))
@@ -57,7 +59,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
     @MainThread
     fun loadMovies(genre: Int = currentGenre) {
         if (currentGenre != genre) {
-            currentJob?.cancel()
+            cancelAllJob()
             isLoading = false
         }
         if (!isLoading) {
@@ -86,6 +88,23 @@ internal class MoviesViewModel @ViewModelInject constructor(
     }
 
     @MainThread
+    fun searchMovies(query: String) {
+        isLoading = false
+        if (!isLoading) {
+            cancelAllJob()
+            debounceJob = viewModelScope.launch(dispatcher + exceptionHandler) {
+                delay(500)
+                if (query != "") {
+                    val movies = repository.searchMovies(query, 1)
+                    _movies.postValue(Resource.success(movies))
+                } else {
+                    _movies.postValue(Resource.success(list))
+                }
+            }
+        }
+    }
+
+    @MainThread
     fun loadGenres() {
         genres.value?.data ?: viewModelScope.launch(dispatcher + exceptionHandlerGenres) {
             val genres = repository.getGenres()
@@ -94,5 +113,10 @@ internal class MoviesViewModel @ViewModelInject constructor(
             list.addAll(genres)
             _genres.postValue(Resource.success(list))
         }
+    }
+
+    private fun cancelAllJob() {
+        currentJob?.cancel()
+        debounceJob?.cancel()
     }
 }

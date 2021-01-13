@@ -74,13 +74,13 @@ class MainActivity : AppCompatActivity() {
         val searchView = searchItem?.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-//                viewModel.handleSearchQuery(query)
+                viewModel.searchMovies(query.orEmpty())
                 Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-//                viewModel.handleSearchQuery(newText)
+                viewModel.searchMovies(newText.orEmpty())
                 Toast.makeText(this@MainActivity, newText, Toast.LENGTH_SHORT).show()
                 return true
             }

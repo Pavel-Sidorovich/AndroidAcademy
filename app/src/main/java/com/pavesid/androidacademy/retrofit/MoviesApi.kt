@@ -34,4 +34,10 @@ interface MoviesApi {
         @Query("page") page: Int,
         @Query("sort_by") sort: String = "popularity.desc"
     ): MovieResponse
+
+    @GET("search/movie")
+    suspend fun searchMovie(
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ): MovieResponse
 }

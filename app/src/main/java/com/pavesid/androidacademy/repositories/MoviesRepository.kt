@@ -20,6 +20,11 @@ interface MoviesRepository {
         page: Int = 1
     ): List<Movie>
 
+    suspend fun searchMovies(
+        query: String = "",
+        page: Int = 1
+    ): List<Movie>
+
     suspend fun getGenres(): List<Genre>
 
     suspend fun updateMovie(movie: Movie)

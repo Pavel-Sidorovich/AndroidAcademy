@@ -47,6 +47,24 @@ class MoviesRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun searchMovies(query: String, page: Int): List<Movie> {
+        var movies = listOf<JsonMovie>()
+        coroutineScope {
+            launch {
+                movies = moviesApi.searchMovie(query, page).movies
+            }
+            if (genres.isEmpty()) {
+                launch {
+                    genres = moviesApi.getGenres().genres
+                }
+            }
+        }
+        return parseMovies(
+            movies,
+            genres
+        )
+    }
+
     override suspend fun getGenres(): List<Genre> = moviesApi.getGenres().genres
 
     private suspend fun getDetailsFromInternet(

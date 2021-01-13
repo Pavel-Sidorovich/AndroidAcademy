@@ -15,6 +15,7 @@ import com.pavesid.androidacademy.databinding.RecyclerLayoutBinding
 import com.pavesid.androidacademy.ui.MainActivity
 import com.pavesid.androidacademy.utils.Status
 import com.pavesid.androidacademy.utils.extensions.getColorFromAttr
+import com.pavesid.androidacademy.utils.extensions.hideKeyboard
 import com.pavesid.androidacademy.utils.viewBinding
 import kotlin.math.abs
 
@@ -104,6 +105,13 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
                     if (needMore) {
                         viewModel.loadMovies()
+                    }
+                }
+
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                        recyclerView.hideKeyboard()
                     }
                 }
             })

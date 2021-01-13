@@ -13,6 +13,7 @@ import com.pavesid.androidacademy.repositories.MoviesRepository
 import com.pavesid.androidacademy.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -32,6 +33,8 @@ internal class MoviesViewModel @ViewModelInject constructor(
     private var currentGenre = -1
 
     private var list = mutableListOf<Movie>()
+
+    private var currentJob: Job? = null
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _movies.postValue(Resource.error(throwable.message.orEmpty(), null))
@@ -53,8 +56,12 @@ internal class MoviesViewModel @ViewModelInject constructor(
      */
     @MainThread
     fun loadMovies(genre: Int = currentGenre) {
+        if (currentGenre != genre) {
+            currentJob?.cancel()
+            isLoading = false
+        }
         if (!isLoading) {
-            viewModelScope.launch(dispatcher + exceptionHandler) {
+            currentJob = viewModelScope.launch(dispatcher + exceptionHandler) {
                 isLoading = true
                 if (currentGenre != genre) {
                     page = 1

@@ -12,11 +12,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.ViewModelProvider
 import com.pavesid.androidacademy.App.Companion.THEME
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
 import com.pavesid.androidacademy.ui.details.DetailsFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
+import com.pavesid.androidacademy.ui.movies.MoviesViewModel
 import com.pavesid.androidacademy.ui.splash.SplashScreenFragment
 import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
 import com.pavesid.androidacademy.utils.extensions.edit
@@ -38,6 +40,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var prefs: SharedPreferences
 
     private lateinit var binding: ActivityMainBinding
+
+    private val viewModel by lazy { ViewModelProvider(this).get(MoviesViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_AndroidAcademy)

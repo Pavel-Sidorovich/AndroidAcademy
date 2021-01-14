@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.pavesid.androidacademy.R
+import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.databinding.FragmentMoviesBinding
 import com.pavesid.androidacademy.databinding.RecyclerLayoutBinding
 import com.pavesid.androidacademy.ui.MainActivity
@@ -54,6 +55,8 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.init()
 
         initActionBar()
         initView()
@@ -164,7 +167,9 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
             when (resources.status) {
                 Status.SUCCESS -> {
                     resources.data?.let { genres ->
-                        genresAdapter.setData(genres)
+                        val list = genres.toMutableList()
+                        list.add(0, Genre(-1, requireContext().getString(R.string.all), true))
+                        genresAdapter.setData(list)
                     }
                     binding.tagsRecycler.visibility = View.VISIBLE
                 }

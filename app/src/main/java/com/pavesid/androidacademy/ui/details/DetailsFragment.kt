@@ -127,7 +127,7 @@ class DetailsFragment :
         arguments?.let {
             currentMovie = Json.decodeFromString(it.getString(PARAM_MOVIE).orEmpty())
         }
-        savedInstanceState ?: viewModel.loadDetails(currentMovie.id)
+        viewModel.loadDetails(currentMovie.id)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -187,6 +187,20 @@ class DetailsFragment :
 
     private fun initDetails(details: DetailsResponse) {
         binding.detailsRuntime.text = resources.getString(R.string.runtime, details.runtime)
+        if (!details.backdropPicture.isNullOrBlank()) {
+            binding.detailsOrig.load(details.backdropPicture.toOriginalUrl()) {
+                crossfade(true)
+            }
+        } else {
+            binding.detailsOrig.load(BACKDROP_PLACEHOLDER) {
+                crossfade(true)
+            }
+        }
+        binding.apply {
+            detailsStoryline.text = details.overview
+            collapsingToolbar.title = details.title
+            detailsTag.text = details.genres.joinToString { it.name }
+        }
     }
 
     private fun initCast(cast: List<Cast>) {

@@ -9,6 +9,7 @@ import com.pavesid.androidacademy.data.details.Details
 import com.pavesid.androidacademy.di.IODispatcher
 import com.pavesid.androidacademy.repositories.MoviesRepository
 import com.pavesid.androidacademy.utils.Resource
+import java.util.Locale
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -19,9 +20,12 @@ internal class DetailsViewModel @ViewModelInject constructor(
     @IODispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _details = MutableLiveData< Resource<Details>>()
+    private val _details = MutableLiveData<Resource<Details>>()
     val details: LiveData<Resource<Details>>
         get() = _details
+
+    private var currentLocale = ""
+    private var currentId = -1
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _details.postValue(Resource.error(throwable.message.orEmpty(), null))
@@ -29,10 +33,14 @@ internal class DetailsViewModel @ViewModelInject constructor(
     }
 
     fun loadDetails(id: Int) {
-        viewModelScope.launch(dispatcher + exceptionHandler) {
-            _details.postValue(Resource.loading(null))
-            val details = repository.getDetails(id)
-            _details.postValue(Resource.success(details))
+        if (currentLocale != Locale.getDefault().toLanguageTag() || currentId != id) {
+            currentLocale = Locale.getDefault().toLanguageTag()
+            currentId = id
+            viewModelScope.launch(dispatcher + exceptionHandler) {
+                _details.postValue(Resource.loading(null))
+                val details = repository.getDetails(id)
+                _details.postValue(Resource.success(details))
+            }
         }
     }
 }

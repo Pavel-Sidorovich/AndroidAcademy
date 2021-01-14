@@ -24,7 +24,7 @@
             app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:maxLines="2"
-            tools:title="@string/name">
+            tools:title="@tools:sample/cities">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -128,7 +128,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/details_rectangle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/tag" />
+                tools:text="@tools:sample/full_names" />
 
             <me.zhanghai.android.materialratingbar.MaterialRatingBar
                 android:id="@+id/details_rating"
@@ -205,7 +205,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/details_storyline_title"
-                tools:text="@string/storyline" />
+                tools:text="@tools:sample/lorem/random" />
 
             <TextView
                 android:id="@+id/details_cast_heading"

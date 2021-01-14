@@ -19,14 +19,13 @@ class MoviesRepositoryImpl @Inject constructor(
     private val moviesApi: MoviesApi
 ) : MoviesRepository {
 
-    private var genres = listOf<Genre>()
-
     override suspend fun getDetails(id: Int): Details = getDetailsFromInternet(id)
 
     override suspend fun getActors(id: Int): CreditsResponse = moviesApi.getCredits(id)
 
     override suspend fun getMoviesByGenre(id: Int, page: Int): List<Movie> {
         var movies = listOf<JsonMovie>()
+        var genres = listOf<Genre>()
         coroutineScope {
             launch {
                 movies = if (id == -1) {
@@ -35,10 +34,8 @@ class MoviesRepositoryImpl @Inject constructor(
                     moviesApi.getMoviesByGenre(id, page).movies
                 }
             }
-            if (genres.isEmpty()) {
-                launch {
-                    genres = moviesApi.getGenres().genres
-                }
+            launch {
+                genres = moviesApi.getGenres().genres
             }
         }
         return parseMovies(
@@ -49,14 +46,13 @@ class MoviesRepositoryImpl @Inject constructor(
 
     override suspend fun searchMovies(query: String, page: Int): List<Movie> {
         var movies = listOf<JsonMovie>()
+        var genres = listOf<Genre>()
         coroutineScope {
             launch {
                 movies = moviesApi.searchMovie(query, page).movies
             }
-            if (genres.isEmpty()) {
-                launch {
-                    genres = moviesApi.getGenres().genres
-                }
+            launch {
+                genres = moviesApi.getGenres().genres
             }
         }
         return parseMovies(

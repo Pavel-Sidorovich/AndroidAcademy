@@ -11,6 +11,7 @@ import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.di.IODispatcher
 import com.pavesid.androidacademy.repositories.MoviesRepository
 import com.pavesid.androidacademy.utils.Resource
+import java.util.Locale
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
@@ -43,6 +44,8 @@ internal class MoviesViewModel @ViewModelInject constructor(
     private var searchPage = 1
     private var searchList = mutableListOf<Movie>()
 
+    private var currentLocale = ""
+
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _movies.postValue(Resource.error(throwable.message.orEmpty(), null))
         Timber.d(throwable)
@@ -53,23 +56,30 @@ internal class MoviesViewModel @ViewModelInject constructor(
         Timber.d(throwable)
     }
 
-    init {
-        loadMovies(currentGenre)
-        loadGenres()
+    fun init() {
+        if (currentLocale != Locale.getDefault().toLanguageTag()) {
+            currentLocale = Locale.getDefault().toLanguageTag()
+            if (currentQuery != "") {
+                searchMovies(currentQuery)
+            } else {
+                loadMovies(currentGenre, true)
+            }
+            loadGenres()
+        }
     }
 
     /**
      * Called when a new data packet needs to be received
      */
     @MainThread
-    fun loadMovies(genre: Int = currentGenre) {
+    fun loadMovies(genre: Int = currentGenre, recreate: Boolean = false) {
         if (currentGenre != genre) {
             cancelAllJob()
             searchProgress = false
         }
         if (!searchProgress) {
             currentJob = viewModelScope.launch(dispatcher + exceptionHandler) {
-                if (currentGenre != genre) {
+                if (currentGenre != genre || recreate) {
                     page = 1
                     list.clear()
                     currentGenre = genre
@@ -118,12 +128,12 @@ internal class MoviesViewModel @ViewModelInject constructor(
 
     @MainThread
     fun loadGenres() {
-        genres.value?.data ?: viewModelScope.launch(dispatcher + exceptionHandlerGenres) {
+        viewModelScope.launch(dispatcher + exceptionHandlerGenres) {
             val genres = repository.getGenres()
-            val list = mutableListOf<Genre>()
-            list.add(Genre(-1, "All", true))
-            list.addAll(genres)
-            _genres.postValue(Resource.success(list))
+//            val list = mutableListOf<Genre>()
+//            list.add(Genre(-1, context.getString(R.string.all), true))
+//            list.addAll(genres)
+            _genres.postValue(Resource.success(genres))
         }
     }
 

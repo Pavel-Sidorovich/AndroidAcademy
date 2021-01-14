@@ -14,7 +14,6 @@ import com.pavesid.androidacademy.utils.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -29,14 +28,20 @@ internal class MoviesViewModel @ViewModelInject constructor(
     private val _genres = MutableLiveData<Resource<List<Genre>>>()
     val genres: LiveData<Resource<List<Genre>>> = _genres
 
+    private var searchProgress = false
+
     private var page = 1
-    private var isLoading = false
+
     private var currentGenre = -1
 
     private var list = mutableListOf<Movie>()
 
     private var currentJob: Job? = null
     private var debounceJob: Job? = null
+
+    private var currentQuery = ""
+    private var searchPage = 1
+    private var searchList = mutableListOf<Movie>()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _movies.postValue(Resource.error(throwable.message.orEmpty(), null))
@@ -60,11 +65,10 @@ internal class MoviesViewModel @ViewModelInject constructor(
     fun loadMovies(genre: Int = currentGenre) {
         if (currentGenre != genre) {
             cancelAllJob()
-            isLoading = false
+            searchProgress = false
         }
-        if (!isLoading) {
+        if (!searchProgress) {
             currentJob = viewModelScope.launch(dispatcher + exceptionHandler) {
-                isLoading = true
                 if (currentGenre != genre) {
                     page = 1
                     list.clear()
@@ -82,24 +86,32 @@ internal class MoviesViewModel @ViewModelInject constructor(
                         Resource.success(list)
                     )
                 }
-                isLoading = false
             }
+        } else {
+            searchMovies(currentQuery, true)
         }
     }
 
     @MainThread
-    fun searchMovies(query: String) {
-        isLoading = false
-        if (!isLoading) {
+    fun searchMovies(query: String = currentQuery, needMore: Boolean = false) {
+        if (currentQuery != query) {
             cancelAllJob()
-            debounceJob = viewModelScope.launch(dispatcher + exceptionHandler) {
-                delay(500)
-                if (query != "") {
-                    val movies = repository.searchMovies(query, 1)
-                    _movies.postValue(Resource.success(movies))
-                } else {
-                    _movies.postValue(Resource.success(list))
-                }
+        }
+        debounceJob = viewModelScope.launch(dispatcher + exceptionHandler) {
+            searchProgress = true
+            if (!needMore) {
+                searchList.clear()
+                searchPage = 1
+                currentQuery = query
+            }
+            if (currentQuery != "") {
+                val movies = repository.searchMovies(currentQuery, searchPage)
+                searchPage++
+                searchList.addAll(movies)
+                _movies.postValue(Resource.success(searchList))
+            } else {
+                searchProgress = false
+                _movies.postValue(Resource.success(list))
             }
         }
     }

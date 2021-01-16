@@ -8,15 +8,15 @@ import com.pavesid.androidacademy.data.movies.Movie
 interface MoviesRepository {
 
     suspend fun getDetails(
-        id: Int
+        id: Long
     ): Details
 
     suspend fun getActors(
-        id: Int
+        id: Long
     ): CreditsResponse
 
     suspend fun getMoviesByGenre(
-        id: Int = -1,
+        id: Long = -1,
         page: Int = 1
     ): List<Movie>
 

@@ -8,7 +8,7 @@ data class Cast(
     @SerialName("adult")
     val adult: Boolean,
     @SerialName("cast_id")
-    val castId: Int,
+    val castId: Long,
     @SerialName("character")
     val character: String,
     @SerialName("credit_id")
@@ -16,7 +16,7 @@ data class Cast(
     @SerialName("gender")
     val gender: Int,
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("known_for_department")
     val knownForDepartment: String,
     @SerialName("name")

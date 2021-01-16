@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DetailsResponse(
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("title")
     val title: String,
     @SerialName("overview")

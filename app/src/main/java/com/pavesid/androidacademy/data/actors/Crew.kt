@@ -14,7 +14,7 @@ data class Crew(
     @SerialName("gender")
     val gender: Int,
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("job")
     val job: String,
     @SerialName("known_for_department")

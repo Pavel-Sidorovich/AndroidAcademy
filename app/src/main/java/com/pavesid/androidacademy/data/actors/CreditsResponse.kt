@@ -10,5 +10,5 @@ data class CreditsResponse(
     @SerialName("crew")
     val crew: List<Crew>,
     @SerialName("id")
-    val id: Int
+    val id: Long
 )

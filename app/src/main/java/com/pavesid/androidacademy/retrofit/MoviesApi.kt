@@ -17,7 +17,7 @@ interface MoviesApi {
 
     @GET("movie/{movie_id}")
     suspend fun getDetails(
-        @Path("movie_id") movieId: Int
+        @Path("movie_id") movieId: Long
     ): DetailsResponse
 
     @GET("genre/movie/list")
@@ -25,12 +25,12 @@ interface MoviesApi {
 
     @GET("movie/{movie_id}/credits")
     suspend fun getCredits(
-        @Path("movie_id") movieId: Int
+        @Path("movie_id") movieId: Long
     ): CreditsResponse
 
     @GET("discover/movie")
     suspend fun getMoviesByGenre(
-        @Query("with_genres") genreId: Int,
+        @Query("with_genres") genreId: Long,
         @Query("page") page: Int,
         @Query("sort_by") sort: String = "popularity.desc"
     ): MovieResponse

@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Genre(
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("name")
     val name: String,
     var isChecked: Boolean = false

@@ -19,16 +19,16 @@ class MoviesRepositoryImpl @Inject constructor(
     private val moviesApi: MoviesApi
 ) : MoviesRepository {
 
-    override suspend fun getDetails(id: Int): Details = getDetailsFromInternet(id)
+    override suspend fun getDetails(id: Long): Details = getDetailsFromInternet(id)
 
-    override suspend fun getActors(id: Int): CreditsResponse = moviesApi.getCredits(id)
+    override suspend fun getActors(id: Long): CreditsResponse = moviesApi.getCredits(id)
 
-    override suspend fun getMoviesByGenre(id: Int, page: Int): List<Movie> {
+    override suspend fun getMoviesByGenre(id: Long, page: Int): List<Movie> {
         var movies = listOf<JsonMovie>()
         var genres = listOf<Genre>()
         coroutineScope {
             launch {
-                movies = if (id == -1) {
+                movies = if (id == Long.MIN_VALUE) {
                     moviesApi.getMovies(page).movies
                 } else {
                     moviesApi.getMoviesByGenre(id, page).movies
@@ -64,7 +64,7 @@ class MoviesRepositoryImpl @Inject constructor(
     override suspend fun getGenres(): List<Genre> = moviesApi.getGenres().genres
 
     private suspend fun getDetailsFromInternet(
-        id: Int
+        id: Long
     ): Details {
         lateinit var details: DetailsResponse
         lateinit var credits: CreditsResponse

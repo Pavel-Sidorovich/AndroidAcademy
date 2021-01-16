@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Movie(
     @PrimaryKey
-    val id: Int,
+    val id: Long,
     val title: String,
     val overview: String,
     val poster: String,

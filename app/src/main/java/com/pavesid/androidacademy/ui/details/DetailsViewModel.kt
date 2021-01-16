@@ -25,14 +25,14 @@ internal class DetailsViewModel @ViewModelInject constructor(
         get() = _details
 
     private var currentLocale = ""
-    private var currentId = -1
+    private var currentId = Long.MIN_VALUE
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _details.postValue(Resource.error(throwable.message.orEmpty(), null))
         Timber.d(throwable)
     }
 
-    fun loadDetails(id: Int) {
+    fun loadDetails(id: Long) {
         if (currentLocale != Locale.getDefault().toLanguageTag() || currentId != id) {
             currentLocale = Locale.getDefault().toLanguageTag()
             currentId = id

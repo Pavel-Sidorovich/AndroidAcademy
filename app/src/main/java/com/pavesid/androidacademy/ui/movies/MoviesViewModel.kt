@@ -33,14 +33,14 @@ internal class MoviesViewModel @ViewModelInject constructor(
 
     private var page = 1
 
-    private var currentGenre = -1
+    private var currentGenre = Long.MIN_VALUE
 
     private var listOfMovie = mutableListOf<Movie>()
 
     private var currentJob: Job? = null
     private var debounceJob: Job? = null
 
-    private var currentQuery = ""
+    private var searchQuery = ""
     private var searchPage = 1
     private var searchList = mutableListOf<Movie>()
 
@@ -59,8 +59,8 @@ internal class MoviesViewModel @ViewModelInject constructor(
     fun init() {
         if (currentLocale != Locale.getDefault().toLanguageTag()) {
             currentLocale = Locale.getDefault().toLanguageTag()
-            if (currentQuery != "") {
-                searchMovies(currentQuery)
+            if (searchQuery != "") {
+                searchMovies(searchQuery)
             } else {
                 loadMovies(currentGenre, true)
             }
@@ -72,7 +72,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
      * Called when a new data packet needs to be received
      */
     @MainThread
-    fun loadMovies(genre: Int = currentGenre, recreate: Boolean = false) {
+    fun loadMovies(genre: Long = currentGenre, recreate: Boolean = false) {
         if (currentGenre != genre) {
             cancelAllJob()
             searchProgress = false
@@ -98,13 +98,13 @@ internal class MoviesViewModel @ViewModelInject constructor(
                 }
             }
         } else {
-            searchMovies(currentQuery, true)
+            searchMovies(searchQuery, true)
         }
     }
 
     @MainThread
-    fun searchMovies(query: String = currentQuery, needMore: Boolean = false) {
-        if (currentQuery != query) {
+    fun searchMovies(query: String = searchQuery, needMore: Boolean = false) {
+        if (searchQuery != query) {
             cancelAllJob()
         }
         debounceJob = viewModelScope.launch(dispatcher + exceptionHandler) {
@@ -112,10 +112,10 @@ internal class MoviesViewModel @ViewModelInject constructor(
             if (!needMore) {
                 searchList.clear()
                 searchPage = 1
-                currentQuery = query
+                searchQuery = query
             }
-            if (currentQuery != "") {
-                val movies = repository.searchMovies(currentQuery, searchPage)
+            if (searchQuery != "") {
+                val movies = repository.searchMovies(searchQuery, searchPage)
                 searchPage++
                 searchList.addAll(movies)
                 _movies.postValue(Resource.success(searchList))

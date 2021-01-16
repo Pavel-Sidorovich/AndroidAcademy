@@ -17,7 +17,8 @@ import kotlinx.serialization.json.Json
 
 internal class MoviesAdapter(
     private val likeListener: (Movie) -> Unit,
-    private val listener: (String, Int, Int) -> Unit
+    private val listener: (String, Int, Int) -> Unit,
+    private val loadMore: () -> Unit
 ) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
@@ -38,8 +39,12 @@ internal class MoviesAdapter(
 
     override fun getItemCount(): Int = movies.size
 
-    override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         holder.bind(movie = movies[position])
+        if (position == movies.size - 10) {
+            loadMore()
+        }
+    }
 
     class MoviesViewHolder(
         private val binding: MovieItemBinding,

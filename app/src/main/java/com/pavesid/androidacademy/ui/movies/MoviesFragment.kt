@@ -80,10 +80,14 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
             { },
             { movie, cX, cY ->
                 mainActivity.changeToDetailsFragment(movie, cX, cY)
+            },
+            {
+                viewModel.loadMovies()
             }
         )
 
-        val moviesLayoutManager = GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
+        val moviesLayoutManager =
+            GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
 
         recyclerLayoutBinding.moviesRecycler.apply {
             setHasFixedSize(true)
@@ -93,20 +97,6 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
             addItemDecoration(moviesItemDecoration)
 
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-
-                    val visibleItemCount = moviesLayoutManager.childCount
-                    val totalItemCount = moviesLayoutManager.itemCount
-                    val lastVisibleItemPosition = moviesLayoutManager.findLastVisibleItemPosition()
-
-                    val needMore = lastVisibleItemPosition + 2 * visibleItemCount >= totalItemCount
-
-                    if (needMore) {
-                        viewModel.loadMovies()
-                    }
-                }
-
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
@@ -116,7 +106,8 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
             })
         }
 
-        val genresLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        val genresLayoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.tagsRecycler.apply {
             layoutManager = genresLayoutManager
             adapter = genresAdapter
@@ -158,8 +149,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
         viewModel.genres.observe(
             viewLifecycleOwner
-        ) {
-            resources ->
+        ) { resources ->
             when (resources.status) {
                 Status.SUCCESS -> {
                     resources.data?.let { genres ->

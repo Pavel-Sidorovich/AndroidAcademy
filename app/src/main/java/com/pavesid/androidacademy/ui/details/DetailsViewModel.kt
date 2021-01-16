@@ -37,7 +37,7 @@ internal class DetailsViewModel @ViewModelInject constructor(
             currentLocale = Locale.getDefault().toLanguageTag()
             currentId = id
             viewModelScope.launch(dispatcher + exceptionHandler) {
-                _details.postValue(Resource.loading(null))
+                _details.postValue(Resource.loading())
                 val details = repository.getDetails(id)
                 _details.postValue(Resource.success(details))
             }

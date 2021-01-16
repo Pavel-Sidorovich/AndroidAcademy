@@ -6,7 +6,7 @@ import com.pavesid.androidacademy.data.details.DetailsResponse
 import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.data.movies.Movie
 
-class MoviesRemoteRepositoryTest : MoviesRepository {
+class MoviesRemoteRepositoryMock : MoviesRepository {
 
     private var shouldReturnNetworkError = false
 
@@ -14,7 +14,7 @@ class MoviesRemoteRepositoryTest : MoviesRepository {
 
     private val genres: MutableList<Genre> = mutableListOf()
 
-    override suspend fun getDetails(id: Int): Details {
+    override suspend fun getDetails(id: Long): Details {
         return Details(
             DetailsResponse(1, "", "", "", "", emptyList(), 0f, 0, false, 0),
             emptyList(),
@@ -22,11 +22,11 @@ class MoviesRemoteRepositoryTest : MoviesRepository {
         )
     }
 
-    override suspend fun getActors(id: Int): CreditsResponse {
+    override suspend fun getActors(id: Long): CreditsResponse {
         return CreditsResponse(emptyList(), emptyList(), 1)
     }
 
-    override suspend fun getMoviesByGenre(id: Int, page: Int): List<Movie> {
+    override suspend fun getMoviesByGenre(id: Long, page: Int): List<Movie> {
         return if (shouldReturnNetworkError) {
             throw RuntimeException("Error")
         } else {

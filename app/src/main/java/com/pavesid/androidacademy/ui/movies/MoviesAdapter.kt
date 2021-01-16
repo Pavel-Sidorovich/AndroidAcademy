@@ -21,7 +21,7 @@ internal class MoviesAdapter(
 ) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
-    private var movies: List<Movie> = listOf()
+    private var movies: List<Movie> = emptyList()
 
     @MainThread
     fun setData(data: List<Movie>) {

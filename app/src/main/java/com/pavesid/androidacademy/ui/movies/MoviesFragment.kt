@@ -42,8 +42,6 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
     private lateinit var genresAdapter: GenresAdapter
 
-    private var currentFirstElem: Int = 0
-
     override fun onStart() {
         super.onStart()
         mainActivity.window.statusBarColor = requireContext().theme.getColorFromAttr(
@@ -101,8 +99,6 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
                     val visibleItemCount = moviesLayoutManager.childCount
                     val totalItemCount = moviesLayoutManager.itemCount
                     val lastVisibleItemPosition = moviesLayoutManager.findLastVisibleItemPosition()
-
-                    currentFirstElem = moviesLayoutManager.findFirstCompletelyVisibleItemPosition()
 
                     val needMore = lastVisibleItemPosition + 2 * visibleItemCount >= totalItemCount
 

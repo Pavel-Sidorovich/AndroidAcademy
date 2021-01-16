@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.pavesid.androidacademy.App
 import com.pavesid.androidacademy.db.MoviesDao
 import com.pavesid.androidacademy.db.MoviesDatabase
 import com.pavesid.androidacademy.repositories.MoviesRepository
@@ -13,6 +12,7 @@ import com.pavesid.androidacademy.repositories.MoviesRepositoryImpl
 import com.pavesid.androidacademy.retrofit.CacheControlInterceptor
 import com.pavesid.androidacademy.retrofit.MoviesApi
 import com.pavesid.androidacademy.retrofit.MoviesApiQueryInterceptor
+import com.pavesid.androidacademy.utils.NetworkMonitor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,31 +33,38 @@ import retrofit2.Retrofit
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    var api: MoviesApi
+    @Singleton
+    @Provides
+    fun provideJson(): Json = Json { ignoreUnknownKeys = true }
 
-    init {
-        val jsonFormat = Json { ignoreUnknownKeys = true }
-
-        val httpCacheDirectory = File(App.thisCacheDir, "responses")
+    @Singleton
+    @Provides
+    fun provideClient(
+        @ApplicationContext context: Context
+    ): OkHttpClient {
+        val httpCacheDirectory = File(context.cacheDir, "responses")
         val cacheSize = 10L * 1024 * 1024
         val cache = Cache(httpCacheDirectory, cacheSize)
 
-        val client = OkHttpClient().newBuilder()
+        return OkHttpClient().newBuilder()
             .addInterceptor(MoviesApiQueryInterceptor())
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor(CacheControlInterceptor())
             .cache(cache)
             .build()
-
-        val retrofit: Retrofit =
-            Retrofit.Builder()
-                .client(client)
-                .baseUrl("https://api.themoviedb.org/3/")
-                .addConverterFactory(jsonFormat.asConverterFactory("application/json".toMediaType()))
-                .build()
-
-        api = retrofit.create(MoviesApi::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun providesApi(
+        client: OkHttpClient,
+        jsonFormat: Json
+    ): MoviesApi = Retrofit.Builder()
+        .client(client)
+        .baseUrl("https://api.themoviedb.org/3/")
+        .addConverterFactory(jsonFormat.asConverterFactory("application/json".toMediaType()))
+        .build()
+        .create(MoviesApi::class.java)
 
     @Singleton
     @Provides
@@ -80,8 +87,15 @@ object AppModule {
     @Singleton
     @Provides
     fun providesShoppingRepository(
-        dao: MoviesDao
+        dao: MoviesDao,
+        api: MoviesApi
     ) = MoviesRepositoryImpl(dao, api) as MoviesRepository
+
+    @Singleton
+    @Provides
+    fun provideNetworkMonitor(
+        @ApplicationContext context: Context
+    ): NetworkMonitor = NetworkMonitor(context)
 
     private const val DATABASE_NAME = "movies_db"
 }

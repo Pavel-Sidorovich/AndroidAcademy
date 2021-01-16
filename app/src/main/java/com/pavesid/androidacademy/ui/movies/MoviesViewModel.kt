@@ -35,7 +35,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
 
     private var currentGenre = -1
 
-    private var list = mutableListOf<Movie>()
+    private var listOfMovie = mutableListOf<Movie>()
 
     private var currentJob: Job? = null
     private var debounceJob: Job? = null
@@ -81,19 +81,19 @@ internal class MoviesViewModel @ViewModelInject constructor(
             currentJob = viewModelScope.launch(dispatcher + exceptionHandler) {
                 if (currentGenre != genre || recreate) {
                     page = 1
-                    list.clear()
+                    listOfMovie.clear()
                     currentGenre = genre
                 }
-                if (list.isEmpty()) {
+                if (listOfMovie.isEmpty()) {
                     _movies.postValue(Resource.loading(null))
                 }
                 val movies = repository.getMoviesByGenre(id = genre, page)
 
                 if (movies.isNotEmpty()) {
-                    list.addAll(movies)
+                    listOfMovie.addAll(movies)
                     page++
                     _movies.postValue(
-                        Resource.success(list)
+                        Resource.success(listOfMovie)
                     )
                 }
             }
@@ -121,7 +121,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
                 _movies.postValue(Resource.success(searchList))
             } else {
                 searchProgress = false
-                _movies.postValue(Resource.success(list))
+                _movies.postValue(Resource.success(listOfMovie))
             }
         }
     }
@@ -130,9 +130,6 @@ internal class MoviesViewModel @ViewModelInject constructor(
     fun loadGenres() {
         viewModelScope.launch(dispatcher + exceptionHandlerGenres) {
             val genres = repository.getGenres()
-//            val list = mutableListOf<Genre>()
-//            list.add(Genre(-1, context.getString(R.string.all), true))
-//            list.addAll(genres)
             _genres.postValue(Resource.success(genres))
         }
     }

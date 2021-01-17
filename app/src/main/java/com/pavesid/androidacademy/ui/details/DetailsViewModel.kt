@@ -28,7 +28,7 @@ internal class DetailsViewModel @ViewModelInject constructor(
     private var currentId = Long.MIN_VALUE
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        _details.postValue(Resource.error(throwable.message.orEmpty(), null))
+        _details.postValue(Resource.error(throwable.message.orEmpty()))
         Timber.d(throwable)
     }
 

@@ -31,11 +31,11 @@ internal class MoviesViewModel @ViewModelInject constructor(
 
     private var searchProgress = false
 
-    private var page = 1
+    private var moviesPage = 1
 
     private var currentGenre = Long.MIN_VALUE
 
-    private var listOfMovie = mutableListOf<Movie>()
+    private var listOfMovies = mutableListOf<Movie>()
 
     private var currentJob: Job? = null
     private var debounceJob: Job? = null
@@ -47,12 +47,12 @@ internal class MoviesViewModel @ViewModelInject constructor(
     private var currentLocale = ""
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        _movies.postValue(Resource.error(throwable.message.orEmpty(), null))
+        _movies.postValue(Resource.error(throwable.message.orEmpty()))
         Timber.d(throwable)
     }
 
     private val exceptionHandlerGenres = CoroutineExceptionHandler { _, throwable ->
-        _genres.postValue(Resource.error(throwable.message.orEmpty(), null))
+        _genres.postValue(Resource.error(throwable.message.orEmpty()))
         Timber.d(throwable)
     }
 
@@ -80,20 +80,20 @@ internal class MoviesViewModel @ViewModelInject constructor(
         if (!searchProgress) {
             currentJob = viewModelScope.launch(dispatcher + exceptionHandler) {
                 if (currentGenre != genre || recreate) {
-                    page = 1
-                    listOfMovie.clear()
+                    moviesPage = 1
+                    listOfMovies.clear()
                     currentGenre = genre
                 }
-                if (listOfMovie.isEmpty()) {
+                if (listOfMovies.isEmpty()) {
                     _movies.postValue(Resource.loading())
                 }
-                val movies = repository.getMoviesByGenre(id = genre, page)
+                val movies = repository.getMoviesByGenre(id = genre, moviesPage)
 
                 if (movies.isNotEmpty()) {
-                    listOfMovie.addAll(movies)
-                    page++
+                    listOfMovies.addAll(movies)
+                    moviesPage++
                     _movies.postValue(
-                        Resource.success(listOfMovie)
+                        Resource.success(listOfMovies)
                     )
                 }
             }
@@ -121,7 +121,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
                 _movies.postValue(Resource.success(searchList))
             } else {
                 searchProgress = false
-                _movies.postValue(Resource.success(listOfMovie))
+                _movies.postValue(Resource.success(listOfMovies))
             }
         }
     }

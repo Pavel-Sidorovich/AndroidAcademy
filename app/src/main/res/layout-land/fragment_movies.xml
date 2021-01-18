@@ -22,6 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:fitsSystemWindows="false"
+            android:paddingEnd="@dimen/spacing_extra_extra_large_48"
+            android:paddingStart="@dimen/spacing_extra_extra_large_48"
             android:theme="@style/AppTheme.PopupOverlay"
             app:layout_scrollFlags="scroll|enterAlways">
 
@@ -46,6 +48,10 @@
             android:id="@+id/tagsRecycler"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:fitsSystemWindows="false"
+            android:clipToPadding="false"
+            android:paddingEnd="@dimen/spacing_extra_extra_large_48"
+            android:paddingStart="@dimen/spacing_extra_extra_large_48"
             app:layout_scrollFlags="scroll|enterAlways"/>
     </com.google.android.material.appbar.AppBarLayout>
 

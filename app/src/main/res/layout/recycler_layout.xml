@@ -4,20 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/fragment_movies">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/movies_recycler"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
         android:fitsSystemWindows="false"
         android:paddingStart="@dimen/spacing_small_8"
-        android:paddingTop="@dimen/spacing_normal_16"
         android:paddingEnd="@dimen/spacing_small_8"
-        android:paddingBottom="@dimen/spacing_extra_large_36"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        app:spanCount="2"
-        tools:listitem="@layout/movie_item" />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/movies_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/spacing_normal_16"
+            android:paddingBottom="@dimen/spacing_extra_large_36"
+            android:clipToPadding="false"
+            android:fitsSystemWindows="false"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/movie_item" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progress"

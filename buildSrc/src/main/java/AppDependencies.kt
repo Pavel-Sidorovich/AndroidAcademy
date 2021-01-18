@@ -73,8 +73,8 @@ object AppDependencies {
         "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.serialization_converter_version}"
 
     // Firebase
-    private const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
-    private const val firebase_analytics = "com.google.firebase:firebase-analytics-ktx"
+    private const val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics-ktx"
+    private const val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
 
     // KTLint
     const val ktlint = "com.pinterest:ktlint:${Versions.kt_lint_version}"
@@ -134,8 +134,8 @@ object AppDependencies {
         add(roomKtx)
         add(bang)
         add(preferenceKtx)
-        add(firebase_crashlytics)
-        add(firebase_analytics)
+        add(firebaseCrashlytics)
+        add(firebaseAnalytics)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {

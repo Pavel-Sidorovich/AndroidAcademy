@@ -56,16 +56,24 @@ internal class MoviesViewModel @ViewModelInject constructor(
         Timber.d(throwable)
     }
 
-    fun init() {
-        if (currentLocale != Locale.getDefault().toLanguageTag()) {
-            currentLocale = Locale.getDefault().toLanguageTag()
-            if (searchQuery != "") {
-                searchMovies(searchQuery)
-            } else {
-                loadMovies(currentGenre, true)
-            }
-            loadGenres()
+    fun init(reload: Boolean = false) {
+        if (reload) {
+            moviesPage = 1
+            searchPage = 1
+            reload()
+        } else if (currentLocale != Locale.getDefault().toLanguageTag()) {
+            reload()
         }
+    }
+
+    private fun reload() {
+        currentLocale = Locale.getDefault().toLanguageTag()
+        if (searchQuery != "") {
+            searchMovies(searchQuery)
+        } else {
+            loadMovies(currentGenre, true)
+        }
+        loadGenres()
     }
 
     /**

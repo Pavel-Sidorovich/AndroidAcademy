@@ -102,6 +102,11 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         val moviesLayoutManager =
             GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
 
+        recyclerLayoutBinding.swipeRefresh.setOnRefreshListener {
+            viewModel.init(true)
+            recyclerLayoutBinding.swipeRefresh.isRefreshing = false
+        }
+
         recyclerLayoutBinding.moviesRecycler.apply {
             setHasFixedSize(true)
             layoutManager = moviesLayoutManager

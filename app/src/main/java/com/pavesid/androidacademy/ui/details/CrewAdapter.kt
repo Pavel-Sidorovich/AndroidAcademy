@@ -13,7 +13,11 @@ import com.pavesid.androidacademy.utils.extensions.toW342Url
 internal class CrewAdapter :
     RecyclerView.Adapter<CrewAdapter.CastViewHolder>() {
 
-    private var crews: List<Crew> = emptyList()
+    internal var crews: List<Crew> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder =
         CastViewHolder(CastItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -22,11 +26,6 @@ internal class CrewAdapter :
         holder.bind(crew = crews[position])
 
     override fun getItemCount(): Int = crews.size
-
-    fun setData(data: List<Crew>) {
-        crews = data
-        notifyDataSetChanged()
-    }
 
     class CastViewHolder(private val binding: CastItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -42,6 +41,7 @@ internal class CrewAdapter :
                 } else {
                     imageCast.load(crew.profilePath.toW342Url()) {
                         crossfade(true)
+                        placeholder(R.drawable.writer)
                         transformations(RoundedCornersTransformation(8f))
                     }
                 }

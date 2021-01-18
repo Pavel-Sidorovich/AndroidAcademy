@@ -2,7 +2,6 @@ package com.pavesid.androidacademy.ui.movies
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.MainThread
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
@@ -22,13 +21,11 @@ internal class MoviesAdapter(
 ) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
-    private var movies: List<Movie> = emptyList()
-
-    @MainThread
-    fun setData(data: List<Movie>) {
-        movies = data
-        notifyDataSetChanged()
-    }
+    internal var movies: List<Movie> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder =
         MoviesViewHolder(
@@ -41,7 +38,7 @@ internal class MoviesAdapter(
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         holder.bind(movie = movies[position])
-        if (position == movies.size - 10) {
+        if (position == movies.size - 15) {
             loadMore()
         }
     }
@@ -58,6 +55,7 @@ internal class MoviesAdapter(
                 if (movie.poster.isNotBlank()) {
                     movieOrig.load(movie.poster.toW342Url()) {
                         crossfade(true)
+                        placeholder(R.drawable.out_of_poster)
                         transformations(RoundedCornersTransformation(14f, 14f, 0f, 0f))
                     }
                 } else {

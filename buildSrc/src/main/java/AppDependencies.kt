@@ -12,6 +12,7 @@ object AppDependencies {
     private const val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout_version}"
     private const val material = "com.google.android.material:material:${Versions.material_version}"
+    private const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipe_refresh_layout}"
 
     // Coil
     private const val coil = "io.coil-kt:coil:${Versions.coil_version}"
@@ -110,6 +111,7 @@ object AppDependencies {
         add(appcompat)
         add(constraintLayout)
         add(material)
+        add(swipeRefreshLayout)
         add(coil)
         add(coilTransformations)
         add(ratingBar)

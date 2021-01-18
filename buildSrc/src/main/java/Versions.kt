@@ -14,6 +14,7 @@ object Versions {
     const val core_ktx_version = "1.5.0-alpha05"
     const val appcompat_version = "1.2.0"
     const val material_version = "1.2.1"
+    const val swipe_refresh_layout = "1.1.0"
     const val constraint_layout_version = "2.0.4"
     const val serialization_version = "1.0.1"
     const val timber_version = "4.7.1"

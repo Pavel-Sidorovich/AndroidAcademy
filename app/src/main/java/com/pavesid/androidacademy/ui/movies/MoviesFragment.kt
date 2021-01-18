@@ -1,8 +1,11 @@
 package com.pavesid.androidacademy.ui.movies
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -69,6 +72,17 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         binding.toolbar.inflateMenu(R.menu.menu)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        if (viewModel.searchQuery.isNotEmpty()) {
+            val searchItem = menu.findItem(R.id.action_search)
+            val searchView = searchItem?.actionView as SearchView
+            searchItem.expandActionView()
+            searchView.setQuery(viewModel.searchQuery, true)
+            searchView.clearFocus()
+        }
+    }
+
     private fun initView() {
 
         genresAdapter = GenresAdapter {
@@ -131,7 +145,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
                 Status.SUCCESS -> {
                     recyclerLayoutBinding.progress.visibility = View.GONE
                     resource.data?.let { movies ->
-                        moviesAdapter.setData(movies)
+                        moviesAdapter.movies = movies
                     }
                 }
                 Status.ERROR -> {
@@ -140,7 +154,7 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
                         .show()
                 }
                 Status.LOADING -> {
-                    moviesAdapter.setData(emptyList())
+                    moviesAdapter.movies = emptyList()
                     recyclerLayoutBinding.progress.visibility = View.VISIBLE
                 }
             }

@@ -205,7 +205,7 @@ class DetailsFragment :
 
     private fun initCast(cast: List<Cast>) {
         if (cast.isNotEmpty()) {
-            castAdapter.setData(cast)
+            castAdapter.actors = cast
             binding.detailsCastHeading.visibility = View.VISIBLE
             binding.detailsCastRecycler.visibility = View.VISIBLE
         } else {
@@ -216,7 +216,7 @@ class DetailsFragment :
 
     private fun initCrew(crew: List<Crew>) {
         if (crew.isNotEmpty()) {
-            crewAdapter.setData(crew)
+            crewAdapter.crews = crew
             binding.detailsCrewHeading.visibility = View.VISIBLE
             binding.detailsCrewRecycler.visibility = View.VISIBLE
         } else {

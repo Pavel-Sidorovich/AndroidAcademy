@@ -40,7 +40,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
     private var currentJob: Job? = null
     private var debounceJob: Job? = null
 
-    private var searchQuery = ""
+    internal var searchQuery = ""
     private var searchPage = 1
     private var searchList = mutableListOf<Movie>()
 

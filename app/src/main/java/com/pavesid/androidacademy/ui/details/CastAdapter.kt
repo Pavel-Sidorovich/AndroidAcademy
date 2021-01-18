@@ -13,7 +13,11 @@ import com.pavesid.androidacademy.utils.extensions.toW342Url
 internal class CastAdapter :
     RecyclerView.Adapter<CastAdapter.CastViewHolder>() {
 
-    private var actors: List<Cast> = emptyList()
+    internal var actors: List<Cast> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder =
         CastViewHolder(CastItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -22,11 +26,6 @@ internal class CastAdapter :
         holder.bind(actor = actors[position])
 
     override fun getItemCount(): Int = actors.size
-
-    fun setData(data: List<Cast>) {
-        actors = data
-        notifyDataSetChanged()
-    }
 
     class CastViewHolder(private val binding: CastItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -42,6 +41,7 @@ internal class CastAdapter :
                 } else {
                     imageCast.load(actor.profilePath.toW342Url()) {
                         crossfade(true)
+                        placeholder(R.drawable.actor)
                         transformations(RoundedCornersTransformation(8f))
                     }
                 }

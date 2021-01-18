@@ -18,6 +18,7 @@ import android.view.animation.RotateAnimation
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -187,15 +188,17 @@ class DetailsFragment :
 
     private fun initDetails(details: DetailsResponse) {
         binding.detailsRuntime.text = resources.getString(R.string.runtime, details.runtime)
-        if (!details.backdropPicture.isNullOrBlank()) {
-            binding.detailsOrig.load(details.backdropPicture.toOriginalUrl()) {
-                crossfade(true)
+            if (!details.backdropPicture.isNullOrBlank()) {
+                binding.detailsOrig.load(details.backdropPicture.toOriginalUrl()) {
+                    crossfade(true)
+                    placeholder(R.drawable.hws_placeholder)
+                }
+            } else {
+                binding.detailsOrig.load(R.drawable.hws_placeholder) {
+                    crossfade(true)
+                }
             }
-        } else {
-            binding.detailsOrig.load(BACKDROP_PLACEHOLDER) {
-                crossfade(true)
-            }
-        }
+
         binding.apply {
             detailsStoryline.text = details.overview
             collapsingToolbar.title = details.title
@@ -231,15 +234,17 @@ class DetailsFragment :
             { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
-                        binding.progress.visibility = View.GONE
                         resource.data?.let { details ->
-                            initDetails(details.detailsResponse)
-                            initCast(details.cast)
-                            initCrew(details.crew)
+                            if (details.detailsResponse.id == currentMovie.id) {
+                                initDetails(details.detailsResponse)
+                                initCast(details.cast)
+                                initCrew(details.crew)
+                            }
                         }
+                        binding.progress.isVisible = false
                     }
                     Status.ERROR -> {
-                        binding.progress.visibility = View.GONE
+                        binding.progress.isVisible = false
                         Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -276,15 +281,6 @@ class DetailsFragment :
     }
 
     private fun initView() {
-        if (currentMovie.backdrop.isNotBlank()) {
-            binding.detailsOrig.load(currentMovie.backdrop.toOriginalUrl()) {
-                crossfade(true)
-            }
-        } else {
-            binding.detailsOrig.load(BACKDROP_PLACEHOLDER) {
-                crossfade(true)
-            }
-        }
         binding.apply {
             detailsStorylineTitle.setShaderForGradient()
             detailsCastHeading.setShaderForGradient()
@@ -315,7 +311,6 @@ class DetailsFragment :
 
     companion object {
         private const val PARAM_MOVIE = "movie"
-        private const val BACKDROP_PLACEHOLDER = "https://hollywoodsuite.ca/wp-content/uploads/poster/hws-placeholder.jpg"
 
         @JvmStatic
         fun newInstance(

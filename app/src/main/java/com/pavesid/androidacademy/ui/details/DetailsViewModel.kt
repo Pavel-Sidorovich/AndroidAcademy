@@ -34,13 +34,13 @@ internal class DetailsViewModel @ViewModelInject constructor(
 
     fun loadDetails(id: Long) {
         if (currentLocale != Locale.getDefault().toLanguageTag() || currentId != id) {
-            currentLocale = Locale.getDefault().toLanguageTag()
-            currentId = id
             viewModelScope.launch(dispatcher + exceptionHandler) {
                 _details.postValue(Resource.loading())
                 val details = repository.getDetails(id)
                 _details.postValue(Resource.success(details))
             }
+            currentLocale = Locale.getDefault().toLanguageTag()
+            currentId = id
         }
     }
 }

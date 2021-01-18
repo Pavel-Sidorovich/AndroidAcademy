@@ -3,6 +3,7 @@ import java.io.FileInputStream
 import java.util.Properties
 
 object Secrets {
+
     private const val API_KEY = "API_KEY"
 
     val apiKey: String = apiKeysProperties().getProperty(API_KEY)

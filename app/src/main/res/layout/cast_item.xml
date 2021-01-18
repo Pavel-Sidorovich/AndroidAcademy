@@ -13,7 +13,7 @@
         android:layout_width="@dimen/ci_image_80"
         android:layout_height="@dimen/ci_image_80"
         android:scaleType="centerCrop"
-        tools:src="@drawable/ic_launcher_background"
+        tools:src="@tools:sample/avatars"
         android:contentDescription="@string/cast_name" />
 
     <TextView

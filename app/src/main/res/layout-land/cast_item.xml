@@ -12,7 +12,8 @@
         android:id="@+id/image_cast"
         android:layout_width="@dimen/ci_image_160"
         android:layout_height="@dimen/ci_image_160"
-        tools:src="@drawable/ic_launcher_background"
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/avatars"
         android:contentDescription="@string/cast_name" />
 
     <TextView

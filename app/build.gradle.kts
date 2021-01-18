@@ -21,6 +21,8 @@ android {
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
 
+        buildConfigField("String", "API_KEY", "\"${Secrets.apiKey}\"")
+
         testInstrumentationRunner = AppConfig.androidTestInstrumentation
     }
 

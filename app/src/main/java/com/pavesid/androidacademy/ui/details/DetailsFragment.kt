@@ -188,16 +188,16 @@ class DetailsFragment :
 
     private fun initDetails(details: DetailsResponse) {
         binding.detailsRuntime.text = resources.getString(R.string.runtime, details.runtime)
-            if (!details.backdropPicture.isNullOrBlank()) {
-                binding.detailsOrig.load(details.backdropPicture.toOriginalUrl()) {
-                    crossfade(true)
-                    placeholder(R.drawable.hws_placeholder)
-                }
-            } else {
-                binding.detailsOrig.load(R.drawable.hws_placeholder) {
-                    crossfade(true)
-                }
+        if (!details.backdropPicture.isNullOrBlank()) {
+            binding.detailsOrig.load(details.backdropPicture.toOriginalUrl()) {
+                crossfade(true)
+                placeholder(R.drawable.hws_placeholder)
             }
+        } else {
+            binding.detailsOrig.load(R.drawable.hws_placeholder) {
+                crossfade(true)
+            }
+        }
 
         binding.apply {
             detailsStoryline.text = details.overview

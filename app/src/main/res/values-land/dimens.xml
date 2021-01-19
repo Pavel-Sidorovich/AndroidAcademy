@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cast_height">300sp</dimen>
+    <dimen name="spacing_toolbar">48dp</dimen>
+</resources>

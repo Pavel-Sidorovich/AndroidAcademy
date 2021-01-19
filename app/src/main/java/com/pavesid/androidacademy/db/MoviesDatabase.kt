@@ -2,7 +2,7 @@ package com.pavesid.androidacademy.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.pavesid.androidacademy.data.Movie
+import com.pavesid.androidacademy.data.movies.Movie
 
 @Database(
     entities = [Movie::class],

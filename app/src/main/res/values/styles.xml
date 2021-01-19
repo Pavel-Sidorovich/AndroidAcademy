@@ -3,10 +3,12 @@
 
     <style name="TextSize14">
         <item name="android:textSize">14sp</item>
+        <item name="android:textIsSelectable">true</item>
     </style>
 
     <style name="TextSize12">
         <item name="android:textSize">12sp</item>
+        <item name="android:textIsSelectable">true</item>
     </style>
 
     <style name="TextBold" parent="TextSize14">
@@ -38,7 +40,10 @@
         <item name="android:lineSpacingExtra">4sp</item>
         <item name="textAllCaps">true</item>
         <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textIsSelectable">true</item>
     </style>
+
+    <style name="DetailsRuntime" parent="DetailsReviews" />
 
     <style name="DetailsStorylineTitle" parent="TextBold">
         <item name="android:textColor">?attr/colorText</item>
@@ -74,6 +79,27 @@
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
+    <style name="DetailsTextCastLand">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorActorNameText</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textIsSelectable">true</item>
+    </style>
+
+    <style name="DetailsCharacterCast">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">?attr/colorActorNameText</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textIsSelectable">true</item>
+    </style>
+
+    <style name="DetailsCharacterCastLand">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/colorActorNameText</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textIsSelectable">true</item>
+    </style>
+
     <style name="MovieReviews">
         <item name="android:textColor">?attr/colorNoSelected</item>
         <item name="android:textSize">8sp</item>
@@ -102,8 +128,6 @@
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
-    <style name="MovieDuration" parent="MovieReviews" />
-
     <style name="TextAppearance.App.CollapsingToolbar.Expanded" parent="TextAppearance.MaterialComponents.Headline3">
         <item name="android:textColor">?attr/colorText</item>
     </style>
@@ -115,7 +139,9 @@
 
 	<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
+	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="colorControlNormal">?attr/colorText</item>
+    </style>
 
     <style name="MyAppTheme.PopupOverlay" parent="AppTheme.PopupOverlay">
         <item name="android:tint">?attr/colorPrimaryBW</item>
@@ -125,5 +151,14 @@
         <item name="android:windowBackground">@drawable/ic_splash</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
+        <!-- Query Text Color -->
+        <item name="android:textColorPrimary">?attr/colorText</item>
+        <!-- Hint Color -->
+        <item name="android:textColorHint">?attr/colorText</item>
+        <!-- Icon Color -->
+        <item name="android:tint">?attr/colorText</item>
     </style>
 </resources>

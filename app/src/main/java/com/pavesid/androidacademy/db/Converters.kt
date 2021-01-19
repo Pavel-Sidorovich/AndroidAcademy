@@ -1,8 +1,8 @@
 package com.pavesid.androidacademy.db
 
 import androidx.room.TypeConverter
-import com.pavesid.androidacademy.data.Actor
-import com.pavesid.androidacademy.data.Genre
+import com.pavesid.androidacademy.data.actors.Cast
+import com.pavesid.androidacademy.data.genres.Genre
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -10,26 +10,18 @@ import kotlinx.serialization.json.Json
 class Converters {
 
     @TypeConverter
-    fun genresToString(genres: List<Genre>): String = genres.joinToString("|") {
-        Json.encodeToString(it)
-    }
+    fun genresToString(genres: List<Genre>): String = Json.encodeToString(genres)
 
     @TypeConverter
-    fun stringToGenre(genres: String): List<Genre> = genres.split("|").map {
-        Json.decodeFromString(it)
-    }
+    fun stringToGenre(genres: String): List<Genre> = Json.decodeFromString(genres)
 
     @TypeConverter
-    fun actorsToString(actors: List<Actor>): String = actors.joinToString("|") {
-        Json.encodeToString(it)
-    }
+    fun actorsToString(actors: List<Cast>): String = Json.encodeToString(actors)
 
     @TypeConverter
-    fun stringToActors(actors: String): List<Actor> = if (actors.isEmpty()) {
+    fun stringToActors(actors: String): List<Cast> = if (actors.isEmpty()) {
         emptyList()
     } else {
-        actors.split("|").map {
-            Json.decodeFromString(it)
-        }
+        Json.decodeFromString(actors)
     }
 }

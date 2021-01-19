@@ -1,17 +1,43 @@
 package com.pavesid.androidacademy.retrofit
 
-import com.pavesid.androidacademy.data.Actor
-import com.pavesid.androidacademy.data.Genre
-import com.pavesid.androidacademy.data.JsonMovie
+import com.pavesid.androidacademy.data.actors.CreditsResponse
+import com.pavesid.androidacademy.data.details.DetailsResponse
+import com.pavesid.androidacademy.data.genres.GenresResponse
+import com.pavesid.androidacademy.data.movies.MovieResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MoviesApi {
-    @GET("a7415444bfb8e73b14820d5953256c70/raw/224fd1918610bd6555d5f566962748a36be93401/data.json")
-    suspend fun getMovies(): List<JsonMovie>
+    @GET("discover/movie")
+    suspend fun getMovies(
+        @Query("page") page: Int,
+        @Query("sort_by") sort: String = "popularity.desc"
+    ): MovieResponse
 
-    @GET("cabd1ace6db4d8fa2dbddafd1f7657c9/raw/5552b38be572213f1061842deab6e06e7e7bb2ab/genres.json")
-    suspend fun getGenres(): List<Genre>
+    @GET("movie/{movie_id}")
+    suspend fun getDetails(
+        @Path("movie_id") movieId: Long
+    ): DetailsResponse
 
-    @GET("26133aa4e31a24e4ee4b19e60774c827/raw/9031d722b5ef6459bd81ceb938924122c2e18114/people.json")
-    suspend fun getActors(): List<Actor>
+    @GET("genre/movie/list")
+    suspend fun getGenres(): GenresResponse
+
+    @GET("movie/{movie_id}/credits")
+    suspend fun getCredits(
+        @Path("movie_id") movieId: Long
+    ): CreditsResponse
+
+    @GET("discover/movie")
+    suspend fun getMoviesByGenre(
+        @Query("with_genres") genreId: Long,
+        @Query("page") page: Int,
+        @Query("sort_by") sort: String = "popularity.desc"
+    ): MovieResponse
+
+    @GET("search/movie")
+    suspend fun searchMovie(
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ): MovieResponse
 }

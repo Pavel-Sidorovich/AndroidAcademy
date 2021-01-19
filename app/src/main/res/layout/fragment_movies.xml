@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorBackground"
-    android:fitsSystemWindows="false"
+    android:fitsSystemWindows="true"
     tools:context=".ui.movies.MoviesFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -15,9 +15,7 @@
         android:background="?attr/colorBackground"
         android:elevation="@dimen/appbar_elevation"
         android:fitsSystemWindows="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -25,10 +23,7 @@
             android:layout_height="?attr/actionBarSize"
             android:fitsSystemWindows="false"
             android:theme="@style/AppTheme.PopupOverlay"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <ImageView
                 android:layout_width="@dimen/movies_aim_width"
@@ -46,8 +41,14 @@
                 android:textSize="14sp"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tagsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:fitsSystemWindows="false"
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        layout="@layout/recycler_layout" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/recycler_layout" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

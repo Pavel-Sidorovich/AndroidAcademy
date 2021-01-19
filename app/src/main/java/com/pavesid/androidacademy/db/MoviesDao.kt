@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.pavesid.androidacademy.data.Movie
+import com.pavesid.androidacademy.data.movies.Movie
 
 @Dao
 interface MoviesDao {

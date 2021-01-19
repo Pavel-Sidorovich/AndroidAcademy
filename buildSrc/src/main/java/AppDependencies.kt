@@ -12,6 +12,7 @@ object AppDependencies {
     private const val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout_version}"
     private const val material = "com.google.android.material:material:${Versions.material_version}"
+    private const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipe_refresh_layout}"
 
     // Coil
     private const val coil = "io.coil-kt:coil:${Versions.coil_version}"
@@ -66,13 +67,14 @@ object AppDependencies {
         "androidx.hilt:hilt-compiler:${Versions.hilt_compiler_version}"
 
     // Retrofit
+    private const val logging = "com.squareup.okhttp3:logging-interceptor:${Versions.logging_version}"
     private const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit_version}"
     private const val converterSerialization =
         "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.serialization_converter_version}"
 
     // Firebase
-    private const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
-    private const val firebase_analytics = "com.google.firebase:firebase-analytics-ktx"
+    private const val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics-ktx"
+    private const val firebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
 
     // KTLint
     const val ktlint = "com.pinterest:ktlint:${Versions.kt_lint_version}"
@@ -109,6 +111,7 @@ object AppDependencies {
         add(appcompat)
         add(constraintLayout)
         add(material)
+        add(swipeRefreshLayout)
         add(coil)
         add(coilTransformations)
         add(ratingBar)
@@ -123,6 +126,7 @@ object AppDependencies {
         add(timber)
         add(hiltAndroid)
         add(hiltLifecycleViewModel)
+        add(logging)
         add(retrofit2)
         add(converterSerialization)
         add(lottie)
@@ -130,8 +134,8 @@ object AppDependencies {
         add(roomKtx)
         add(bang)
         add(preferenceKtx)
-        add(firebase_crashlytics)
-        add(firebase_analytics)
+        add(firebaseCrashlytics)
+        add(firebaseAnalytics)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {

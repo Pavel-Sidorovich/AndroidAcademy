@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.os.StrictMode
 import androidx.appcompat.app.AppCompatDelegate
+import com.pavesid.androidacademy.utils.NetworkMonitor
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 import timber.log.Timber
@@ -14,12 +15,16 @@ class App : Application() {
     @Inject
     lateinit var prefs: SharedPreferences
 
+    @Inject
+    lateinit var networkMonitor: NetworkMonitor
+
     override fun onCreate() {
         if (BuildConfig.DEBUG) {
             StrictMode.enableDefaults()
             Timber.plant(Timber.DebugTree())
         }
         super.onCreate()
+        networkMonitor.startNetworkCallback()
         changeTheme()
     }
 

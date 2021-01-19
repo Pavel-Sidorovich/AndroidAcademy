@@ -4,18 +4,20 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.ViewModelProvider
 import com.pavesid.androidacademy.App.Companion.THEME
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
-import com.pavesid.androidacademy.ui.details.MoviesDetailsFragment
+import com.pavesid.androidacademy.ui.details.DetailsFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
+import com.pavesid.androidacademy.ui.movies.MoviesViewModel
 import com.pavesid.androidacademy.ui.splash.SplashScreenFragment
 import com.pavesid.androidacademy.utils.extensions.ExitWithAnimation
 import com.pavesid.androidacademy.utils.extensions.edit
@@ -37,6 +39,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var prefs: SharedPreferences
 
     private lateinit var binding: ActivityMainBinding
+
+    private val viewModel by lazy { ViewModelProvider(this).get(MoviesViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_AndroidAcademy)
@@ -65,6 +69,19 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu, menu)
         menu?.findItem(R.id.theme)?.setSafeOnMenuItemClickListener {
         }
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.searchMovies(query.orEmpty())
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.searchMovies(newText.orEmpty())
+                return true
+            }
+        })
         return true
     }
 
@@ -104,22 +121,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun changeFragment(
-        toMovies: Boolean = false,
-        parcelable: Parcelable? = null,
+    fun changeToMoviesFragment() = supportFragmentManager.open {
+        replace(R.id.container, MoviesFragment.newInstance(), TAG)
+    }
+
+    fun changeToDetailsFragment(
+        movieString: String = "",
         cX: Int = 0,
         cY: Int = 0
     ) {
-        if (toMovies) {
-            supportFragmentManager.open {
-                replace(R.id.container, MoviesFragment.newInstance(), TAG)
-            }
-        } else {
-            val detailFragment = MoviesDetailsFragment.newInstance(parcelable!!, cX, cY)
-            supportFragmentManager.open {
-                add(R.id.container, detailFragment, null)
-                addToBackStack(null)
-            }
+        val detailFragment = DetailsFragment.newInstance(movieString, cX, cY)
+        supportFragmentManager.open {
+            add(R.id.container, detailFragment, null)
+            addToBackStack(null)
         }
     }
 

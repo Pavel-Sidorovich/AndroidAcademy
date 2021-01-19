@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 
-internal class CastItemDecoration @Inject constructor(
+internal class CustomItemDecoration @Inject constructor(
     private val spaceSize: Int,
     private val bigSpaceSize: Int
 ) : RecyclerView.ItemDecoration() {

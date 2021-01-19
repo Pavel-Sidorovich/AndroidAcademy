@@ -9,8 +9,6 @@ data class MovieEntity(
     @PrimaryKey
     @ColumnInfo(name = "movie_id")
     val id: Long,
-    @ColumnInfo(name = "movie_runtime")
-    var runtime: Int = 0,
     @ColumnInfo(name = "movie_liked")
     var liked: Boolean = false
 )

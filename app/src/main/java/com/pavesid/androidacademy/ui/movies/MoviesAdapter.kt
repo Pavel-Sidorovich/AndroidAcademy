@@ -81,7 +81,6 @@ internal class MoviesAdapter(
                         likeListener(
                             MovieEntity(
                                 movie.id,
-                                movie.runtime,
                                 !isSelected
                             )
                         )

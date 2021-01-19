@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.pavesid.androidacademy.BuildConfig
 import com.pavesid.androidacademy.db.MoviesDao
 import com.pavesid.androidacademy.db.MoviesDatabase
 import com.pavesid.androidacademy.repositories.MoviesRepository
@@ -49,7 +50,7 @@ object AppModule {
 
         return OkHttpClient().newBuilder()
             .addInterceptor(MoviesApiQueryInterceptor())
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE))
             .addInterceptor(CacheControlInterceptor())
             .cache(cache)
             .readTimeout(5, TimeUnit.MINUTES)

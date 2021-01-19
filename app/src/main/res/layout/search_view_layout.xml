@@ -4,7 +4,4 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:inputType="textAutoCorrect"
-    android:minWidth="9999dp"
-    android:theme="@style/AppSearchView">
-
-</androidx.appcompat.widget.SearchView>
+    android:theme="@style/AppSearchView" />

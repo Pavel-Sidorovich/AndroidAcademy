@@ -24,8 +24,8 @@ class MoviesRepositoryImpl @Inject constructor(
     override suspend fun getActors(id: Long): CreditsResponse = moviesApi.getCredits(id)
 
     override suspend fun getMoviesByGenre(id: Long, page: Int): List<Movie> {
-        var movies = listOf<JsonMovie>()
-        var genres = listOf<Genre>()
+        var movies = emptyList<JsonMovie>()
+        var genres = emptyList<Genre>()
         coroutineScope {
             launch {
                 movies = if (id == Long.MIN_VALUE) {
@@ -45,8 +45,8 @@ class MoviesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchMovies(query: String, page: Int): List<Movie> {
-        var movies = listOf<JsonMovie>()
-        var genres = listOf<Genre>()
+        var movies = emptyList<JsonMovie>()
+        var genres = emptyList<Genre>()
         coroutineScope {
             launch {
                 movies = moviesApi.searchMovie(query, page).movies

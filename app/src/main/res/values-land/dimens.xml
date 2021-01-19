@@ -2,4 +2,6 @@
 <resources>
     <dimen name="cast_height">300sp</dimen>
     <dimen name="spacing_toolbar">48dp</dimen>
+    <dimen name="details_padding">64dp</dimen>
+    <dimen name="details_margin_bottom">16dp</dimen>
 </resources>

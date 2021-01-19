@@ -30,11 +30,29 @@ class MoviesRepositoryImpl @Inject constructor(
         var entities = emptyList<MovieEntity>()
         coroutineScope {
             launch {
-                movies = if (id == Long.MIN_VALUE) {
-                    moviesApi.getMovies(page).movies
-                } else {
-                    moviesApi.getMoviesByGenre(id, page).movies
-                }
+                movies = moviesApi.getMoviesByGenre(id, page).movies
+            }
+            launch {
+                genres = moviesApi.getGenres().genres
+            }
+            launch {
+                entities = moviesDao.getAllMoviesEntity()
+            }
+        }
+        return parseMovies(
+            movies,
+            genres,
+            entities
+        )
+    }
+
+    override suspend fun getMovies(page: Int): List<Movie> {
+        var movies = emptyList<JsonMovie>()
+        var genres = emptyList<Genre>()
+        var entities = emptyList<MovieEntity>()
+        coroutineScope {
+            launch {
+                movies = moviesApi.getMovies(page).movies
             }
             launch {
                 genres = moviesApi.getGenres().genres

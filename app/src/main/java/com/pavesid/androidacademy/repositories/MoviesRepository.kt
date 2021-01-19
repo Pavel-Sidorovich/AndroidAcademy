@@ -17,9 +17,11 @@ interface MoviesRepository {
     ): CreditsResponse
 
     suspend fun getMoviesByGenre(
-        id: Long = -1,
+        id: Long = Long.MIN_VALUE,
         page: Int = 1
     ): List<Movie>
+
+    suspend fun getMovies(page: Int): List<Movie>
 
     suspend fun searchMovies(
         query: String = "",

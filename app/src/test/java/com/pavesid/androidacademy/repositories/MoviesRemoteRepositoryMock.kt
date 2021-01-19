@@ -23,6 +23,8 @@ class MoviesRemoteRepositoryMock : MoviesRepository {
 
     override suspend fun getMoviesByGenre(id: Long, page: Int): List<Movie> = movies
 
+    override suspend fun getMovies(page: Int): List<Movie> = movies
+
     override suspend fun searchMovies(query: String, page: Int): List<Movie> = movies
 
     override suspend fun getGenres(): List<Genre> = genres

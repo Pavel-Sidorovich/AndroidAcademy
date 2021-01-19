@@ -22,4 +22,5 @@
     <color name="middle_color">#C4C4C4</color>
     <color name="middle_color_light">#3B3B3B</color>
     <color name="splash_color">#2D2D2D</color>
+    <color name="ic_launcher_background">#FCA000</color>
 </resources>

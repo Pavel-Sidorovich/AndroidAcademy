@@ -96,7 +96,12 @@ internal class MoviesViewModel @ViewModelInject constructor(
                 if (listOfMovies.isEmpty()) {
                     _movies.postValue(Resource.loading())
                 }
-                val movies = repository.getMoviesByGenre(id = genre, moviesPage)
+
+                val movies = if (currentGenre == Long.MIN_VALUE) {
+                    repository.getMovies(moviesPage)
+                } else {
+                    repository.getMoviesByGenre(id = genre, moviesPage)
+                }
 
                 if (movies.isNotEmpty()) {
                     listOfMovies.addAll(movies)

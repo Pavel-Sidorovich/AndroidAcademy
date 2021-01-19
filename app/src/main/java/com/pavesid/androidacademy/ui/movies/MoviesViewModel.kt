@@ -35,6 +35,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
     private var moviesPage = 1
 
     private var currentGenre = Long.MIN_VALUE
+    private var genresList = emptyList<Genre>()
 
     private var listOfMovies = mutableListOf<Movie>()
 
@@ -85,6 +86,9 @@ internal class MoviesViewModel @ViewModelInject constructor(
         if (currentGenre != genre) {
             cancelAllJob()
             searchProgress = false
+            genresList.forEach { it.isChecked = false }
+            genresList.find { it.id == genre }?.isChecked = true
+            _genres.postValue(Resource.success(genresList))
         }
         if (!searchProgress) {
             currentJob = viewModelScope.launch(dispatcher + exceptionHandler) {
@@ -143,8 +147,8 @@ internal class MoviesViewModel @ViewModelInject constructor(
     @MainThread
     fun loadGenres() {
         viewModelScope.launch(dispatcher + exceptionHandlerGenres) {
-            val genres = repository.getGenres()
-            _genres.postValue(Resource.success(genres))
+            genresList = repository.getGenres()
+            _genres.postValue(Resource.success(genresList))
         }
     }
 

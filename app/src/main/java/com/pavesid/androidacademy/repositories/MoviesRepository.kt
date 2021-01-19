@@ -2,6 +2,7 @@ package com.pavesid.androidacademy.repositories
 
 import com.pavesid.androidacademy.data.actors.CreditsResponse
 import com.pavesid.androidacademy.data.details.Details
+import com.pavesid.androidacademy.data.entities.MovieEntity
 import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.data.movies.Movie
 
@@ -27,9 +28,5 @@ interface MoviesRepository {
 
     suspend fun getGenres(): List<Genre>
 
-    suspend fun updateMovie(movie: Movie)
-
-    suspend fun insertMovie(movie: Movie)
-
-    suspend fun insertMovies(movies: List<Movie>)
+    suspend fun updateMovie(movieEntity: MovieEntity)
 }

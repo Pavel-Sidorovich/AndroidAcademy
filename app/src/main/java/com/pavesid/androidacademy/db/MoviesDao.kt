@@ -4,21 +4,17 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
-import com.pavesid.androidacademy.data.movies.Movie
+import com.pavesid.androidacademy.data.entities.MovieEntity
 
 @Dao
 interface MoviesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMovie(movie: Movie)
+    suspend fun insertMovie(movie: MovieEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMovies(movies: List<Movie>)
-
-    @Update
-    suspend fun updateMovie(movie: Movie)
+    @Query("DELETE FROM movie_items WHERE movie_id = :id")
+    suspend fun deleteMovie(id: Long)
 
     @Query("SELECT * FROM movie_items")
-    suspend fun getAllMovies(): List<Movie>
+    suspend fun getAllMoviesEntity(): List<MovieEntity>
 }

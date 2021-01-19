@@ -3,6 +3,7 @@ package com.pavesid.androidacademy.repositories
 import com.pavesid.androidacademy.data.actors.CreditsResponse
 import com.pavesid.androidacademy.data.details.Details
 import com.pavesid.androidacademy.data.details.DetailsResponse
+import com.pavesid.androidacademy.data.entities.MovieEntity
 import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.data.movies.JsonMovie
 import com.pavesid.androidacademy.data.movies.Movie
@@ -26,6 +27,7 @@ class MoviesRepositoryImpl @Inject constructor(
     override suspend fun getMoviesByGenre(id: Long, page: Int): List<Movie> {
         var movies = emptyList<JsonMovie>()
         var genres = emptyList<Genre>()
+        var entities = emptyList<MovieEntity>()
         coroutineScope {
             launch {
                 movies = if (id == Long.MIN_VALUE) {
@@ -37,16 +39,21 @@ class MoviesRepositoryImpl @Inject constructor(
             launch {
                 genres = moviesApi.getGenres().genres
             }
+            launch {
+                entities = moviesDao.getAllMoviesEntity()
+            }
         }
         return parseMovies(
             movies,
-            genres
+            genres,
+            entities
         )
     }
 
     override suspend fun searchMovies(query: String, page: Int): List<Movie> {
         var movies = emptyList<JsonMovie>()
         var genres = emptyList<Genre>()
+        var entities = emptyList<MovieEntity>()
         coroutineScope {
             launch {
                 movies = moviesApi.searchMovie(query, page).movies
@@ -54,10 +61,14 @@ class MoviesRepositoryImpl @Inject constructor(
             launch {
                 genres = moviesApi.getGenres().genres
             }
+            launch {
+                entities = moviesDao.getAllMoviesEntity()
+            }
         }
         return parseMovies(
             movies,
-            genres
+            genres,
+            entities
         )
     }
 
@@ -83,25 +94,21 @@ class MoviesRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun updateMovie(movie: Movie) {
-        moviesDao.updateMovie(movie)
-    }
-
-    override suspend fun insertMovie(movie: Movie) {
-        moviesDao.insertMovie(movie)
-    }
-
-    override suspend fun insertMovies(movies: List<Movie>) {
-        moviesDao.insertMovies(movies)
+    override suspend fun updateMovie(movieEntity: MovieEntity) = if (movieEntity.liked) {
+        moviesDao.insertMovie(movieEntity)
+    } else {
+        moviesDao.deleteMovie(movieEntity.id)
     }
 
     private fun parseMovies(
         jsonMovies: List<JsonMovie>,
-        jsonGenres: List<Genre>
+        jsonGenres: List<Genre>,
+        moviesEntity: List<MovieEntity>
     ): List<Movie> {
         val genresMap = jsonGenres.associateBy { it.id }
 
         return jsonMovies.map { jsonMovie ->
+            val entity = moviesEntity.find { it.id == jsonMovie.id }
             Movie(
                 id = jsonMovie.id,
                 title = jsonMovie.title,
@@ -114,7 +121,8 @@ class MoviesRepositoryImpl @Inject constructor(
                 runtime = 0,
                 genres = jsonMovie.genreIds.map {
                     genresMap[it] ?: throw IllegalArgumentException("Genre not found")
-                }
+                },
+                liked = entity?.liked ?: false
             )
         }
     }

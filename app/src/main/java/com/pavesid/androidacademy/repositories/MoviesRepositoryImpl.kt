@@ -52,6 +52,42 @@ class MoviesRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun getMoviesByGenreFromDB(id: Long): List<Movie> {
+        var movies = emptyList<JsonMovie>()
+        var genres = emptyList<Genre>()
+        var entities = emptyList<MovieLikeEntity>()
+        coroutineScope {
+            launch {
+                movies = moviesDao.getMoviesByGenre("%$id%").map {
+                    JsonMovie(
+                        id = it.id,
+                        title = it.title,
+                        overview = it.overview,
+                        posterPicture = it.posterPicture,
+                        backdropPicture = it.backdropPicture,
+                        ratings = it.ratings,
+                        votesCount = it.votesCount,
+                        adult = it.adult,
+                        popularity = it.popularity,
+                        genreIds = it.genreIds
+                    )
+                }
+
+            }
+            launch {
+                genres = genreDao.getAllGenreEntities().map { Genre(it.id, it.name) }
+            }
+            launch {
+                entities = moviesLikeDao.getAllMovieLikeEntities()
+            }
+        }
+        return parseMovies(
+            movies,
+            genres,
+            entities
+        )
+    }
+
     override suspend fun getMoviesFromAPI(page: Int): List<Movie> {
         var movies = emptyList<JsonMovie>()
         var genres = emptyList<Genre>()

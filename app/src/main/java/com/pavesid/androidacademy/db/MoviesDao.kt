@@ -18,6 +18,9 @@ interface MoviesDao {
     @Query("SELECT * FROM movie_items ORDER BY popularity DESC")
     suspend fun getAllMovieEntities(): List<MovieEntity>
 
+    @Query("SELECT * FROM movie_items WHERE genre_ids LIKE :id ORDER BY popularity DESC")
+    suspend fun getMoviesByGenre(id: String): List<MovieEntity>
+
     @Query("DELETE FROM movie_items")
     suspend fun deleteAllMovieEntities()
 }

@@ -109,7 +109,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
                     val movies = if (currentGenre == Long.MIN_VALUE) {
                         repository.getMoviesFromDB()
                     } else {
-                        repository.getMoviesByGenreFromAPI(id = genre, moviesPage)
+                        repository.getMoviesByGenreFromDB(id = genre)
                     }
                     if (movies.isNotEmpty()) {
                         listOfMovies.addAll(movies)

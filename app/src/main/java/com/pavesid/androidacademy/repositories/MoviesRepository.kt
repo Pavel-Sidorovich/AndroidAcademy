@@ -21,6 +21,10 @@ interface MoviesRepository {
         page: Int = 1
     ): List<Movie>
 
+    suspend fun getMoviesByGenreFromDB(
+        id: Long = Long.MIN_VALUE
+    ): List<Movie>
+
     suspend fun getMoviesFromAPI(page: Int): List<Movie>
 
     suspend fun getMoviesFromDB(): List<Movie>

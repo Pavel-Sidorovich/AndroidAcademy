@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pavesid.androidacademy.data.entities.MovieEntity
+import com.pavesid.androidacademy.data.entities.MovieLikeEntity
 import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.di.IODispatcher
@@ -54,7 +54,9 @@ internal class MoviesViewModel @ViewModelInject constructor(
     }
 
     private val exceptionHandlerGenres = CoroutineExceptionHandler { _, throwable ->
-        _genres.postValue(Resource.error(throwable.message.orEmpty()))
+        if (genresList.isEmpty()) {
+            _genres.postValue(Resource.error(throwable.message.orEmpty()))
+        }
         Timber.d(throwable)
     }
 
@@ -147,17 +149,22 @@ internal class MoviesViewModel @ViewModelInject constructor(
     @MainThread
     fun loadGenres() {
         viewModelScope.launch(dispatcher + exceptionHandlerGenres) {
-            genresList = repository.getGenres()
+            genresList = repository.getGenresFromDB()
             _genres.postValue(Resource.success(genresList))
+            val genresApi = repository.getGenresFromAPI()
+            if (genresApi.isNotEmpty()) {
+                genresList = genresApi
+                _genres.postValue(Resource.success(genresList))
+            }
         }
     }
 
-    fun updateLike(movieEntity: MovieEntity) {
+    fun updateLike(movieLikeEntity: MovieLikeEntity) {
         viewModelScope.launch(dispatcher + exceptionHandler) {
-            repository.updateMovie(movieEntity)
+            repository.updateMovie(movieLikeEntity)
         }
-        listOfMovies.find { it.id == movieEntity.id }?.liked = movieEntity.liked
-        searchList.find { it.id == movieEntity.id }?.liked = movieEntity.liked
+        listOfMovies.find { it.id == movieLikeEntity.id }?.liked = movieLikeEntity.liked
+        searchList.find { it.id == movieLikeEntity.id }?.liked = movieLikeEntity.liked
     }
 
     private fun cancelAllJob() {

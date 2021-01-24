@@ -21,6 +21,8 @@ data class JsonMovie(
     val ratings: Float,
     @SerialName("vote_count")
     val votesCount: Int,
+    @SerialName("popularity")
+    val popularity: Float,
     @SerialName("adult")
     val adult: Boolean
 )

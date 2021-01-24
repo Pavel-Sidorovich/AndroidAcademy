@@ -234,6 +234,7 @@ class DetailsFragment :
             { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
+                        binding.progress.isVisible = false
                         resource.data?.let { details ->
                             if (details.detailsResponse.id == currentMovie.id) {
                                 initDetails(details.detailsResponse)
@@ -241,7 +242,6 @@ class DetailsFragment :
                                 initCrew(details.crew)
                             }
                         }
-                        binding.progress.isVisible = false
                     }
                     Status.ERROR -> {
                         binding.progress.isVisible = false
@@ -249,7 +249,7 @@ class DetailsFragment :
                             .show()
                     }
                     Status.LOADING -> {
-                        binding.progress.visibility = View.VISIBLE
+                        binding.progress.isVisible = true
                         initCast(emptyList())
                         initCrew(emptyList())
                     }

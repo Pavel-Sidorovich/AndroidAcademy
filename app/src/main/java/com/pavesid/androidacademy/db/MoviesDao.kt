@@ -10,11 +10,14 @@ import com.pavesid.androidacademy.data.entities.MovieEntity
 interface MoviesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMovie(movie: MovieEntity)
+    suspend fun insertAllMovieEntities(movie: List<MovieEntity>)
 
     @Query("DELETE FROM movie_items WHERE movie_id = :id")
-    suspend fun deleteMovie(id: Long)
+    suspend fun deleteMovieEntity(id: Long)
 
-    @Query("SELECT * FROM movie_items")
-    suspend fun getAllMoviesEntity(): List<MovieEntity>
+    @Query("SELECT * FROM movie_items ORDER BY popularity DESC")
+    suspend fun getAllMovieEntities(): List<MovieEntity>
+
+    @Query("DELETE FROM movie_items")
+    suspend fun deleteAllMovieEntities()
 }

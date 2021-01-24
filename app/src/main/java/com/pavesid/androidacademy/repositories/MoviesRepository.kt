@@ -12,18 +12,20 @@ interface MoviesRepository {
         id: Long
     ): Details
 
-    suspend fun getActors(
+    suspend fun getActorsFromAPI(
         id: Long
     ): CreditsResponse
 
-    suspend fun getMoviesByGenre(
+    suspend fun getMoviesByGenreFromAPI(
         id: Long = Long.MIN_VALUE,
         page: Int = 1
     ): List<Movie>
 
-    suspend fun getMovies(page: Int): List<Movie>
+    suspend fun getMoviesFromAPI(page: Int): List<Movie>
 
-    suspend fun searchMovies(
+    suspend fun getMoviesFromDB(): List<Movie>
+
+    suspend fun searchMoviesFromAPI(
         query: String = "",
         page: Int = 1
     ): List<Movie>
@@ -32,5 +34,5 @@ interface MoviesRepository {
 
     suspend fun getGenresFromDB(): List<Genre>
 
-    suspend fun updateMovie(movieLikeEntity: MovieLikeEntity)
+    suspend fun updateMovieLike(movieLikeEntity: MovieLikeEntity)
 }

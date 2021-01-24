@@ -19,17 +19,17 @@ class MoviesRemoteRepositoryMock : MoviesRepository {
         emptyList()
     )
 
-    override suspend fun getActors(id: Long): CreditsResponse = CreditsResponse(emptyList(), emptyList(), 1)
+    override suspend fun getActorsFromAPI(id: Long): CreditsResponse = CreditsResponse(emptyList(), emptyList(), 1)
 
-    override suspend fun getMoviesByGenre(id: Long, page: Int): List<Movie> = movies
+    override suspend fun getMoviesByGenreFromAPI(id: Long, page: Int): List<Movie> = movies
 
-    override suspend fun getMovies(page: Int): List<Movie> = movies
+    override suspend fun getMoviesFromAPI(page: Int): List<Movie> = movies
 
-    override suspend fun searchMovies(query: String, page: Int): List<Movie> = movies
+    override suspend fun searchMoviesFromAPI(query: String, page: Int): List<Movie> = movies
 
     override suspend fun getGenresFromAPI(): List<Genre> = genres
 
-    override suspend fun updateMovie(movieLikeEntity: MovieLikeEntity) {
+    override suspend fun updateMovieLike(movieLikeEntity: MovieLikeEntity) {
         movies.find { movie -> movie.id == movieLikeEntity.id }?.liked = movieLikeEntity.liked
     }
 }

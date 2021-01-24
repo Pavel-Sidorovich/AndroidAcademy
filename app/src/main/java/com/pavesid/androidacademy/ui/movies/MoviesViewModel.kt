@@ -49,7 +49,9 @@ internal class MoviesViewModel @ViewModelInject constructor(
     private var currentLocale = ""
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        _movies.postValue(Resource.error(throwable.message.orEmpty()))
+        if (listOfMovies.isEmpty()) {
+            _movies.postValue(Resource.error(throwable.message.orEmpty()))
+        }
         Timber.d(throwable)
     }
 
@@ -72,12 +74,12 @@ internal class MoviesViewModel @ViewModelInject constructor(
 
     private fun reload() {
         currentLocale = Locale.getDefault().toLanguageTag()
+        loadGenres()
         if (searchQuery != "") {
             searchMovies(searchQuery)
         } else {
             loadMovies(currentGenre, true)
         }
-        loadGenres()
     }
 
     /**
@@ -103,13 +105,30 @@ internal class MoviesViewModel @ViewModelInject constructor(
                     _movies.postValue(Resource.loading())
                 }
 
+                if (moviesPage == 1 && listOfMovies.isEmpty()) {
+                    val movies = if (currentGenre == Long.MIN_VALUE) {
+                        repository.getMoviesFromDB()
+                    } else {
+                        repository.getMoviesByGenreFromAPI(id = genre, moviesPage)
+                    }
+                    if (movies.isNotEmpty()) {
+                        listOfMovies.addAll(movies)
+                        _movies.postValue(
+                            Resource.success(listOfMovies)
+                        )
+                    }
+                }
+
                 val movies = if (currentGenre == Long.MIN_VALUE) {
-                    repository.getMovies(moviesPage)
+                    repository.getMoviesFromAPI(moviesPage)
                 } else {
-                    repository.getMoviesByGenre(id = genre, moviesPage)
+                    repository.getMoviesByGenreFromAPI(id = genre, moviesPage)
                 }
 
                 if (movies.isNotEmpty()) {
+                    if (moviesPage == 1) {
+                        listOfMovies.clear()
+                    }
                     listOfMovies.addAll(movies)
                     moviesPage++
                     _movies.postValue(
@@ -135,7 +154,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
                 searchQuery = query
             }
             if (searchQuery != "") {
-                val movies = repository.searchMovies(searchQuery, searchPage)
+                val movies = repository.searchMoviesFromAPI(searchQuery, searchPage)
                 searchPage++
                 searchList.addAll(movies)
                 _movies.postValue(Resource.success(searchList))
@@ -161,7 +180,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
 
     fun updateLike(movieLikeEntity: MovieLikeEntity) {
         viewModelScope.launch(dispatcher + exceptionHandler) {
-            repository.updateMovie(movieLikeEntity)
+            repository.updateMovieLike(movieLikeEntity)
         }
         listOfMovies.find { it.id == movieLikeEntity.id }?.liked = movieLikeEntity.liked
         searchList.find { it.id == movieLikeEntity.id }?.liked = movieLikeEntity.liked

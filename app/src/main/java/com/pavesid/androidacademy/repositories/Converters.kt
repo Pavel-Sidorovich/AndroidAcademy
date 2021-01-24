@@ -7,5 +7,5 @@ class Converters {
     fun fromList(ids: List<Long>): String = ids.joinToString()
 
     @TypeConverter
-    fun toList(data: String): List<Long> = data.split(",").map { it.toLong() }
+    fun toList(data: String): List<Long> = data.split(", ").map { it.toLong() }
 }

@@ -12,6 +12,7 @@ import com.pavesid.androidacademy.db.MoviesDatabase
 import com.pavesid.androidacademy.db.MoviesLikeDao
 import com.pavesid.androidacademy.repositories.MoviesRepository
 import com.pavesid.androidacademy.repositories.MoviesRepositoryImpl
+import com.pavesid.androidacademy.retrofit.CacheControlInterceptor
 import com.pavesid.androidacademy.retrofit.MoviesApi
 import com.pavesid.androidacademy.retrofit.MoviesApiQueryInterceptor
 import com.pavesid.androidacademy.utils.NetworkMonitor
@@ -21,6 +22,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import java.io.File
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -51,9 +53,9 @@ object AppModule {
         return OkHttpClient().newBuilder()
             .addInterceptor(MoviesApiQueryInterceptor())
             .addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE))
-//            .addInterceptor(CacheControlInterceptor())
-//            .cache(cache)
-//            .readTimeout(5, TimeUnit.MINUTES)
+            .addInterceptor(CacheControlInterceptor())
+            .cache(cache)
+            .readTimeout(15, TimeUnit.SECONDS)
             .build()
     }
 

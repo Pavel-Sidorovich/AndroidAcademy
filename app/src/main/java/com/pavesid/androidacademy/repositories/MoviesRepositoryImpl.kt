@@ -96,23 +96,25 @@ class MoviesRepositoryImpl @Inject constructor(
                 val list = moviesApi.getMovies(page).movies
                 movies = list
                 if (page == 1) {
-                    moviesDao.deleteAllMovieEntities()
-                    moviesDao.insertAllMovieEntities(
-                        list.map {
-                            MovieEntity(
-                                id = it.id,
-                                title = it.title,
-                                overview = it.overview,
-                                posterPicture = it.posterPicture,
-                                backdropPicture = it.backdropPicture,
-                                ratings = it.ratings,
-                                votesCount = it.votesCount,
-                                adult = it.adult,
-                                popularity = it.popularity,
-                                genreIds = it.genreIds
-                            )
-                        }
-                    )
+                    launch {
+                        moviesDao.deleteAllMovieEntities()
+                        moviesDao.insertAllMovieEntities(
+                            list.map {
+                                MovieEntity(
+                                    id = it.id,
+                                    title = it.title,
+                                    overview = it.overview,
+                                    posterPicture = it.posterPicture,
+                                    backdropPicture = it.backdropPicture,
+                                    ratings = it.ratings,
+                                    votesCount = it.votesCount,
+                                    adult = it.adult,
+                                    popularity = it.popularity,
+                                    genreIds = it.genreIds
+                                )
+                            }
+                        )
+                    }
                 }
             }
             launch {

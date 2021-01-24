@@ -72,7 +72,6 @@ class MoviesRepositoryImpl @Inject constructor(
                         genreIds = it.genreIds
                     )
                 }
-
             }
             launch {
                 genres = genreDao.getAllGenreEntities().map { Genre(it.id, it.name) }

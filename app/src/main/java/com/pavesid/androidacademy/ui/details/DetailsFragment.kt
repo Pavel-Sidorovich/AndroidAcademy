@@ -26,7 +26,7 @@ import coil.load
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.actors.Cast
 import com.pavesid.androidacademy.data.actors.Crew
-import com.pavesid.androidacademy.data.details.DetailsResponse
+import com.pavesid.androidacademy.data.details.Details
 import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.databinding.FragmentDetailsBinding
 import com.pavesid.androidacademy.ui.MainActivity
@@ -186,10 +186,10 @@ class DetailsFragment :
         }
     }
 
-    private fun initDetails(details: DetailsResponse) {
+    private fun initDetails(details: Details) {
         binding.detailsRuntime.text = resources.getString(R.string.runtime, details.runtime)
-        if (!details.backdropPicture.isNullOrBlank()) {
-            binding.detailsOrig.load(details.backdropPicture.toOriginalUrl()) {
+        if (!details.backdrop.isNullOrBlank()) {
+            binding.detailsOrig.load(details.backdrop.toOriginalUrl()) {
                 crossfade(true)
                 placeholder(R.drawable.hws_placeholder)
             }
@@ -229,17 +229,17 @@ class DetailsFragment :
     }
 
     private fun subscribeToObservers() {
-        viewModel.details.observe(
+        viewModel.detailsWithCredits.observe(
             viewLifecycleOwner,
             { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
                         binding.progress.isVisible = false
-                        resource.data?.let { details ->
-                            if (details.detailsResponse.id == currentMovie.id) {
-                                initDetails(details.detailsResponse)
-                                initCast(details.cast)
-                                initCrew(details.crew)
+                        resource.data?.let { detailsWithCredits ->
+                            if (detailsWithCredits.details.id == currentMovie.id) {
+                                initDetails(detailsWithCredits.details)
+                                initCast(detailsWithCredits.cast)
+                                initCrew(detailsWithCredits.crew)
                             }
                         }
                     }

@@ -1,18 +1,19 @@
 package com.pavesid.androidacademy.repositories
 
-import com.pavesid.androidacademy.data.actors.CreditsResponse
+import com.pavesid.androidacademy.data.actors.Cast
+import com.pavesid.androidacademy.data.actors.Crew
 import com.pavesid.androidacademy.data.details.Details
-import com.pavesid.androidacademy.data.details.DetailsResponse
-import com.pavesid.androidacademy.data.entities.GenreEntity
-import com.pavesid.androidacademy.data.entities.MovieEntity
-import com.pavesid.androidacademy.data.entities.MovieLikeEntity
+import com.pavesid.androidacademy.data.details.DetailsWithCredits
 import com.pavesid.androidacademy.data.genres.Genre
-import com.pavesid.androidacademy.data.movies.JsonMovie
 import com.pavesid.androidacademy.data.movies.Movie
-import com.pavesid.androidacademy.db.GenreDao
-import com.pavesid.androidacademy.db.MoviesDao
-import com.pavesid.androidacademy.db.MoviesLikeDao
+import com.pavesid.androidacademy.db.genries.GenreDao
+import com.pavesid.androidacademy.db.genries.GenreEntity
+import com.pavesid.androidacademy.db.likes.MovieLikeEntity
+import com.pavesid.androidacademy.db.likes.MoviesLikeDao
+import com.pavesid.androidacademy.db.movies.MovieEntity
+import com.pavesid.androidacademy.db.movies.MoviesDao
 import com.pavesid.androidacademy.retrofit.MoviesApi
+import com.pavesid.androidacademy.retrofit.movies.JsonMovie
 import javax.inject.Inject
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -26,9 +27,7 @@ class MoviesRepositoryImpl @Inject constructor(
     private val moviesApi: MoviesApi
 ) : MoviesRepository {
 
-    override suspend fun getDetails(id: Long): Details = getDetailsFromAPI(id)
-
-    override suspend fun getActorsFromAPI(id: Long): CreditsResponse = moviesApi.getCredits(id)
+    override suspend fun getDetails(id: Long): DetailsWithCredits = getDetailsFromAPI(id)
 
     override suspend fun getMoviesByGenreFromAPI(id: Long, page: Int): List<Movie> {
         var movies = emptyList<JsonMovie>()
@@ -210,30 +209,48 @@ class MoviesRepositoryImpl @Inject constructor(
 
     private suspend fun getDetailsFromAPI(
         id: Long
-    ): Details {
-        lateinit var details: DetailsResponse
-        lateinit var credits: CreditsResponse
+    ): DetailsWithCredits {
+        lateinit var details: Details
+        lateinit var cast: List<Cast>
+        lateinit var crew: List<Crew>
         coroutineScope {
             launch {
-                details = moviesApi.getDetails(id)
+                details = moviesApi.getDetails(id).let {
+                    Details(
+                        id = it.id,
+                        title = it.title,
+                        overview = it.overview,
+                        poster = it.posterPicture,
+                        backdrop = it.backdropPicture,
+                        genres = it.genres,
+                        ratings = it.ratings,
+                        numberOfRatings = it.votesCount,
+                        adult = it.adult,
+                        runtime = it.runtime
+
+                    )
+                }
             }
             launch {
-                credits = moviesApi.getCredits(id)
+                val credits = moviesApi.getCredits(id)
+                cast = credits.cast
+                crew = credits.crew
             }
         }
-        return Details(
+        return DetailsWithCredits(
             details,
-            credits.cast,
-            credits.crew
+            cast,
+            crew
         )
     }
 
-    override suspend fun updateMovieLike(movieLikeEntity: MovieLikeEntity) =
-        if (movieLikeEntity.liked) {
-            moviesLikeDao.insertMovieLikeEntity(movieLikeEntity)
+    override suspend fun updateMovieLike(movie: Movie) {
+        if (movie.liked) {
+            moviesLikeDao.insertMovieLikeEntity(MovieLikeEntity(movie.id, movie.liked))
         } else {
-            moviesLikeDao.deleteMovieLikeEntity(movieLikeEntity.id)
+            moviesLikeDao.deleteMovieLikeEntity(movie.id)
         }
+    }
 
     private fun parseMovies(
         jsonMovies: List<JsonMovie>,

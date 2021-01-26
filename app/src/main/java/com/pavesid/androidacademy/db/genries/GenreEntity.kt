@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.data.entities
+package com.pavesid.androidacademy.db.genries
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

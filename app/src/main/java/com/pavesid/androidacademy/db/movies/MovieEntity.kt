@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.data.entities
+package com.pavesid.androidacademy.db.movies
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -1,5 +1,6 @@
-package com.pavesid.androidacademy.data.genres
+package com.pavesid.androidacademy.retrofit.genres
 
+import com.pavesid.androidacademy.data.genres.Genre
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

@@ -1,10 +1,9 @@
-package com.pavesid.androidacademy.db
+package com.pavesid.androidacademy.db.likes
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.pavesid.androidacademy.data.entities.MovieLikeEntity
 
 @Dao
 interface MoviesLikeDao {

@@ -1,4 +1,4 @@
-package com.pavesid.androidacademy.data.movies
+package com.pavesid.androidacademy.retrofit.movies
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

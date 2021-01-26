@@ -2,9 +2,12 @@ package com.pavesid.androidacademy.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.pavesid.androidacademy.data.entities.GenreEntity
-import com.pavesid.androidacademy.data.entities.MovieEntity
-import com.pavesid.androidacademy.data.entities.MovieLikeEntity
+import com.pavesid.androidacademy.db.genries.GenreDao
+import com.pavesid.androidacademy.db.genries.GenreEntity
+import com.pavesid.androidacademy.db.likes.MovieLikeEntity
+import com.pavesid.androidacademy.db.likes.MoviesLikeDao
+import com.pavesid.androidacademy.db.movies.MovieEntity
+import com.pavesid.androidacademy.db.movies.MoviesDao
 
 @Database(
     entities = [MovieLikeEntity::class, MovieEntity::class, GenreEntity::class],

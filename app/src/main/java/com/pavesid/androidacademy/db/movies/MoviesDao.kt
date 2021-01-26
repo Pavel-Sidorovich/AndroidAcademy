@@ -1,10 +1,9 @@
-package com.pavesid.androidacademy.db
+package com.pavesid.androidacademy.db.movies
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.pavesid.androidacademy.data.entities.MovieEntity
 
 @Dao
 interface MoviesDao {

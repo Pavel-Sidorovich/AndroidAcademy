@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pavesid.androidacademy.data.entities.MovieLikeEntity
 import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.di.IODispatcher
@@ -178,12 +177,12 @@ internal class MoviesViewModel @ViewModelInject constructor(
         }
     }
 
-    fun updateLike(movieLikeEntity: MovieLikeEntity) {
+    fun updateLike(movie: Movie) {
         viewModelScope.launch(dispatcher + exceptionHandler) {
-            repository.updateMovieLike(movieLikeEntity)
+            repository.updateMovieLike(movie)
         }
-        listOfMovies.find { it.id == movieLikeEntity.id }?.liked = movieLikeEntity.liked
-        searchList.find { it.id == movieLikeEntity.id }?.liked = movieLikeEntity.liked
+        listOfMovies.find { it.id == movie.id }?.liked = movie.liked
+        searchList.find { it.id == movie.id }?.liked = movie.liked
     }
 
     private fun cancelAllJob() {

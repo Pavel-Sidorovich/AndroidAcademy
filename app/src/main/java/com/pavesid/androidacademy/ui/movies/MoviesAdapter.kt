@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.pavesid.androidacademy.R
-import com.pavesid.androidacademy.data.entities.MovieLikeEntity
 import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.databinding.MovieItemBinding
 import com.pavesid.androidacademy.utils.extensions.setSafeOnClickListener
@@ -16,7 +15,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 internal class MoviesAdapter(
-    private val likeListener: (MovieLikeEntity) -> Unit,
+    private val likeListener: (Movie) -> Unit,
     private val listener: (String, Int, Int) -> Unit,
     private val loadMore: () -> Unit
 ) :
@@ -47,7 +46,7 @@ internal class MoviesAdapter(
     class MoviesViewHolder(
         private val binding: MovieItemBinding,
         private val listener: (String, Int, Int) -> Unit,
-        private val likeListener: (MovieLikeEntity) -> Unit
+        private val likeListener: (Movie) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: Movie) {
@@ -78,18 +77,16 @@ internal class MoviesAdapter(
                 movieLikeBox.apply {
                     isSelected = movie.liked
                     setOnClickListener {
-                        likeListener(
-                            MovieLikeEntity(
-                                movie.id,
-                                !isSelected
-                            )
-                        )
                         isSelected = if (isSelected) {
                             false
                         } else {
                             likeAnimation()
                             true
                         }
+                        movie.liked = isSelected
+                        likeListener(
+                            movie
+                        )
                     }
                 }
             }

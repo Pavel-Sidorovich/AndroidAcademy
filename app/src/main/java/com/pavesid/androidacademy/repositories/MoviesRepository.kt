@@ -1,8 +1,6 @@
 package com.pavesid.androidacademy.repositories
 
-import com.pavesid.androidacademy.data.actors.CreditsResponse
-import com.pavesid.androidacademy.data.details.Details
-import com.pavesid.androidacademy.data.entities.MovieLikeEntity
+import com.pavesid.androidacademy.data.details.DetailsWithCredits
 import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.data.movies.Movie
 
@@ -10,11 +8,7 @@ interface MoviesRepository {
 
     suspend fun getDetails(
         id: Long
-    ): Details
-
-    suspend fun getActorsFromAPI(
-        id: Long
-    ): CreditsResponse
+    ): DetailsWithCredits
 
     suspend fun getMoviesByGenreFromAPI(
         id: Long = Long.MIN_VALUE,
@@ -38,5 +32,5 @@ interface MoviesRepository {
 
     suspend fun getGenresFromDB(): List<Genre>
 
-    suspend fun updateMovieLike(movieLikeEntity: MovieLikeEntity)
+    suspend fun updateMovieLike(movie: Movie)
 }

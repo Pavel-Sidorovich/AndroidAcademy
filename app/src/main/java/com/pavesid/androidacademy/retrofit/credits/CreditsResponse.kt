@@ -1,5 +1,7 @@
-package com.pavesid.androidacademy.data.actors
+package com.pavesid.androidacademy.retrofit.credits
 
+import com.pavesid.androidacademy.data.actors.Cast
+import com.pavesid.androidacademy.data.actors.Crew
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

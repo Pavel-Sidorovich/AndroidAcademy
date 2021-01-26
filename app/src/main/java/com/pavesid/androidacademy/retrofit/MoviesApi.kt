@@ -1,9 +1,9 @@
 package com.pavesid.androidacademy.retrofit
 
-import com.pavesid.androidacademy.data.actors.CreditsResponse
-import com.pavesid.androidacademy.data.details.DetailsResponse
-import com.pavesid.androidacademy.data.genres.GenresResponse
-import com.pavesid.androidacademy.data.movies.MovieResponse
+import com.pavesid.androidacademy.retrofit.credits.CreditsResponse
+import com.pavesid.androidacademy.retrofit.details.DetailsResponse
+import com.pavesid.androidacademy.retrofit.genres.GenresResponse
+import com.pavesid.androidacademy.retrofit.movies.MovieResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

@@ -1,9 +1,8 @@
-package com.pavesid.androidacademy.db
+package com.pavesid.androidacademy.db.genries
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.pavesid.androidacademy.data.entities.GenreEntity
 
 @Dao
 interface GenreDao {

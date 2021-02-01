@@ -26,6 +26,7 @@ object Versions {
     const val lottie_version = "3.5.0"
     const val room_version = "2.2.6"
     const val bang_version = "1.2.2"
+    const val work_manager_version = "2.5.0"
     const val kt_lint_version = "0.40.0"
     const val google_services_version = "4.3.4"
     const val firebase_bom_version = "26.1.1"

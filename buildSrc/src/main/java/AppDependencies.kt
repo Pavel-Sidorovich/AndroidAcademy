@@ -65,6 +65,7 @@ object AppDependencies {
         "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_compiler_version}"
     private const val hiltCompiler =
         "androidx.hilt:hilt-compiler:${Versions.hilt_compiler_version}"
+    private const val hiltWorker = "androidx.hilt:hilt-work:${Versions.hilt_compiler_version}"
 
     // Retrofit
     private const val logging = "com.squareup.okhttp3:logging-interceptor:${Versions.logging_version}"
@@ -91,6 +92,9 @@ object AppDependencies {
 
     // SmallBang
     private const val bang = "pub.hanks:smallbang:${Versions.bang_version}"
+
+    // Kotlin + coroutines
+    private const val workManager = "androidx.work:work-runtime-ktx:${Versions.work_manager_version}"
 
     // Test libs
     private const val junit = "junit:junit:${Versions.junit_version}"
@@ -126,6 +130,7 @@ object AppDependencies {
         add(timber)
         add(hiltAndroid)
         add(hiltLifecycleViewModel)
+        add(hiltWorker)
         add(logging)
         add(retrofit2)
         add(converterSerialization)
@@ -133,6 +138,7 @@ object AppDependencies {
         add(roomRuntime)
         add(roomKtx)
         add(bang)
+        add(workManager)
         add(preferenceKtx)
         add(firebaseCrashlytics)
         add(firebaseAnalytics)

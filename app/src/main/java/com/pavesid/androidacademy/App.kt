@@ -4,6 +4,9 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.os.StrictMode
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.WorkManager
+import com.pavesid.androidacademy.services.MoviesWorkerRepository
 import com.pavesid.androidacademy.utils.NetworkMonitor
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -24,6 +27,7 @@ class App : Application() {
             Timber.plant(Timber.DebugTree())
         }
         super.onCreate()
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork("Update movies", ExistingPeriodicWorkPolicy.KEEP, MoviesWorkerRepository.request)
         networkMonitor.startNetworkCallback()
         changeTheme()
     }

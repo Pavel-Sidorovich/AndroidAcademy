@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pavesid.androidacademy.data.details.Details
+import com.pavesid.androidacademy.data.details.DetailsWithCredits
 import com.pavesid.androidacademy.di.IODispatcher
 import com.pavesid.androidacademy.repositories.MoviesRepository
 import com.pavesid.androidacademy.utils.Resource
@@ -20,8 +20,8 @@ internal class DetailsViewModel @ViewModelInject constructor(
     @IODispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _details = MutableLiveData<Resource<Details>>()
-    val details: LiveData<Resource<Details>>
+    private val _details = MutableLiveData<Resource<DetailsWithCredits>>()
+    val detailsWithCredits: LiveData<Resource<DetailsWithCredits>>
         get() = _details
 
     private var currentLocale = ""

@@ -1,10 +1,16 @@
 package com.pavesid.androidacademy.data.details
 
-import com.pavesid.androidacademy.data.actors.Cast
-import com.pavesid.androidacademy.data.actors.Crew
+import com.pavesid.androidacademy.data.genres.Genre
 
 data class Details(
-    val detailsResponse: DetailsResponse,
-    val cast: List<Cast>,
-    val crew: List<Crew>
+    val id: Long,
+    val title: String,
+    val overview: String,
+    val poster: String?,
+    val backdrop: String?,
+    val genres: List<Genre>,
+    val ratings: Float,
+    val numberOfRatings: Int,
+    val adult: Boolean,
+    val runtime: Int
 )

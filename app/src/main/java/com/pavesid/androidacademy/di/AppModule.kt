@@ -6,8 +6,10 @@ import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.pavesid.androidacademy.BuildConfig
-import com.pavesid.androidacademy.db.MoviesDao
 import com.pavesid.androidacademy.db.MoviesDatabase
+import com.pavesid.androidacademy.db.genries.GenreDao
+import com.pavesid.androidacademy.db.likes.MoviesLikeDao
+import com.pavesid.androidacademy.db.movies.MoviesDao
 import com.pavesid.androidacademy.repositories.MoviesRepository
 import com.pavesid.androidacademy.repositories.MoviesRepositoryImpl
 import com.pavesid.androidacademy.retrofit.CacheControlInterceptor
@@ -53,7 +55,7 @@ object AppModule {
             .addInterceptor(HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE))
             .addInterceptor(CacheControlInterceptor())
             .cache(cache)
-            .readTimeout(5, TimeUnit.MINUTES)
+            .readTimeout(15, TimeUnit.SECONDS)
             .build()
     }
 
@@ -83,16 +85,30 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideMoviesLikeDao(
+        database: MoviesDatabase
+    ) = database.moviesLikeDao()
+
+    @Singleton
+    @Provides
     fun provideMoviesDao(
         database: MoviesDatabase
     ) = database.moviesDao()
 
     @Singleton
     @Provides
-    fun providesShoppingRepository(
-        dao: MoviesDao,
+    fun provideGenreDao(
+        database: MoviesDatabase
+    ) = database.genreDao()
+
+    @Singleton
+    @Provides
+    fun providesMoviesRepository(
+        moviesLikeDao: MoviesLikeDao,
+        moviesDao: MoviesDao,
+        genreDao: GenreDao,
         api: MoviesApi
-    ) = MoviesRepositoryImpl(dao, api) as MoviesRepository
+    ) = MoviesRepositoryImpl(moviesLikeDao, moviesDao, genreDao, api) as MoviesRepository
 
     @Singleton
     @Provides

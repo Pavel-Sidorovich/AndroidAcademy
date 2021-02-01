@@ -77,13 +77,16 @@ internal class MoviesAdapter(
                 movieLikeBox.apply {
                     isSelected = movie.liked
                     setOnClickListener {
-                        likeListener.invoke(movie)
                         isSelected = if (isSelected) {
                             false
                         } else {
                             likeAnimation()
                             true
                         }
+                        movie.liked = isSelected
+                        likeListener(
+                            movie
+                        )
                     }
                 }
             }

@@ -90,7 +90,9 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         }
 
         moviesAdapter = MoviesAdapter(
-            { },
+            { movie ->
+                viewModel.updateLike(movie)
+            },
             { movie, cX, cY ->
                 mainActivity.changeToDetailsFragment(movie, cX, cY)
             },

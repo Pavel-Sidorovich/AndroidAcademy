@@ -1,11 +1,10 @@
-package com.pavesid.androidacademy.data.details
+package com.pavesid.androidacademy.retrofit.movies
 
-import com.pavesid.androidacademy.data.genres.Genre
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DetailsResponse(
+data class JsonMovie(
     @SerialName("id")
     val id: Long,
     @SerialName("title")
@@ -16,14 +15,14 @@ data class DetailsResponse(
     val posterPicture: String?,
     @SerialName("backdrop_path")
     val backdropPicture: String?,
-    @SerialName("genres")
-    val genres: List<Genre>,
+    @SerialName("genre_ids")
+    val genreIds: List<Long>,
     @SerialName("vote_average")
     val ratings: Float,
     @SerialName("vote_count")
     val votesCount: Int,
+    @SerialName("popularity")
+    val popularity: Float,
     @SerialName("adult")
-    val adult: Boolean,
-    @SerialName("runtime")
-    val runtime: Int
+    val adult: Boolean
 )

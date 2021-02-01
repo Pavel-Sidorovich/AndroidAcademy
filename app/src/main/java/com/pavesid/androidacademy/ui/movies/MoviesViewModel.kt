@@ -34,6 +34,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
     private var moviesPage = 1
 
     private var currentGenre = Long.MIN_VALUE
+    private var genresList = emptyList<Genre>()
 
     private var listOfMovies = mutableListOf<Movie>()
 
@@ -47,12 +48,16 @@ internal class MoviesViewModel @ViewModelInject constructor(
     private var currentLocale = ""
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        _movies.postValue(Resource.error(throwable.message.orEmpty()))
+        if (listOfMovies.isEmpty()) {
+            _movies.postValue(Resource.error(throwable.message.orEmpty()))
+        }
         Timber.d(throwable)
     }
 
     private val exceptionHandlerGenres = CoroutineExceptionHandler { _, throwable ->
-        _genres.postValue(Resource.error(throwable.message.orEmpty()))
+        if (genresList.isEmpty()) {
+            _genres.postValue(Resource.error(throwable.message.orEmpty()))
+        }
         Timber.d(throwable)
     }
 
@@ -68,12 +73,12 @@ internal class MoviesViewModel @ViewModelInject constructor(
 
     private fun reload() {
         currentLocale = Locale.getDefault().toLanguageTag()
+        loadGenres()
         if (searchQuery != "") {
             searchMovies(searchQuery)
         } else {
             loadMovies(currentGenre, true)
         }
-        loadGenres()
     }
 
     /**
@@ -84,6 +89,9 @@ internal class MoviesViewModel @ViewModelInject constructor(
         if (currentGenre != genre) {
             cancelAllJob()
             searchProgress = false
+            genresList.forEach { it.isChecked = false }
+            genresList.find { it.id == genre }?.isChecked = true
+            _genres.postValue(Resource.success(genresList))
         }
         if (!searchProgress) {
             currentJob = viewModelScope.launch(dispatcher + exceptionHandler) {
@@ -95,9 +103,31 @@ internal class MoviesViewModel @ViewModelInject constructor(
                 if (listOfMovies.isEmpty()) {
                     _movies.postValue(Resource.loading())
                 }
-                val movies = repository.getMoviesByGenre(id = genre, moviesPage)
+
+                if (moviesPage == 1 && listOfMovies.isEmpty()) {
+                    val movies = if (currentGenre == Long.MIN_VALUE) {
+                        repository.getMoviesFromDB()
+                    } else {
+                        repository.getMoviesByGenreFromDB(id = genre)
+                    }
+                    if (movies.isNotEmpty()) {
+                        listOfMovies.addAll(movies)
+                        _movies.postValue(
+                            Resource.success(listOfMovies)
+                        )
+                    }
+                }
+
+                val movies = if (currentGenre == Long.MIN_VALUE) {
+                    repository.getMoviesFromAPI(moviesPage)
+                } else {
+                    repository.getMoviesByGenreFromAPI(id = genre, moviesPage)
+                }
 
                 if (movies.isNotEmpty()) {
+                    if (moviesPage == 1) {
+                        listOfMovies.clear()
+                    }
                     listOfMovies.addAll(movies)
                     moviesPage++
                     _movies.postValue(
@@ -123,7 +153,7 @@ internal class MoviesViewModel @ViewModelInject constructor(
                 searchQuery = query
             }
             if (searchQuery != "") {
-                val movies = repository.searchMovies(searchQuery, searchPage)
+                val movies = repository.searchMoviesFromAPI(searchQuery, searchPage)
                 searchPage++
                 searchList.addAll(movies)
                 _movies.postValue(Resource.success(searchList))
@@ -137,9 +167,22 @@ internal class MoviesViewModel @ViewModelInject constructor(
     @MainThread
     fun loadGenres() {
         viewModelScope.launch(dispatcher + exceptionHandlerGenres) {
-            val genres = repository.getGenres()
-            _genres.postValue(Resource.success(genres))
+            genresList = repository.getGenresFromDB()
+            _genres.postValue(Resource.success(genresList))
+            val genresApi = repository.getGenresFromAPI()
+            if (genresApi.isNotEmpty()) {
+                genresList = genresApi
+                _genres.postValue(Resource.success(genresList))
+            }
         }
+    }
+
+    fun updateLike(movie: Movie) {
+        viewModelScope.launch(dispatcher + exceptionHandler) {
+            repository.updateMovieLike(movie)
+        }
+        listOfMovies.find { it.id == movie.id }?.liked = movie.liked
+        searchList.find { it.id == movie.id }?.liked = movie.liked
     }
 
     private fun cancelAllJob() {

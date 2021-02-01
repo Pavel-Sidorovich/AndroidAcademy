@@ -30,4 +30,6 @@
     <dimen name="movie_bang_size">48dp</dimen>
     <dimen name="cast_height">200sp</dimen>
 	<dimen name="spacing_toolbar">0dp</dimen>
+	<dimen name="details_padding">16dp</dimen>
+	<dimen name="details_margin_bottom">64dp</dimen>
 </resources>

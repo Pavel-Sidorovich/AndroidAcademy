@@ -33,7 +33,7 @@ class MoviesViewModelTest {
     private val coroutineDispatcher = TestCoroutineDispatcher()
 
     @MockK
-    lateinit var repository : MoviesRepository
+    lateinit var repository: MoviesRepository
 
     @MockK
     lateinit var moviesObserverMockito: Observer<Resource<List<Movie>>>
@@ -147,7 +147,7 @@ class MoviesViewModelTest {
 
     @Test
     fun `should return response is success when repository return success movies from API in search`() {
-        coEvery { repository.searchMoviesFromAPI( any()) } returns TestHelper.getOneMovie()
+        coEvery { repository.searchMoviesFromAPI(any()) } returns TestHelper.getOneMovie()
 
         viewModel.searchMovies("Smth")
 
@@ -158,7 +158,7 @@ class MoviesViewModelTest {
 
     @Test
     fun `should return response is error when repository return error movies from API in search`() {
-        coEvery { repository.searchMoviesFromAPI( any()) } throws RuntimeException(message)
+        coEvery { repository.searchMoviesFromAPI(any()) } throws RuntimeException(message)
 
         viewModel.searchMovies("Smth")
 

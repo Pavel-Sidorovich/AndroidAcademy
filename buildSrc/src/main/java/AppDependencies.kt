@@ -103,7 +103,6 @@ object AppDependencies {
     private const val truth = "com.google.truth:truth:${Versions.truth_version}"
     private const val mockk = "io.mockk:mockk:${Versions.mockk_version}"
 
-
     private const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines_test_version}"
     private const val core_testing = "androidx.arch.core:core-testing:${Versions.core_testing_version}"
     private const val mockito_core = "org.mockito:mockito-core:${Versions.mockito_core_version}"

@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.os.StrictMode
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
 import com.pavesid.androidacademy.services.MoviesWorkerRepository
@@ -13,7 +15,7 @@ import javax.inject.Inject
 import timber.log.Timber
 
 @HiltAndroidApp
-class App : Application() {
+class App : Application(), Configuration.Provider {
 
     @Inject
     lateinit var prefs: SharedPreferences
@@ -21,13 +23,26 @@ class App : Application() {
     @Inject
     lateinit var networkMonitor: NetworkMonitor
 
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
+
+    override fun getWorkManagerConfiguration() =
+        Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .setMinimumLoggingLevel(android.util.Log.DEBUG)
+            .build()
+
     override fun onCreate() {
         if (BuildConfig.DEBUG) {
             StrictMode.enableDefaults()
             Timber.plant(Timber.DebugTree())
         }
         super.onCreate()
-        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork("Update movies", ExistingPeriodicWorkPolicy.KEEP, MoviesWorkerRepository.request)
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
+            MoviesWorkerRepository.WORK_NAME,
+            ExistingPeriodicWorkPolicy.KEEP,
+            MoviesWorkerRepository.request
+        )
         networkMonitor.startNetworkCallback()
         changeTheme()
     }

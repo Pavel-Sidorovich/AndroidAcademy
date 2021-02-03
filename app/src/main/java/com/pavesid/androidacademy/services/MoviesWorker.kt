@@ -1,20 +1,23 @@
 package com.pavesid.androidacademy.services
 
 import android.content.Context
+import androidx.hilt.Assisted
+import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.pavesid.androidacademy.di.IODispatcher
 import com.pavesid.androidacademy.repositories.MoviesRepository
-import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
-class MoviesWorker(context: Context, workerParams: WorkerParameters) :
-    CoroutineWorker(context, workerParams) {
+class MoviesWorker @WorkerInject constructor(
+    @Assisted context: Context,
+    @Assisted workerParams: WorkerParameters,
+    private val repository: MoviesRepository,
+    @IODispatcher private val dispatcher: CoroutineDispatcher
+) : CoroutineWorker(context, workerParams) {
 
-    @Inject
-    lateinit var repository: MoviesRepository
-
-    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+    override suspend fun doWork(): Result = withContext(dispatcher) {
         try {
             repository.getMoviesFromAPI(1)
             Result.success()

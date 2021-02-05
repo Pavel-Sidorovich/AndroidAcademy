@@ -8,9 +8,9 @@ import java.util.concurrent.TimeUnit
 
 object MoviesWorkerRepository {
     private val constraints = Constraints.Builder().setRequiresCharging(true)
-        .setRequiredNetworkType(NetworkType.CONNECTED).build()
+        .setRequiredNetworkType(NetworkType.UNMETERED).build()
 
-    val request = PeriodicWorkRequestBuilder<MoviesWorker>(15, TimeUnit.MINUTES)
+    val request = PeriodicWorkRequestBuilder<MoviesWorker>(8, TimeUnit.HOURS)
         .setConstraints(constraints)
         .build()
 

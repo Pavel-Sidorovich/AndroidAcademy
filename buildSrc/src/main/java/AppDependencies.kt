@@ -4,7 +4,8 @@ object AppDependencies {
 
     // Stdlib
     private const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin_version}"
-    private const val kotlinStdLibJdk = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin_version}"
+    private const val kotlinStdLibJdk =
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin_version}"
 
     // Android UI
     private const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat_version}"
@@ -12,7 +13,8 @@ object AppDependencies {
     private const val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout_version}"
     private const val material = "com.google.android.material:material:${Versions.material_version}"
-    private const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipe_refresh_layout}"
+    private const val swipeRefreshLayout =
+        "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipe_refresh_layout}"
 
     // Coil
     private const val coil = "io.coil-kt:coil:${Versions.coil_version}"
@@ -68,7 +70,8 @@ object AppDependencies {
     private const val hiltWorker = "androidx.hilt:hilt-work:${Versions.hilt_compiler_version}"
 
     // Retrofit
-    private const val logging = "com.squareup.okhttp3:logging-interceptor:${Versions.logging_version}"
+    private const val logging =
+        "com.squareup.okhttp3:logging-interceptor:${Versions.logging_version}"
     private const val retrofit2 = "com.squareup.retrofit2:retrofit:${Versions.retrofit_version}"
     private const val converterSerialization =
         "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.serialization_converter_version}"
@@ -94,74 +97,78 @@ object AppDependencies {
     private const val bang = "pub.hanks:smallbang:${Versions.bang_version}"
 
     // Kotlin + coroutines
-    private const val workManager = "androidx.work:work-runtime-ktx:${Versions.work_manager_version}"
+    private const val workManager =
+        "androidx.work:work-runtime-ktx:${Versions.work_manager_version}"
 
     // Test libs
     private const val junit = "junit:junit:${Versions.junit_version}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit_version}"
-    private const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso_version}"
+    private const val espressoCore =
+        "androidx.test.espresso:espresso-core:${Versions.espresso_version}"
     private const val truth = "com.google.truth:truth:${Versions.truth_version}"
     private const val mockk = "io.mockk:mockk:${Versions.mockk_version}"
 
-    private const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines_test_version}"
-    private const val core_testing = "androidx.arch.core:core-testing:${Versions.core_testing_version}"
+    private const val coroutines_test =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines_test_version}"
+    private const val core_testing =
+        "androidx.arch.core:core-testing:${Versions.core_testing_version}"
     private const val mockito_core = "org.mockito:mockito-core:${Versions.mockito_core_version}"
 
-    val appLibraries = arrayListOf<String>().apply {
-        add(kotlinStdLib)
-        add(kotlinStdLibJdk)
-        add(coreKtx)
-        add(appcompat)
-        add(constraintLayout)
-        add(material)
-        add(swipeRefreshLayout)
-        add(coil)
-        add(coilTransformations)
-        add(ratingBar)
-        add(coroutinesCore)
-        add(coroutinesAndroid)
-        add(livedata)
-        add(viewmodel)
-        add(runtime)
-        add(fragmentKtx)
-        add(leakcanary)
-        add(serialization)
-        add(timber)
-        add(hiltAndroid)
-        add(hiltLifecycleViewModel)
-        add(hiltWorker)
-        add(logging)
-        add(retrofit2)
-        add(converterSerialization)
-        add(lottie)
-        add(roomRuntime)
-        add(roomKtx)
-        add(bang)
-        add(workManager)
-        add(preferenceKtx)
-        add(firebaseCrashlytics)
-        add(firebaseAnalytics)
-    }
+    val appLibraries = arrayListOf(
+        kotlinStdLib,
+        kotlinStdLibJdk,
+        coreKtx,
+        appcompat,
+        constraintLayout,
+        material,
+        swipeRefreshLayout,
+        coil,
+        coilTransformations,
+        ratingBar,
+        coroutinesCore,
+        coroutinesAndroid,
+        livedata,
+        viewmodel,
+        runtime,
+        fragmentKtx,
+        leakcanary,
+        serialization,
+        timber,
+        hiltAndroid,
+        hiltLifecycleViewModel,
+        hiltWorker,
+        logging,
+        retrofit2,
+        converterSerialization,
+        lottie,
+        roomRuntime,
+        roomKtx,
+        bang,
+        workManager,
+        preferenceKtx,
+        firebaseCrashlytics,
+        firebaseAnalytics
+    )
 
-    val kaptLibraries = arrayListOf<String>().apply {
-        add(hiltAndroidCompiler)
-        add(hiltCompiler)
-        add(roomCompiler)
-    }
+    val kaptLibraries = arrayListOf(
+        hiltAndroidCompiler,
+        hiltCompiler,
+        roomCompiler
+    )
 
-    val androidTestLibraries = arrayListOf<String>().apply {
-        add(extJUnit)
-        add(espressoCore)
-    }
+    val androidTestLibraries = arrayListOf(
+        extJUnit,
+        espressoCore
+    )
 
-    val testLibraries = arrayListOf<String>().apply {
-        add(junit)
-        add(coroutines_test)
-        add(core_testing)
-        add(mockito_core)
-        add(truth)
-        add(mockk)
-    }
+    val testLibraries = arrayListOf(
+        junit,
+        coroutines_test,
+        core_testing,
+        mockito_core,
+        truth,
+        mockk
+    )
 }
 
 // Util functions for adding the different type dependencies from build.gradle file

@@ -3,15 +3,14 @@ package com.pavesid.androidacademy.ui.movies
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.pavesid.androidacademy.MainCoroutineRule
-import com.pavesid.androidacademy.TestHelper
+import com.pavesid.androidacademy.TestData
 import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.repositories.MoviesRepository
 import com.pavesid.androidacademy.utils.Resource
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,13 +31,11 @@ class MoviesViewModelTest {
 
     private val coroutineDispatcher = TestCoroutineDispatcher()
 
-    @MockK
-    lateinit var repository: MoviesRepository
+    private var repository: MoviesRepository = mockk()
 
-    @MockK
-    lateinit var moviesObserverMockito: Observer<Resource<List<Movie>>>
-    @MockK
-    lateinit var genresObserverMockito: Observer<Resource<List<Genre>>>
+    private val moviesObserverMockito: Observer<Resource<List<Movie>>> = mockk(relaxUnitFun = true)
+
+    private val genresObserverMockito: Observer<Resource<List<Genre>>> = mockk(relaxUnitFun = true)
 
     private lateinit var viewModel: MoviesViewModel
 
@@ -47,7 +44,6 @@ class MoviesViewModelTest {
     @Before
     fun before() {
         MockKAnnotations.init(this)
-        every { moviesObserverMockito.onChanged(any()) } answers {}
         viewModel = MoviesViewModel(repository, coroutineDispatcher)
         viewModel.movies.observeForever(moviesObserverMockito)
         viewModel.genres.observeForever(genresObserverMockito)
@@ -73,25 +69,25 @@ class MoviesViewModelTest {
 
     @Test
     fun `should return response is success when repository return genres success from API and DB`() {
-        coEvery { repository.getGenresFromAPI() } returns TestHelper.getOneGenre()
-        coEvery { repository.getGenresFromDB() } returns TestHelper.getOneGenre()
+        coEvery { repository.getGenresFromAPI() } returns TestData.getOneGenre()
+        coEvery { repository.getGenresFromDB() } returns TestData.getOneGenre()
 
         viewModel.loadGenres()
 
         verify {
-            genresObserverMockito.onChanged(Resource.success(TestHelper.getOneGenre()))
+            genresObserverMockito.onChanged(Resource.success(TestData.getOneGenre()))
         }
     }
 
     @Test
     fun `should return response is success when repository return error genres from API and success genres from DB`() {
         coEvery { repository.getGenresFromAPI() } throws RuntimeException(message)
-        coEvery { repository.getGenresFromDB() } returns TestHelper.getOneGenre()
+        coEvery { repository.getGenresFromDB() } returns TestData.getOneGenre()
 
         viewModel.loadGenres()
 
         verify {
-            genresObserverMockito.onChanged(Resource.success(TestHelper.getOneGenre()))
+            genresObserverMockito.onChanged(Resource.success(TestData.getOneGenre()))
         }
     }
 
@@ -108,28 +104,28 @@ class MoviesViewModelTest {
 
     @Test
     fun `should return response is success when repository return success movies from API and DB`() {
-        coEvery { repository.getMoviesFromAPI(any()) } returns TestHelper.getOneMovie()
-        coEvery { repository.getMoviesFromDB() } returns TestHelper.getOneMovie()
+        coEvery { repository.getMoviesFromAPI(any()) } returns TestData.getOneMovie()
+        coEvery { repository.getMoviesFromDB() } returns TestData.getOneMovie()
 
         viewModel.loadMovies()
 
         verifyOrder {
             moviesObserverMockito.onChanged(Resource.loading())
-            moviesObserverMockito.onChanged(Resource.success(TestHelper.getOneMovie()))
-            moviesObserverMockito.onChanged(Resource.success(TestHelper.getOneMovie()))
+            moviesObserverMockito.onChanged(Resource.success(TestData.getOneMovie()))
+            moviesObserverMockito.onChanged(Resource.success(TestData.getOneMovie()))
         }
     }
 
     @Test
     fun `should return response is success when repository return error movies from API and success movies from DB`() {
-        coEvery { repository.getMoviesFromDB() } returns TestHelper.getOneMovie()
+        coEvery { repository.getMoviesFromDB() } returns TestData.getOneMovie()
         coEvery { repository.getMoviesFromAPI(1) } throws RuntimeException(message)
 
         viewModel.loadMovies()
 
         verifyOrder {
             moviesObserverMockito.onChanged(Resource.loading())
-            moviesObserverMockito.onChanged(Resource.success(TestHelper.getOneMovie()))
+            moviesObserverMockito.onChanged(Resource.success(TestData.getOneMovie()))
         }
     }
 
@@ -147,12 +143,12 @@ class MoviesViewModelTest {
 
     @Test
     fun `should return response is success when repository return success movies from API in search`() {
-        coEvery { repository.searchMoviesFromAPI(any()) } returns TestHelper.getOneMovie()
+        coEvery { repository.searchMoviesFromAPI(any()) } returns TestData.getOneMovie()
 
         viewModel.searchMovies("Smth")
 
         verify {
-            moviesObserverMockito.onChanged(Resource.success(TestHelper.getOneMovie()))
+            moviesObserverMockito.onChanged(Resource.success(TestData.getOneMovie()))
         }
     }
 
@@ -169,21 +165,21 @@ class MoviesViewModelTest {
 
     @Test
     fun `should return response is success when reload`() {
-        coEvery { repository.getMoviesFromDB() } returns TestHelper.getOneMovie()
-        coEvery { repository.getMoviesFromAPI(1) } returns TestHelper.getOneMovie()
-        coEvery { repository.getGenresFromDB() } returns TestHelper.getOneGenre()
-        coEvery { repository.getGenresFromDB() } returns TestHelper.getOneGenre()
+        coEvery { repository.getMoviesFromDB() } returns TestData.getOneMovie()
+        coEvery { repository.getMoviesFromAPI(1) } returns TestData.getOneMovie()
+        coEvery { repository.getGenresFromDB() } returns TestData.getOneGenre()
+        coEvery { repository.getGenresFromDB() } returns TestData.getOneGenre()
 
         viewModel.init(true)
 
         verifyOrder {
             moviesObserverMockito.onChanged(Resource.loading())
-            moviesObserverMockito.onChanged(Resource.success(TestHelper.getOneMovie()))
-            moviesObserverMockito.onChanged(Resource.success(TestHelper.getOneMovie()))
+            moviesObserverMockito.onChanged(Resource.success(TestData.getOneMovie()))
+            moviesObserverMockito.onChanged(Resource.success(TestData.getOneMovie()))
         }
 
         verify {
-            genresObserverMockito.onChanged(Resource.success(TestHelper.getOneGenre()))
+            genresObserverMockito.onChanged(Resource.success(TestData.getOneGenre()))
         }
     }
 }

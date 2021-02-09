@@ -4,6 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.room.Room
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.pavesid.androidacademy.BuildConfig
 import com.pavesid.androidacademy.db.MoviesDatabase
@@ -15,6 +19,7 @@ import com.pavesid.androidacademy.repositories.MoviesRepositoryImpl
 import com.pavesid.androidacademy.retrofit.CacheControlInterceptor
 import com.pavesid.androidacademy.retrofit.MoviesApi
 import com.pavesid.androidacademy.retrofit.MoviesApiQueryInterceptor
+import com.pavesid.androidacademy.services.MoviesWorker
 import com.pavesid.androidacademy.utils.NetworkMonitor
 import dagger.Module
 import dagger.Provides
@@ -115,6 +120,19 @@ object AppModule {
     fun provideNetworkMonitor(
         @ApplicationContext context: Context
     ): NetworkMonitor = NetworkMonitor(context)
+
+    @Singleton
+    @Provides
+    fun provideConstraints(): Constraints =
+        Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED)
+            .setRequiresCharging(true).build()
+
+    @Singleton
+    @Provides
+    fun providePeriodicWorkRequest(constraints: Constraints): PeriodicWorkRequest =
+        PeriodicWorkRequestBuilder<MoviesWorker>(15L, TimeUnit.MINUTES)
+            .setConstraints(constraints)
+            .build()
 
     private const val DATABASE_NAME = "movies_db"
 }

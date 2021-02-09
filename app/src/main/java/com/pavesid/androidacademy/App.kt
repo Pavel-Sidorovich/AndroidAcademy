@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import com.pavesid.androidacademy.services.MoviesWorkerRepository
 import com.pavesid.androidacademy.utils.NetworkMonitor
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -26,6 +26,9 @@ class App : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
+    @Inject
+    lateinit var request: PeriodicWorkRequest
+
     override fun getWorkManagerConfiguration() =
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -39,9 +42,9 @@ class App : Application(), Configuration.Provider {
         }
         super.onCreate()
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
-            MoviesWorkerRepository.WORK_NAME,
+            WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
-            MoviesWorkerRepository.request
+            request
         )
         networkMonitor.startNetworkCallback()
         changeTheme()
@@ -58,5 +61,6 @@ class App : Application(), Configuration.Provider {
 
     companion object {
         const val THEME = "switchTheme"
+        private const val WORK_NAME = "${BuildConfig.APPLICATION_ID}.RefreshMoviesWorker"
     }
 }

@@ -1,7 +1,6 @@
 package com.pavesid.androidacademy.ui.movies
 
 import androidx.annotation.MainThread
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,14 +10,17 @@ import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.di.IODispatcher
 import com.pavesid.androidacademy.repositories.MoviesRepository
 import com.pavesid.androidacademy.utils.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Locale
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-internal class MoviesViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class MoviesViewModel @Inject constructor(
     private val repository: MoviesRepository,
     @IODispatcher private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {

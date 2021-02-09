@@ -5,7 +5,7 @@ import com.pavesid.androidacademy.data.details.DetailsWithCredits
 import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.data.movies.Movie
 
-object TestHelper {
+object TestData {
 
     fun getOneMovie(): List<Movie> = listOf(
         Movie(

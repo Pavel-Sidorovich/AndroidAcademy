@@ -1,16 +1,19 @@
 package com.pavesid.androidacademy.services
 
 import android.content.Context
-import androidx.hilt.Assisted
-import androidx.hilt.work.WorkerInject
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.pavesid.androidacademy.di.IODispatcher
 import com.pavesid.androidacademy.repositories.MoviesRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
-class MoviesWorker @WorkerInject constructor(
+@HiltWorker
+class MoviesWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
     private val repository: MoviesRepository,
@@ -19,7 +22,8 @@ class MoviesWorker @WorkerInject constructor(
 
     override suspend fun doWork(): Result = withContext(dispatcher) {
         try {
-            repository.getMoviesFromAPI(1)
+            Timber.d("run")
+            repository.getMoviesFromAPI(page = 1)
             Result.success()
         } catch (e: Exception) {
             Result.failure()

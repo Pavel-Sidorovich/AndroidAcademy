@@ -10,7 +10,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 @HiltWorker
 class MoviesWorker @AssistedInject constructor(
@@ -22,7 +21,6 @@ class MoviesWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result = withContext(dispatcher) {
         try {
-            Timber.d("run")
             repository.getMoviesFromAPI(page = 1)
             Result.success()
         } catch (e: Exception) {

@@ -130,7 +130,7 @@ object AppModule {
     @Singleton
     @Provides
     fun providePeriodicWorkRequest(constraints: Constraints): PeriodicWorkRequest =
-        PeriodicWorkRequestBuilder<MoviesWorker>(15L, TimeUnit.MINUTES)
+        PeriodicWorkRequestBuilder<MoviesWorker>(8, TimeUnit.HOURS)
             .setConstraints(constraints)
             .build()
 

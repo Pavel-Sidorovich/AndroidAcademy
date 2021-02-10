@@ -8,6 +8,7 @@ plugins {
     id("kotlin-android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.github.ben-manes.versions")
 }
 
 android {

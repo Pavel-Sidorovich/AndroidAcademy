@@ -11,6 +11,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.pavesid.androidacademy.App.Companion.THEME
 import com.pavesid.androidacademy.R
@@ -141,20 +142,22 @@ class MainActivity : AppCompatActivity() {
         delegate.localNightMode =
             if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
         val windowBitmap = Bitmap.createBitmap(
-            window.decorView.width,
-            window.decorView.height,
+            binding.container.measuredWidth,
+            binding.container.measuredHeight,
             Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(windowBitmap!!)
-        window.decorView.draw(canvas)
-
-        binding.screen.setImageBitmap(windowBitmap)
+        binding.container.draw(canvas)
 
         val location = IntArray(2)
         view.getLocationOnScreen(location)
 
-        binding.screen.scaleType = ImageView.ScaleType.MATRIX
-        binding.screen.visibility = View.VISIBLE
+        binding.screen.apply {
+            setImageBitmap(windowBitmap)
+            scaleType = ImageView.ScaleType.MATRIX
+            isVisible = true
+        }
+
         supportFragmentManager.findFragmentByTag(TAG)?.let {
             supportFragmentManager.open {
                 detach(it)
@@ -165,8 +168,8 @@ class MainActivity : AppCompatActivity() {
             location[0] + view.width / 2,
             location[1] + view.width / 2,
             hypot(
-                window.decorView.width.toDouble(),
-                window.decorView.height.toDouble()
+                binding.container.measuredWidth.toDouble(),
+                binding.container.measuredHeight.toDouble(),
             ).toFloat()
         )
     }

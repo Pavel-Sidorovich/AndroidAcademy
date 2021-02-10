@@ -19,7 +19,7 @@ object AppDependencies {
     // Coil
     private const val coil = "io.coil-kt:coil:${Versions.coil_version}"
     private const val coilTransformations =
-        "com.github.Commit451.coil-transformations:transformations:${Versions.coil_version}"
+        "com.github.Commit451.coil-transformations:transformations:${Versions.coil_transformation_version}"
 
     // RatingBar
     private const val ratingBar =

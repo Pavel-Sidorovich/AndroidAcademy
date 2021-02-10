@@ -100,6 +100,9 @@ object AppDependencies {
     private const val workManager =
         "androidx.work:work-runtime-ktx:${Versions.work_manager_version}"
 
+    // Jacoco
+    internal const val jacoco = "org.jacoco:org.jacoco.core:${Versions.jacoco_version}"
+
     // Test libs
     private const val junit = "junit:junit:${Versions.junit_version}"
     private const val extJUnit = "androidx.test.ext:junit:${Versions.extJunit_version}"
@@ -147,7 +150,8 @@ object AppDependencies {
         workManager,
         preferenceKtx,
         firebaseCrashlytics,
-        firebaseAnalytics
+        firebaseAnalytics,
+        jacoco
     )
 
     val kaptLibraries = arrayListOf(

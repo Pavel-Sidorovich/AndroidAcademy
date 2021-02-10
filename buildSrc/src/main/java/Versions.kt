@@ -33,6 +33,7 @@ object Versions {
     const val firebase_bom_version = "26.4.0"
     const val crashlytics_versions = "2.4.1"
     const val gradle_versions_plugin = "0.36.0"
+    const val jacoco_version = "0.8.6"
 
     // Test
     const val junit_version = "4.13.1"

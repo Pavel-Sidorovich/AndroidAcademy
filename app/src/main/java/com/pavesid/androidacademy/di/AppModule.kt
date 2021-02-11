@@ -10,6 +10,8 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.pavesid.androidacademy.BuildConfig
+import com.pavesid.androidacademy.data.AndroidNotifications
+import com.pavesid.androidacademy.data.Notifications
 import com.pavesid.androidacademy.db.MoviesDatabase
 import com.pavesid.androidacademy.db.genries.GenreDao
 import com.pavesid.androidacademy.db.likes.MoviesLikeDao
@@ -112,8 +114,15 @@ object AppModule {
         moviesLikeDao: MoviesLikeDao,
         moviesDao: MoviesDao,
         genreDao: GenreDao,
-        api: MoviesApi
-    ) = MoviesRepositoryImpl(moviesLikeDao, moviesDao, genreDao, api) as MoviesRepository
+        api: MoviesApi,
+        notifications: Notifications
+    ) = MoviesRepositoryImpl(
+        moviesLikeDao,
+        moviesDao,
+        genreDao,
+        api,
+        notifications
+    ) as MoviesRepository
 
     @Singleton
     @Provides
@@ -133,6 +142,12 @@ object AppModule {
         PeriodicWorkRequestBuilder<MoviesWorker>(8, TimeUnit.HOURS)
             .setConstraints(constraints)
             .build()
+
+    @Singleton
+    @Provides
+    fun provideNotifications(
+        @ApplicationContext context: Context
+    ): Notifications = AndroidNotifications(context)
 
     private const val DATABASE_NAME = "movies_db"
 }

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="channel_new_movie">Новый фильм</string>
+    <string name="new_movie">Новый фильм</string>
+    <string name="channel_new_movie_description">Загружены новые фильмы.</string>
     <string name="storyline_title">Сюжетная линия</string>
     <string name="cast_title">Состав</string>
     <string name="cast_name">Cast name</string>

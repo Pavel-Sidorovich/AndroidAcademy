@@ -19,7 +19,7 @@ interface MoviesRepository {
         id: Long = Long.MIN_VALUE
     ): List<Movie>
 
-    suspend fun getMoviesFromAPI(page: Int): List<Movie>
+    suspend fun getMoviesFromAPI(page: Int, needNotifications: Boolean = false): List<Movie>
 
     suspend fun getMoviesFromDB(): List<Movie>
 

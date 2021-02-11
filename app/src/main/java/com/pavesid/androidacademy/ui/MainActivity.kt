@@ -1,5 +1,6 @@
 package com.pavesid.androidacademy.ui
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -15,6 +16,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.pavesid.androidacademy.App.Companion.THEME
 import com.pavesid.androidacademy.R
+import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
 import com.pavesid.androidacademy.ui.details.DetailsFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
@@ -30,6 +32,8 @@ import com.pavesid.androidacademy.utils.extensions.startCircularReveal
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.hypot
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -61,8 +65,11 @@ class MainActivity : AppCompatActivity() {
             SplashScreenFragment.newInstance()
         }
 
-        savedInstanceState ?: supportFragmentManager.open {
-            add(R.id.container, rootFragment, TAG)
+        savedInstanceState ?: run {
+            supportFragmentManager.open {
+                add(R.id.container, rootFragment, TAG)
+            }
+            intent?.let(::handleIntent)
         }
     }
 
@@ -84,6 +91,28 @@ class MainActivity : AppCompatActivity() {
             }
         })
         return true
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let {
+            handleIntent(it)
+        }
+    }
+
+    private fun handleIntent(intent: Intent) {
+        when (intent.action) {
+            Intent.ACTION_VIEW -> {
+                val id = intent.data?.lastPathSegment?.toLongOrNull() ?: Long.MIN_VALUE
+                val movie = Movie(id = id)
+
+                if (id != Long.MIN_VALUE) {
+                    changeToDetailsFragment(
+                        Json.encodeToString(movie), 0, 0
+                    )
+                }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

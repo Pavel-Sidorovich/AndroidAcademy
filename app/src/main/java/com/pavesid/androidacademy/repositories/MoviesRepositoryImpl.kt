@@ -1,5 +1,6 @@
 package com.pavesid.androidacademy.repositories
 
+import com.pavesid.androidacademy.data.Notifications
 import com.pavesid.androidacademy.data.actors.Cast
 import com.pavesid.androidacademy.data.actors.Crew
 import com.pavesid.androidacademy.data.details.Details
@@ -24,8 +25,13 @@ class MoviesRepositoryImpl @Inject constructor(
     private val moviesLikeDao: MoviesLikeDao,
     private val moviesDao: MoviesDao,
     private val genreDao: GenreDao,
-    private val moviesApi: MoviesApi
+    private val moviesApi: MoviesApi,
+    private val notifications: Notifications
 ) : MoviesRepository {
+
+    init {
+        notifications.initialize()
+    }
 
     override suspend fun getDetails(id: Long): DetailsWithCredits = getDetailsFromAPI(id)
 
@@ -86,7 +92,7 @@ class MoviesRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getMoviesFromAPI(page: Int): List<Movie> {
+    override suspend fun getMoviesFromAPI(page: Int, needNotifications: Boolean): List<Movie> {
         var movies = emptyList<JsonMovie>()
         var genres = emptyList<Genre>()
         var entities = emptyList<MovieLikeEntity>()
@@ -96,23 +102,32 @@ class MoviesRepositoryImpl @Inject constructor(
                 movies = list
                 if (page == 1) {
                     launch {
-                        moviesDao.deleteAllMovieEntities()
-                        moviesDao.insertAllMovieEntities(
-                            list.map {
-                                MovieEntity(
-                                    id = it.id,
-                                    title = it.title,
-                                    overview = it.overview,
-                                    posterPicture = it.posterPicture,
-                                    backdropPicture = it.backdropPicture,
-                                    ratings = it.ratings,
-                                    votesCount = it.votesCount,
-                                    adult = it.adult,
-                                    popularity = it.popularity,
-                                    genreIds = it.genreIds
-                                )
+                        val newList = list.map {
+                            MovieEntity(
+                                id = it.id,
+                                title = it.title,
+                                overview = it.overview,
+                                posterPicture = it.posterPicture,
+                                backdropPicture = it.backdropPicture,
+                                ratings = it.ratings,
+                                votesCount = it.votesCount,
+                                adult = it.adult,
+                                popularity = it.popularity,
+                                genreIds = it.genreIds
+                            )
+                        }
+                        if (needNotifications) {
+                            val oldList = moviesDao.getAllMovieEntities()
+                            val set = newList.toSet().minus(oldList)
+
+                            if (set.isNotEmpty()) {
+                                notifications.showNotification(set.elementAt(0))
+                            } else {
+                                notifications.showNotification(oldList[0])
                             }
-                        )
+                        }
+                        moviesDao.deleteAllMovieEntities()
+                        moviesDao.insertAllMovieEntities(newList)
                     }
                 }
             }

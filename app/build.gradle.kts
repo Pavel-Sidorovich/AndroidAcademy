@@ -9,7 +9,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.github.ben-manes.versions")
-    id("jacoco_custom")
+    id("jacoco-custom")
     id("ktlint")
 }
 

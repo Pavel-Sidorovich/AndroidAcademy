@@ -13,7 +13,7 @@ data class Movie(
     val ratings: Float = 0f,
     val numberOfRatings: Int = 0,
     val minimumAge: Int = 0,
-    val runtime: Int = 0,
+    var runtime: Int = 0,
     val genres: List<Genre> = emptyList(),
     var liked: Boolean = false
 )

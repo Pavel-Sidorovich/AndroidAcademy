@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/line_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.35" />
+
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="268dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_normal_16"
+        android:text="@string/tap_to_select"
+        android:textSize="22sp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/add_date_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_normal_16"
+        android:text="@string/tap_to_select"
+        style="@style/Dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/line_1"
+        app:layout_constraintTop_toBottomOf="@id/title_text"/>
+
+    <TextView
+        android:id="@+id/add_date_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_normal_16"
+        android:text="@string/date"
+        style="@style/Dialog"
+        app:layout_constraintBottom_toBottomOf="@+id/add_date_text"
+        app:layout_constraintEnd_toStartOf="@id/line_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/add_date_text" />
+
+    <TextView
+        android:id="@+id/add_time_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_normal_16"
+        style="@style/Dialog"
+        android:text="@string/tap_to_select"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/line_1"
+        app:layout_constraintTop_toBottomOf="@+id/add_date_title" />
+
+    <TextView
+        android:id="@+id/add_time_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_normal_16"
+        style="@style/Dialog"
+        android:text="@string/time"
+        app:layout_constraintBottom_toBottomOf="@id/add_time_text"
+        app:layout_constraintEnd_toStartOf="@id/line_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/add_time_text" />
+
+    <Button
+        android:id="@+id/apply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_calendar"
+        style="@style/Dialog"
+        android:layout_margin="@dimen/spacing_normal_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_time_text"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

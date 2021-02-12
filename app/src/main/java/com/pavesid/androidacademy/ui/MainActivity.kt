@@ -19,6 +19,7 @@ import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
 import com.pavesid.androidacademy.ui.details.DetailsFragment
+import com.pavesid.androidacademy.ui.dialogs.DateDialogFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
 import com.pavesid.androidacademy.ui.movies.MoviesViewModel
 import com.pavesid.androidacademy.ui.splash.SplashScreenFragment
@@ -153,6 +154,11 @@ class MainActivity : AppCompatActivity() {
 
     fun changeToMoviesFragment() = supportFragmentManager.open {
         replace(R.id.container, MoviesFragment.newInstance(), TAG)
+    }
+
+    fun openDialog(title: String, overview: String, duration: Int) {
+        val dialog = DateDialogFragment.newInstance(title, overview, duration)
+        dialog.show(supportFragmentManager, null)
     }
 
     fun changeToDetailsFragment(

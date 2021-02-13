@@ -7,7 +7,6 @@ import com.pavesid.androidacademy.TestData
 import com.pavesid.androidacademy.data.details.DetailsWithCredits
 import com.pavesid.androidacademy.repositories.MoviesRepository
 import com.pavesid.androidacademy.utils.Resource
-import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verifyOrder
@@ -38,7 +37,6 @@ class DetailsViewModelTest {
 
     @Before
     fun before() {
-        MockKAnnotations.init(this)
         viewModel = DetailsViewModel(repository, coroutineDispatcher)
         viewModel.detailsWithCredits.observeForever(detailsWithCreditsObserverMockito)
     }

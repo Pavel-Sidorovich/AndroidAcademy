@@ -8,7 +8,6 @@ import com.pavesid.androidacademy.data.genres.Genre
 import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.repositories.MoviesRepository
 import com.pavesid.androidacademy.utils.Resource
-import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
@@ -43,7 +42,6 @@ class MoviesViewModelTest {
 
     @Before
     fun before() {
-        MockKAnnotations.init(this)
         viewModel = MoviesViewModel(repository, coroutineDispatcher)
         viewModel.movies.observeForever(moviesObserverMockito)
         viewModel.genres.observeForever(genresObserverMockito)

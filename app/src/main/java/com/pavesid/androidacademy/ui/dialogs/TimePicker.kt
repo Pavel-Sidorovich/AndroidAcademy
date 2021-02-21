@@ -19,6 +19,7 @@ class TimePicker(private val context: Context, private val view: TextView, initT
         if (initTime != 0L) {
             (dateAndTime as Calendar).timeInMillis = initTime
         }
+        setInitialDateTime()
     }
 
     private val timeListener =

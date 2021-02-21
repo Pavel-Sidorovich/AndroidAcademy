@@ -17,8 +17,8 @@ class DateDialogFragment : DialogFragment() {
 
     private val binding: ChooserBinding by viewBinding(ChooserBinding::bind)
 
-    private val date by lazy { DatePicker(requireContext(), binding.addDateText) }
-    private val time by lazy { TimePicker(requireContext(), binding.addTimeText) }
+    private lateinit var date: DatePicker
+    private lateinit var time: TimePicker
 
     lateinit var title: String
     lateinit var overview: String
@@ -32,6 +32,8 @@ class DateDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        date = DatePicker(requireContext(), binding.addDateText)
+        time = TimePicker(requireContext(), binding.addTimeText)
         title = arguments?.getString(TITLE) ?: ""
         overview = arguments?.getString(OVERVIEW) ?: ""
         duration = arguments?.getInt(DURATION) ?: 0
@@ -53,7 +55,7 @@ class DateDialogFragment : DialogFragment() {
             date.calendar[Calendar.YEAR],
             date.calendar[Calendar.MONTH],
             date.calendar[Calendar.DAY_OF_MONTH],
-            time.calendar[Calendar.HOUR],
+            time.calendar[Calendar.HOUR_OF_DAY],
             time.calendar[Calendar.MINUTE]
         )
         val intent = Intent(Intent.ACTION_INSERT)

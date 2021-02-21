@@ -4,18 +4,18 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.text.format.DateUtils
 import android.widget.TextView
-import com.pavesid.androidacademy.utils.extensions.clearDays
+import com.pavesid.androidacademy.R
 import java.util.Calendar
 
 class TimePicker(private val context: Context, private val view: TextView, initTime: Long = 0L) {
 
     private var dateAndTime: Calendar? = null
 
-    val time: Long
-        get() = dateAndTime?.clearDays()?.timeInMillis ?: 0L
+    val calendar: Calendar
+        get() = dateAndTime ?: Calendar.getInstance()
 
     init {
-        dateAndTime = Calendar.getInstance().clearDays()
+        dateAndTime = Calendar.getInstance()
         if (initTime != 0L) {
             (dateAndTime as Calendar).timeInMillis = initTime
         }
@@ -31,7 +31,9 @@ class TimePicker(private val context: Context, private val view: TextView, initT
     fun setTime() {
         dateAndTime?.let {
             TimePickerDialog(
-                context, timeListener,
+                context,
+                R.style.PickerDialog,
+                timeListener,
                 it.get(Calendar.HOUR_OF_DAY),
                 it.get(Calendar.MINUTE),
                 true
@@ -43,7 +45,7 @@ class TimePicker(private val context: Context, private val view: TextView, initT
     private fun setInitialDateTime() {
         view.text = DateUtils.formatDateTime(
             context,
-            dateAndTime?.timeInMillis ?: Calendar.getInstance().clearDays().timeInMillis,
+            dateAndTime?.timeInMillis ?: 0L,
             DateUtils.FORMAT_SHOW_TIME
         )
     }

@@ -11,7 +11,7 @@ import androidx.fragment.app.DialogFragment
 import com.pavesid.androidacademy.R
 import com.pavesid.androidacademy.databinding.ChooserBinding
 import com.pavesid.androidacademy.utils.viewBinding
-import timber.log.Timber
+import java.util.Calendar
 
 class DateDialogFragment : DialogFragment() {
 
@@ -48,17 +48,20 @@ class DateDialogFragment : DialogFragment() {
     }
 
     private fun startCalendarIntent() {
-        val startMillis = date.time + time.time
-        Timber.d(date.time.toString())
-        Timber.d(time.time.toString())
+        val calendar = Calendar.getInstance()
+        calendar.set(
+            date.calendar[Calendar.YEAR],
+            date.calendar[Calendar.MONTH],
+            date.calendar[Calendar.DAY_OF_MONTH],
+            time.calendar[Calendar.HOUR],
+            time.calendar[Calendar.MINUTE]
+        )
         val intent = Intent(Intent.ACTION_INSERT)
             .setData(CalendarContract.Events.CONTENT_URI)
             .addFlags(FLAG_GRANT_READ_URI_PERMISSION)
-            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
-            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, startMillis + duration * 60_000)
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, calendar.timeInMillis)
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, calendar.timeInMillis + duration * 60_000)
             .putExtra(CalendarContract.Events.TITLE, title)
-            .putExtra(CalendarContract.Reminders.MINUTES, 60)
-            .putExtra(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
             .putExtra(CalendarContract.Events.DESCRIPTION, overview)
             .putExtra(CalendarContract.Events.EVENT_LOCATION, resources.getString(R.string.cinema))
             .putExtra(

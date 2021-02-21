@@ -173,4 +173,13 @@
         <!-- Icon Color -->
         <item name="android:tint">?attr/colorText</item>
     </style>
+
+    <style name="PickerDialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:windowBackground">?attr/colorBackground</item>
+        <item name="android:buttonBarButtonStyle">@style/PickerDialog.ButtonStyle</item>
+    </style>
+
+    <style name="PickerDialog.ButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?attr/colorText</item>
+    </style>
 </resources>

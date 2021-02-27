@@ -187,6 +187,7 @@ class DetailsFragment :
     }
 
     private fun initDetails(details: Details) {
+        currentMovie.runtime = details.runtime
         binding.detailsRuntime.text = resources.getString(R.string.runtime, details.runtime)
         if (!details.backdrop.isNullOrBlank()) {
             binding.detailsOrig.load(details.backdrop.toOriginalUrl()) {
@@ -296,6 +297,9 @@ class DetailsFragment :
             }
 
             detailsStoryline.text = currentMovie.overview
+            detailsAddToCalendar.setOnClickListener {
+                mainActivity.openDialog(title = currentMovie.title, overview = currentMovie.overview, duration = currentMovie.runtime)
+            }
             collapsingToolbar.title = currentMovie.title
             detailsTag.text = currentMovie.genres.joinToString { it.name }
             detailsRating.rating = currentMovie.ratings / 2

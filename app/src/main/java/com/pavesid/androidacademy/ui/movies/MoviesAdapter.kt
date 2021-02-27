@@ -55,7 +55,6 @@ internal class MoviesAdapter(
                 if (movie.poster.isNotBlank()) {
                     movieOrig.load(movie.poster.toW342Url()) {
                         crossfade(true)
-                        placeholder(R.drawable.out_of_poster)
                         transformations(RoundedCornersTransformation(14f, 14f, 0f, 0f))
                     }
                 } else {

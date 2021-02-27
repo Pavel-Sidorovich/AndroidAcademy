@@ -1,5 +1,6 @@
 package com.pavesid.androidacademy.ui
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -11,11 +12,14 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.pavesid.androidacademy.App.Companion.THEME
 import com.pavesid.androidacademy.R
+import com.pavesid.androidacademy.data.movies.Movie
 import com.pavesid.androidacademy.databinding.ActivityMainBinding
 import com.pavesid.androidacademy.ui.details.DetailsFragment
+import com.pavesid.androidacademy.ui.dialogs.DateDialogFragment
 import com.pavesid.androidacademy.ui.movies.MoviesFragment
 import com.pavesid.androidacademy.ui.movies.MoviesViewModel
 import com.pavesid.androidacademy.ui.splash.SplashScreenFragment
@@ -29,6 +33,8 @@ import com.pavesid.androidacademy.utils.extensions.startCircularReveal
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.hypot
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -60,8 +66,11 @@ class MainActivity : AppCompatActivity() {
             SplashScreenFragment.newInstance()
         }
 
-        savedInstanceState ?: supportFragmentManager.open {
-            add(R.id.container, rootFragment, TAG)
+        savedInstanceState ?: run {
+            supportFragmentManager.open {
+                add(R.id.container, rootFragment, TAG)
+            }
+            intent?.let(::handleIntent)
         }
     }
 
@@ -83,6 +92,28 @@ class MainActivity : AppCompatActivity() {
             }
         })
         return true
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let {
+            handleIntent(it)
+        }
+    }
+
+    private fun handleIntent(intent: Intent) {
+        when (intent.action) {
+            Intent.ACTION_VIEW -> {
+                val id = intent.data?.lastPathSegment?.toLongOrNull() ?: Long.MIN_VALUE
+                val movie = Movie(id = id)
+
+                if (id != Long.MIN_VALUE) {
+                    changeToDetailsFragment(
+                        Json.encodeToString(movie), 0, 0
+                    )
+                }
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -125,6 +156,11 @@ class MainActivity : AppCompatActivity() {
         replace(R.id.container, MoviesFragment.newInstance(), TAG)
     }
 
+    fun openDialog(title: String, overview: String, duration: Int) {
+        val dialog = DateDialogFragment.newInstance(title, overview, duration)
+        dialog.show(supportFragmentManager, null)
+    }
+
     fun changeToDetailsFragment(
         movieString: String = "",
         cX: Int = 0,
@@ -141,20 +177,22 @@ class MainActivity : AppCompatActivity() {
         delegate.localNightMode =
             if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
         val windowBitmap = Bitmap.createBitmap(
-            window.decorView.width,
-            window.decorView.height,
+            binding.container.measuredWidth,
+            binding.container.measuredHeight,
             Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(windowBitmap!!)
-        window.decorView.draw(canvas)
-
-        binding.screen.setImageBitmap(windowBitmap)
+        binding.container.draw(canvas)
 
         val location = IntArray(2)
         view.getLocationOnScreen(location)
 
-        binding.screen.scaleType = ImageView.ScaleType.MATRIX
-        binding.screen.visibility = View.VISIBLE
+        binding.screen.apply {
+            setImageBitmap(windowBitmap)
+            scaleType = ImageView.ScaleType.MATRIX
+            isVisible = true
+        }
+
         supportFragmentManager.findFragmentByTag(TAG)?.let {
             supportFragmentManager.open {
                 detach(it)
@@ -165,8 +203,8 @@ class MainActivity : AppCompatActivity() {
             location[0] + view.width / 2,
             location[1] + view.width / 2,
             hypot(
-                window.decorView.width.toDouble(),
-                window.decorView.height.toDouble()
+                binding.container.measuredWidth.toDouble(),
+                binding.container.measuredHeight.toDouble(),
             ).toFloat()
         )
     }

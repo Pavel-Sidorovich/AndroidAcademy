@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="channel_new_movie">Новый фильм</string>
+    <string name="new_movie">Новый фильм</string>
+    <string name="cinema">Кинотеатр</string>
+    <string name="channel_new_movie_description">Загружены новые фильмы.</string>
     <string name="storyline_title">Сюжетная линия</string>
     <string name="cast_title">Состав</string>
     <string name="cast_name">Cast name</string>
@@ -16,4 +20,8 @@
     <string name="runtime_title">Длительность:</string>
     <string name="menu_search_title">Поиск</string>
     <string name="all">всё</string>
+    <string name="tap_to_select">Нажмите для выбора</string>
+    <string name="date">Дата:</string>
+    <string name="time">Время:</string>
+    <string name="add_to_calendar">Добавить в календарь</string>
 </resources>

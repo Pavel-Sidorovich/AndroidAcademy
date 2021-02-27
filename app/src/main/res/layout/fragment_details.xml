@@ -180,9 +180,23 @@
                 android:layout_marginEnd="@dimen/spacing_normal_16"
                 android:gravity="start"
                 app:layout_constraintBottom_toBottomOf="@+id/details_runtime_title"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/details_add_to_calendar"
                 app:layout_constraintStart_toEndOf="@+id/details_runtime_title"
                 app:layout_constraintTop_toTopOf="@+id/details_runtime_title" />
+
+            <ImageView
+                android:id="@+id/details_add_to_calendar"
+                style="@style/DetailsAddToCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/details_padding"
+                android:layout_marginEnd="@dimen/details_padding"
+                android:padding="@dimen/spacing_small_normal_12"
+                android:src="@drawable/ic_calendar"
+                app:layout_constraintBottom_toBottomOf="@+id/details_storyline_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/details_runtime"
+                app:layout_constraintTop_toTopOf="@id/details_runtime" />
 
             <TextView
                 android:id="@+id/details_storyline_title"

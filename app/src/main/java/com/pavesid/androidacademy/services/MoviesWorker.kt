@@ -21,7 +21,7 @@ class MoviesWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result = withContext(dispatcher) {
         try {
-            repository.getMoviesFromAPI(page = 1)
+            repository.getMoviesFromAPI(page = 1, true)
             Result.success()
         } catch (e: Exception) {
             Result.failure()

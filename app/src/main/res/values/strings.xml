@@ -1,5 +1,9 @@
 <resources>
 	<string name="app_name" translatable="false">PS Movies</string>
+	<string name="channel_new_movie">New movie</string>
+	<string name="new_movie">New movie</string>
+	<string name="cinema">Cinema</string>
+	<string name="channel_new_movie_description">New movies uploaded.</string>
 	<string name="storyline_title">Storyline</string>
 	<string name="cast_title">Cast</string>
 	<string name="cast_name">Cast name</string>
@@ -16,4 +20,8 @@
 	<string name="runtime_title">Runtime:</string>
 	<string name="menu_search_title">Search</string>
 	<string name="all">All</string>
+	<string name="tap_to_select">Tap to select</string>
+	<string name="date">Date:</string>
+	<string name="time">Time:</string>
+	<string name="add_to_calendar">Add to calendar</string>
 </resources>

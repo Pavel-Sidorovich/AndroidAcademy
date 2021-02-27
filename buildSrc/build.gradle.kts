@@ -7,5 +7,5 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jacoco:org.jacoco.core:0.8.5")
+    implementation("org.jacoco:org.jacoco.core:0.8.6")
 }
